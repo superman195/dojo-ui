@@ -315,7 +315,7 @@ const Datatablev2 = ({
 
         {/* This is a no data overlay */}
         {!loadingState && table.getFilteredRowModel().rows.length <= 0 && (
-          <div className="absolute z-10 flex size-full items-center justify-center bg-gradient-to-t from-background to-background/80">
+          <div className="absolute z-10 flex size-full items-center justify-center bg-gradient-to-t from-background to-background/80 capitalize">
             no data
           </div>
         )}
