@@ -104,7 +104,7 @@ const HeroCardSection = () => {
           <div className="static left-4 flex w-full items-center self-center p-0 md:absolute md:w-[70vw] lg:w-[50vw] lg:min-w-[500px] lg:max-w-[900px]">
             <Image
               alt="Tensorplex Dojo user interface example"
-              src="/hero-kv.png"
+              src="/hero-banner-img.gif"
               width={1742}
               height={1236}
               className="w-full rounded-xl border-2 border-solid border-black shadow-brut-sm"
