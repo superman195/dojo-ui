@@ -156,8 +156,6 @@ const RenderButton = (id: string, state: ButtonState, router: NextRouter, exp: b
       </button> */}
       <a
         href={state.disabled ? '' : exp ? `/Questions?taskId=${id}&exp=demo` : `/Questions?taskId=${id}`}
-        target="_blank"
-        rel="noopener noreferrer"
         className={cn(
           'uppercase h-[40px] font-bold border-[2px] rounded-sm border-black w-[113px] bg-primary text-white disabled:cursor-not-allowed',
           FontSpaceMono.className,
