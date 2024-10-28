@@ -24,7 +24,7 @@ import {
 } from '@tabler/icons-react';
 import { useSearchParams } from 'next/navigation';
 import { NextRouter, useRouter } from 'next/router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAccount } from 'wagmi';
 
 import { Button } from '@/components/Common/Button';
@@ -45,7 +45,7 @@ import { Task } from '@/types/QuestionPageTypes';
 import { cn } from '@/utils/tw';
 import { ColumnDef, Row } from '@tanstack/react-table';
 import Head from 'next/head';
-
+const countdownTimerAutoFetchTask = 10;
 const getCategoryObjectsFromUrlQuery = (query: string | string[] | undefined, baseCategories: any[]) => {
   if (!query) return [];
   if (typeof query === 'string') {
@@ -172,7 +172,7 @@ export default function Index() {
   const [activeCategories, setActiveCategories] = useState<string[]>([ALL_CATEGORY]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [showUserCard, setShowUserCard] = useState(false);
-  const [countdown, setCountdown] = useState(120);
+  const [countdown, setCountdown] = useState(countdownTimerAutoFetchTask);
 
   const router = useRouter();
   const { isAuthenticated } = useAuth();
@@ -289,14 +289,23 @@ export default function Index() {
   );
 
   const { partners } = usePartnerList(triggerTaskPageReload);
-  const handlePollingTasks = useCallback(async () => {
-    if (countdown === 0) {
-      await refetchTasks();
-      setCountdown(120); // Reset the countdown only after refetchTasks completes
-    } else {
-      setCountdown((prev) => prev - 1); // Decrease the countdown
-    }
-  }, [countdown, refetchTasks]);
+  const countdownRef = useRef(countdownTimerAutoFetchTask);
+
+  useEffect(() => {
+    const timer = setInterval(async () => {
+      if (countdownRef.current == 0) {
+        countdownRef.current = countdownTimerAutoFetchTask + 1;
+        await refetchTasks();
+      } else {
+        countdownRef.current -= 1;
+      }
+      setCountdown(countdownRef.current); // Update the state for display purposes
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [refetchTasks]);
 
   useEffect(() => {
     if (!isAuthenticated || !isConnected) return;
@@ -305,11 +314,6 @@ export default function Index() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [handleClickOutside]);
-
-  useEffect(() => {
-    const timer = setInterval(handlePollingTasks, 1000);
-    return () => clearInterval(timer);
-  }, [handlePollingTasks]);
 
   const handleCategoryClick = useCallback(
     (categoryLabel: string) => {
