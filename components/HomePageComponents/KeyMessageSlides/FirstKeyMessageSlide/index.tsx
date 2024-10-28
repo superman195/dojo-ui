@@ -1,22 +1,11 @@
-import {
-  KEY_MESSAGE_SCROLL_HEIGHT,
-  buttonAnimVariant,
-  elemAnimParentVariant,
-  elemAnimVariant,
-  kvAnimVariant,
-  staggeredFadeInChildren,
-  staggeredFadeInMarkerParent,
-  staggeredFadeInParent,
-  trackAnimVariant,
-} from '@/constants';
+import { KEY_MESSAGE_SCROLL_HEIGHT, elemAnimParentVariant, elemAnimVariant } from '@/constants';
 import { AnimStateType } from '@/types/HomePageTypes';
 import { FontSpaceMono } from '@/utils/typography';
 import { useWindowSize } from '@uidotdev/usehooks';
 import { motion, useMotionValueEvent, useScroll } from 'framer-motion';
 import Image from 'next/image';
 import { useState } from 'react';
-import ConversationBubble from '../../ConversationBubble';
-import StepMarker from '../../StepMarker';
+import NewtonsCradle from './InteractiveComponent/newtonsCradle';
 import styles from './styles.module.css';
 
 const conversations = [
@@ -84,68 +73,8 @@ const FirstKeyMessageSlide = () => {
             </motion.p>
           </div>
         </div>
-        <div className="flex w-full justify-center p-5">
-          <motion.div variants={kvAnimVariant} className="relative w-[400px] rounded-2xl shadow-brut-sm">
-            <div className="absolute -bottom-[30px] right-1/2 z-10 translate-x-1/2 md:-right-[50px] md:bottom-1/4 md:translate-x-0">
-              <motion.button
-                variants={buttonAnimVariant}
-                initial="hide"
-                animate={animState}
-                className={`h-[50px] w-[240px] rounded-xl border-2 border-solid border-black bg-primary text-lg font-semibold uppercase text-white ring-[12px] ring-primary/20 md:w-[120px] ${FontSpaceMono.className}`}
-              >
-                Proceed
-              </motion.button>
-            </div>
-
-            <motion.div
-              variants={staggeredFadeInParent}
-              initial="hide"
-              animate={animState}
-              className={`flex max-h-[300px] w-full flex-col gap-5 overflow-hidden rounded-t-2xl border-2 border-solid border-black p-4 ${styles.cardBgGradient}`}
-            >
-              {conversations.map((conversation, index) => (
-                <ConversationBubble
-                  key={index}
-                  text={conversation.text}
-                  actor={conversation.actor}
-                  isRightAligned={conversation.isRightAligned}
-                  gradientClass={conversation.gradientClass}
-                />
-              ))}
-            </motion.div>
-            <motion.div
-              variants={staggeredFadeInMarkerParent}
-              initial="hide"
-              animate={animState}
-              className="w-full rounded-b-2xl border-2 border-t-0 border-solid border-black bg-gray-100 p-4 pb-12"
-            >
-              <div className="text-left">
-                <motion.label variants={staggeredFadeInChildren} className={`${FontSpaceMono.className} font-bold`}>
-                  LINEAR SCALE <sup className="text-red-500">*</sup>
-                </motion.label>
-                <motion.small variants={staggeredFadeInChildren} className="block text-gray-500">
-                  Rate Bob’s sentiment from 1 (negative) to 5 (positive)
-                </motion.small>
-              </div>
-              <div className="mt-4">
-                <div className="relative h-[5px]">
-                  <motion.div
-                    variants={trackAnimVariant}
-                    initial="hide"
-                    animate={animState}
-                    className="size-full origin-left bg-gray-300 "
-                  ></motion.div>
-                  <StepMarker positionClass="left-0" stepNumber={1} />
-                  <StepMarker positionClass="left-1/4" stepNumber={2} />
-                  <StepMarker positionClass="left-1/2" stepNumber={3} />
-                  <StepMarker positionClass="left-3/4" stepNumber={4} />
-                  <StepMarker positionClass="left-full" stepNumber={5} topPosition />
-
-                  <div className="absolute left-[-4px] top-1/2 size-[14px] -translate-y-1/2 cursor-pointer rounded-full border border-solid border-black bg-primary"></div>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
+        <div className="z-20 flex w-full justify-center">
+          <NewtonsCradle />
         </div>
       </motion.div>
     </section>
