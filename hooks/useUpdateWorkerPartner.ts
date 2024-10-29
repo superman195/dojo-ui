@@ -30,7 +30,7 @@ const useUpdateWorkerPartner = () => {
         newMinerSubscriptionKey: newMinerSubscriptionKey,
         name: name,
       };
-      const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+      const tokenType = `dojoui__jwtToken`;
       const jwtToken = getFromLocalStorage(tokenType);
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/partner/edit`, {
         method: 'PUT',

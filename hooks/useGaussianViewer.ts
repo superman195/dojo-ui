@@ -17,9 +17,10 @@ const checkPlyUrl = async (url: string): Promise<boolean> => {
   }
 };
 
-const useGaussianSplatViewer = (plyUrl: string) => {
+const useGaussianSplatViewer = (url: string) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<any>(null);
+  const plyUrl = url.startsWith('https:') ? url : `https://${url}`;
   const [ready, setReady] = useState(false);
   const [error, setError] = useState<Error>();
   const disposeViewer = useCallback(() => {

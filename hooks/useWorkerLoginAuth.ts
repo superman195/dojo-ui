@@ -20,7 +20,7 @@ export interface LoginAuthPayload {
 const useWorkerLoginAuth = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+  const tokenType = `dojoui__jwtToken`;
   const workerLoginAuth = async (payload: LoginAuthPayload) => {
     setLoading(true);
     try {
@@ -39,6 +39,8 @@ const useWorkerLoginAuth = () => {
       if (response.ok && data.success) {
         if (data.body?.token) {
           localStorage.setItem(tokenType, data.body.token);
+          setLoading(false);
+          return data.body.token;
         } else {
           throw new Error('Token is undefined');
         }

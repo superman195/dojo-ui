@@ -3,17 +3,19 @@ import { MODAL } from '@/types/ProvidersTypes';
 import { useCallback, useContext } from 'react';
 
 type UseModal = (modal: MODAL) => {
-  openModal: () => void;
+  openModal: (modalOptions?: any) => void;
   closeModal: () => void;
 };
 
 export const useModal: UseModal = (modal) => {
   const methods = useContext(ModalContext);
 
-  const openModal = useCallback(() => {
-    console.log('methods: ', methods);
-    methods.openModal(modal);
-  }, [methods, modal]);
+  const openModal = useCallback(
+    (modalOptions: any) => {
+      methods.openModal(modal, modalOptions);
+    },
+    [methods, modal]
+  );
 
   return {
     openModal,

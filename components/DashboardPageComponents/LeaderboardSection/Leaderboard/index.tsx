@@ -1,9 +1,11 @@
+import Datatablev2 from '@/components/Common/DataTable/Datatablev2';
+import { NonRootNeuronObj } from '@/types/DashboardTypes';
 import { getFirstAndLastCharacters } from '@/utils/math_helpers';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
+import { createColumnHelper } from '@tanstack/react-table';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import React from 'react';
-
+import React, { useMemo } from 'react';
 interface MinerData {
   hotkey: string;
   rank: number;
@@ -19,7 +21,7 @@ interface MinerData {
 }
 
 interface LeaderboardProps {
-  miners: MinerData[] | null;
+  miners: NonRootNeuronObj[] | null;
   isLoading: boolean;
 }
 
@@ -92,6 +94,59 @@ const ShimmerRow: React.FC = () => (
   </tr>
 );
 
+const LeaderboardTwo = ({ miners, isLoading }: LeaderboardProps) => {
+  const columnHelper = createColumnHelper<NonRootNeuronObj>();
+
+  const columns = useMemo(
+    () => [
+      columnHelper.accessor('uid', {
+        header: 'Position',
+        size: 100,
+        cell: (info) => `#${info.getValue() + 1}`,
+      }),
+      columnHelper.accessor('hotkey', {
+        header: 'Miner',
+        size: 100,
+        cell: (info) => getFirstAndLastCharacters(info.getValue(), 5),
+      }),
+      columnHelper.accessor('minerWeight', {
+        header: 'Score',
+        size: 100,
+        cell: (info) => {
+          return Number(info.getValue()).toFixed(9);
+        },
+      }),
+      columnHelper.accessor('emission', {
+        header: 'Emission',
+        size: 100,
+        cell: (info) => info.getValue().toFixed(6),
+      }),
+      columnHelper.accessor('stakedAmt', {
+        header: 'Staked Amount',
+        size: 100,
+        cell: (info) => info.getValue().toFixed(6),
+      }),
+      columnHelper.accessor('performanceData', {
+        header: 'Performance',
+        size: 100,
+        cell: (info) => <PerformanceChart data={info.getValue()} />,
+      }),
+    ],
+    []
+  );
+  return (
+    <div className="pb-[30px]">
+      <Datatablev2
+        tableClassName="max-w-[892px]"
+        minColumnSize={20}
+        columnDef={columns}
+        data={miners || []}
+        pageSize={200}
+      />
+    </div>
+  );
+};
+
 const Leaderboard: React.FC<LeaderboardProps> = ({ miners, isLoading }) => {
   return (
     <div className="mx-auto mb-6 max-w-4xl rounded-sm border-2 border-black bg-white p-4 shadow-brut-sm">
@@ -130,4 +185,4 @@ const Leaderboard: React.FC<LeaderboardProps> = ({ miners, isLoading }) => {
   );
 };
 
-export default Leaderboard;
+export default LeaderboardTwo;

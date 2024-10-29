@@ -7,7 +7,7 @@ import Link from 'next/link';
 const FAQHero = () => {
   return (
     <div className="px-4">
-      <div className="relative mx-auto mt-[-116px] flex h-fit max-w-[1075px] justify-between self-center border-2 border-black bg-secondary shadow-brut-sm">
+      <div className="relative mx-auto mt-[-116px] flex h-fit max-w-[1075px] justify-between self-center rounded-sm border-2 border-black bg-secondary shadow-brut-sm">
         <div className="px-[29px] py-[21px]">
           <h1 className={`${FontManrope.className} text-lg font-extrabold text-black`}>
             Can&apos;t find what you&apos;re looking for?
@@ -31,7 +31,7 @@ const FAQHero = () => {
               href="https://discord.com/invite/zVZbRdt6U4"
               className={cn(buttonVariants(), 'font-bold capitalize text-white hover:shadow-brut-sm')}
             >
-              <IconBrandDiscord className="rounded-full bg-purple-500/70 p-1" /> &nbsp;Discord
+              <IconBrandDiscord className="rounded-full bg-[#7289DA] p-1" /> &nbsp;Discord
             </Link>
           </div>
         </div>

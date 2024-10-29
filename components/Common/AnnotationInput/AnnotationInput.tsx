@@ -1,3 +1,4 @@
+import { Annotation } from '@/components/QuestionPageComponents/SingleOutputTask/SingleOutputTaskVisualizer';
 import { RHF_MAX_CHAR } from '@/utils/states';
 import { cn } from '@/utils/tw';
 import { FontManrope } from '@/utils/typography';
@@ -5,7 +6,7 @@ import { IconArrowUp, IconX } from '@tabler/icons-react';
 import React, { useCallback, useEffect, useRef } from 'react';
 
 interface AnnotationInputProps {
-  creatingAnnotation: { x: number; y: number; label: string };
+  creatingAnnotation: Annotation;
   imageRef: React.RefObject<HTMLImageElement>;
   onClose: () => void;
   onLabelChange: (value: string) => void;
@@ -125,7 +126,7 @@ const AnnotationInput: React.FC<AnnotationInputProps> = ({
           <div className="overflow-hidden rounded-sm border-black md:border-2">
             <textarea
               ref={textareaRef}
-              value={creatingAnnotation.label}
+              value={creatingAnnotation.text}
               onChange={(e) => {
                 onLabelChange(e.target.value);
                 autoResizeTextArea();

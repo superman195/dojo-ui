@@ -8,7 +8,6 @@ import { getFirstFourLastFour } from '@/utils/math_helpers';
 import { cn } from '@/utils/tw';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { IconCopy, IconExternalLink } from '@tabler/icons-react';
-import { useRouter } from 'next/router';
 import { Connector, useDisconnect } from 'wagmi';
 import Web3Icon from './web3-icon';
 
@@ -20,12 +19,10 @@ const WalletConnectedCard = ({ connector, address }: Props) => {
   const { disconnectAsync } = useDisconnect();
   const handleCopy = useCopyToClipboard(address ?? '');
   const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
-  const router = useRouter();
   const { workerLogout } = useAuth();
   const disconnectHandler = async () => {
     try {
       const result = await disconnectAsync();
-      console.log('disconnected: ', result);
       clearLocalStorage();
       workerLogout();
     } catch (err) {

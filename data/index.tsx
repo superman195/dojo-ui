@@ -274,6 +274,7 @@ export const categories = [
   { label: 'Code Generation', isActive: false, taskType: 'CODE_GENERATION' },
   { label: 'Text To Image', isActive: false, taskType: 'TEXT_TO_IMAGE' },
   { label: 'Dialogue', isActive: false, taskType: 'DIALOGUE' },
+  { label: '3D Model', isActive: false, taskType: 'TEXT_TO_THREE_D' },
 ];
 
 export const questionMultiSelectData = [

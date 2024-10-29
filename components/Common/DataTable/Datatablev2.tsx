@@ -174,7 +174,6 @@ const Datatablev2 = ({
   };
 
   const updateFiltersState = (idToUpdate?: string, value?: any) => {
-    console.log('running');
     if (!idToUpdate) return;
     const cf: ColumnFilter = {
       id: idToUpdate,
@@ -195,7 +194,6 @@ const Datatablev2 = ({
     setAllFilters((prev) => {
       const newInputFilters = { ...prev };
       newInputFilters[idToUpdate] = value;
-      console.log('setting new filters', newInputFilters);
       return newInputFilters;
     });
   };

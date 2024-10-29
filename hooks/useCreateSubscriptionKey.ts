@@ -1,5 +1,6 @@
+import { getFromLocalStorage } from '@/utils/general_helpers';
+import { tokenType } from '@/utils/states';
 import { useState } from 'react';
-import { useJwtToken } from './useJwtToken';
 
 interface CreateSubscriptionKeyResponse {
   success: boolean;
@@ -16,7 +17,7 @@ export const useCreateSubscriptionKey = () => {
   const [response, setResponse] = useState<CreateSubscriptionKeyResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const jwtToken = useJwtToken(); // Ensure you have the JWT token available
+  const jwtToken = getFromLocalStorage(tokenType);
 
   const createSubscriptionKey = async (data: SubscriptionKeyData): Promise<CreateSubscriptionKeyResponse | null> => {
     setIsLoading(true);

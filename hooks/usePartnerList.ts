@@ -22,7 +22,7 @@ export const usePartnerList = (refetchDependency: any): UsePartnerListResult => 
   const [error, setError] = useState<Error | null>(null);
   const { setPartnerCount } = useContext(TaskPageContext);
   const fetchPartners = useCallback(async () => {
-    const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+    const tokenType = `dojoui__jwtToken`;
     const jwtToken = getFromLocalStorage(tokenType);
     setIsLoading(true);
     setError(null);

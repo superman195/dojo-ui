@@ -1,22 +1,9 @@
-import { FontManrope, FontSpaceMono } from '@/utils/typography';
-import Leaderboard from './Leaderboard';
-
-interface MinerData {
-  hotkey: string;
-  rank: number;
-  emission: number;
-  stakedAmt: number;
-  minerWeight: number;
-  performanceData: number[];
-  historicalEmissions?: {
-    blockNumber: number;
-    blockTime: number;
-    emission: number;
-  }[];
-}
+import { NonRootNeuronObj } from '@/types/DashboardTypes';
+import { FontSpaceMono } from '@/utils/typography';
+import LeaderboardTwo from './Leaderboard';
 
 interface LeaderboardSectionProps {
-  miners: MinerData[];
+  miners: NonRootNeuronObj[];
   loading: boolean;
   error?: string | null;
 }
@@ -30,11 +17,8 @@ const LeaderboardSection: React.FC<LeaderboardSectionProps> = ({ miners, loading
     <>
       <div className="my-5">
         <h2 className={`${FontSpaceMono.className} text-4xl font-bold`}>LEADERBOARDS</h2>
-        <p className={`${FontManrope.className} text-base font-semibold text-gray-600`}>
-          Showing {miners?.length ?? 0} out of {miners?.length ?? 0} items
-        </p>
       </div>
-      <Leaderboard miners={miners} isLoading={loading} />
+      <LeaderboardTwo miners={miners} isLoading={loading} />
     </>
   );
 };

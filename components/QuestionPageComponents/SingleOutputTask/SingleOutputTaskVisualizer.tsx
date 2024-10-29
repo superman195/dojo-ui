@@ -5,7 +5,8 @@ import { BrutCard } from '@/components/Common/CustomComponents/brut-card';
 import Shimmers from '@/components/Common/CustomComponents/shimmers';
 import MultiSelectV2 from '@/components/Common/MultileSelect/MultiSelectV2';
 import GaussianSplatViewer from '@/components/GaussianSplatViewer';
-import { Criterion, CriterionWithResponses, Task } from '@/types/QuestionPageTypes';
+import { useSubmit } from '@/providers/submitContext';
+import { Criterion, Task } from '@/types/QuestionPageTypes';
 import { RHF_MAX_CHAR } from '@/utils/states';
 import { cn } from '@/utils/tw';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
@@ -16,13 +17,13 @@ import { generateNonce } from 'siwe';
 import FormattedPrompt from '../FormattedPrompt';
 import Slider from '../Slider';
 
-interface Annotation {
+export interface Annotation {
   x: number;
   y: number;
-  label: string;
+  text: string;
 }
 
-interface Props extends React.HTMLProps<HTMLDivElement> {
+export interface TaskVisualizerProps extends React.HTMLProps<HTMLDivElement> {
   task: Task;
   containerClassName?: string;
   visualizerClassName?: string;
@@ -62,11 +63,16 @@ const CriterionContentBox: React.FC<VisualizerContentBoxProps> = ({
   </div>
 );
 /**
- * This single out visualizer only can visualize scores and multi select, single-select for now.
- * We should add RHF into here after it's done.
- */
-const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
-  const [criterionForResponse, setCriterionForResponse] = useState<CriterionWithResponses[]>([]);
+ * This single out visualizer only can visualize scores and multi select, single-select, RHF for now.
+ * The reason why RHF is not in a component because the image and annotation is tightly coupled.
+s */
+const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualizerProps) => {
+  const {
+    getCriterionForResponse: criterionForResponse,
+    addCriterionForResponse,
+    resetCriterionForResponse,
+  } = useSubmit();
+  // const [criterionForResponse, setCriterionForResponse] = useState<CriterionWithResponses[]>([]);
   const idRef = useRef<string>(generateNonce());
   const [annotations, setAnnotations] = useState<Annotation[]>([]);
   const rhfImageRef = useRef<HTMLImageElement>(null);
@@ -78,7 +84,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
 
   const handleLabelChange = (index: number, e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setAnnotations((prev) =>
-      prev.map((annotation, i) => (i === index ? { ...annotation, label: e.target.value } : annotation))
+      prev.map((annotation, i) => (i === index ? { ...annotation, text: e.target.value } : annotation))
     );
   };
 
@@ -109,7 +115,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
   };
 
   const handleRHFAnnotationSave = useCallback((a: Annotation) => {
-    if (a.label) {
+    if (a.text) {
       setAnnotations((prev) => [...prev, a]);
     }
     setRhfCreatingAnnotation(null);
@@ -122,7 +128,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
         const imageRect = e.currentTarget.getBoundingClientRect();
         const x = ((e.clientX - imageRect.left) / imageRect.width) * 100;
         const y = ((e.clientY - imageRect.top) / imageRect.height) * 100;
-        setRhfCreatingAnnotation({ x, y, label: '' });
+        setRhfCreatingAnnotation({ x, y, text: '' });
       };
 
       let ttiUrl = '';
@@ -164,7 +170,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
                   onLabelChange={(e) =>
                     setRhfCreatingAnnotation((prev) => {
                       if (prev) {
-                        return { ...prev, label: e };
+                        return { ...prev, text: e };
                       }
                       return prev;
                     })
@@ -220,7 +226,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
   const renderLabelQuestion = useCallback(
     (crit: Criterion, onchangeHandler: (idx: string, value: string) => void): React.ReactNode => {
       switch (crit.type) {
-        case 'multi-score':
+        case 'score':
           let min = crit.min ?? 1;
           let max = crit.max ?? 10;
           let initialVal = Math.floor((max - min) / 2);
@@ -228,11 +234,11 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
             <Slider
               className="w-full"
               showSections={true}
-              min={min}
-              max={max}
+              min={1}
+              max={10}
               step={1}
               initialValue={initialVal}
-              onChange={(e) => onchangeHandler(crit.label ?? '', e.toString())}
+              onChange={(e) => onchangeHandler(crit.text ?? '', e.toString())}
             />
           );
 
@@ -241,19 +247,22 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
             <MultiSelectV2
               singleSelect={true}
               options={crit.options ?? []}
-              selectedValues={criterionForResponse?.find((c) => c.label === crit.label)?.responses ?? []}
+              selectedValues={
+                criterionForResponse()?.find((c) => c.text === crit.text && c.type === 'single-select')?.responses ?? ''
+              }
               onSelectionChange={(e) => {
-                onchangeHandler(crit.label ?? '', e);
+                onchangeHandler(crit.text ?? '', e);
               }}
             />
           );
         case 'multi-select':
           return (
             <MultiSelectV2
+              singleSelect={false}
               options={crit.options ?? []}
-              selectedValues={criterionForResponse?.find((c) => c.label === crit.label)?.responses ?? []}
+              selectedValues={criterionForResponse()?.find((c) => c.text === crit.text)?.responses ?? []}
               onSelectionChange={(e) => {
-                onchangeHandler(crit.label ?? '', e);
+                onchangeHandler(crit.text ?? '', e);
               }}
             />
           );
@@ -303,7 +312,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
                         ref={(r) => {
                           textareaRefs.current[index] = r;
                         }}
-                        value={annotation.label}
+                        value={annotation.text}
                         onChange={(e) => {
                           handleLabelChange(index, e);
                         }}
@@ -356,26 +365,9 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
   // Current impl: index is just the criterion label since each label has to be unique.
   // Everything will be added into response field as list of string
   const handleChange = useCallback((index: string, value: string) => {
-    setCriterionForResponse((prev) => {
-      const updated = prev.map((c) => {
-        if (c.label !== index) return c;
-
-        // For multi select, we need check if the value was selected before
-        if (c.type === 'multi-select') {
-          if (c.responses.includes(value)) {
-            return { ...c, responses: c.responses.filter((r) => r !== value) };
-          }
-          return { ...c, responses: [...c.responses, value] };
-        } else {
-          // Scoring wise we only nede 1 value
-          return { ...c, responses: [value] };
-        }
-      });
-      return updated;
-    });
+    addCriterionForResponse(index, value);
   }, []);
   useEffect(() => {
-    if (task) setCriterionForResponse([...task.taskData.criteria.map((c) => ({ ...c, responses: [] }))]); //Setting up the initial state with responses
     setAnnotations([]); //Reset if go next TTI or task
   }, [task]);
   useEffect(() => {
@@ -447,9 +439,11 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
         <VisualizerContentBox className="flex flex-col items-stretch gap-[10px]">
           <>
             <div className="w-full">Response:</div>
-            <span className="mt-[-10px] text-xs text-font-primary/60 md:hidden">
-              Click anywhere to annotate flaws or inaccuracies.
-            </span>
+            {task.taskData.criteria[0].type === 'rich-human-feedback' && (
+              <span className="mt-[-10px] text-xs text-font-primary/60 md:hidden">
+                Click anywhere to annotate flaws or inaccuracies.
+              </span>
+            )}
             <BrutCard className={cn('relative p-0 flex aspect-auto w-full rounded-sm', props.visualizerClassName)}>
               {renderVisualizer(task)}
             </BrutCard>
@@ -462,7 +456,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
         {task.taskData.criteria.map((criterion, index) => (
           <CriterionContentBox key={`sotv_visualizer_${index}`} className={cn('flex w-full flex-col bg-transparent')}>
             <span className={cn(FontSpaceMono.className, 'font-bold')}>
-              {index + 1}. {criterion.label}
+              {index + 1}. {criterion.text}
             </span>
             {renderLabelQuestion(criterion, (idx: string, value: string) => {
               handleChange(idx, value);

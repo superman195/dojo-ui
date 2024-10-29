@@ -1,3 +1,4 @@
+import { SubnetData } from '@/types/DashboardTypes';
 import { useEffect, useState } from 'react';
 
 const useSubnetMetagraph = (subnetId: number) => {

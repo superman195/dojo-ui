@@ -9,6 +9,18 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'dojo-files-testnet.tensorplex.ai',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'dojo-files.tensorplex.ai',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };

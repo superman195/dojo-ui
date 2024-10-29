@@ -13,7 +13,7 @@ const useDisableMinerByWorker = () => {
   const [response, setResponse] = useState<DisableMinerResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+  const tokenType = `dojoui__jwtToken`;
   const jwtToken = getFromLocalStorage(tokenType);
 
   const disableMinerByWorker = async (

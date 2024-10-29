@@ -1,3 +1,4 @@
+import Analytics from '@/components/Common/Analytics';
 import { config } from '@/components/Common/Wallet/WagmiWalletConfig';
 import { AuthProvider } from '@/providers/authContext';
 import ModalProvider from '@/providers/modals';
@@ -17,9 +18,14 @@ export default function App({ Component, pageProps }: AppProps) {
         <AuthProvider>
           <SubmitProvider>
             <TaskPageProvider>
-              <ModalProvider>
-                <Component {...pageProps} />
-              </ModalProvider>
+              <WagmiProvider config={config}>
+                <QueryClientProvider client={queryClient}>
+                  <ModalProvider>
+                    <Analytics />
+                    <Component {...pageProps} />
+                  </ModalProvider>
+                </QueryClientProvider>
+              </WagmiProvider>
             </TaskPageProvider>
           </SubmitProvider>
         </AuthProvider>

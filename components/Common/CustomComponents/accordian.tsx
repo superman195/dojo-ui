@@ -17,7 +17,6 @@ const Accordion = ({ className, title, children, ...props }: Props) => {
 
   const updateHeaderHeight = (node: HTMLDivElement) => {
     if (node == null) return;
-    console.log('header height', node.getBoundingClientRect().height);
     setHeaderHeight(node.getBoundingClientRect().height);
   };
 

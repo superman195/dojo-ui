@@ -10,7 +10,7 @@ export const useSIWE = (postSignin: () => void) => {
   const { disconnectAsync } = useDisconnect();
   const { triggerTaskPageReload, setTriggerTaskPageReload } = useSubmit();
   const { signMessageAsync, reset: resetSignMessage } = useSignMessage();
-  const { workerLogin: postSignInWithEthereum, isAuthenticated, setIsSignedIn } = useAuth();
+  const { workerLogin: postSignInWithEthereum, isAuthenticated } = useAuth();
 
   const signInWithEthereum = async (address: string) => {
     try {
@@ -39,7 +39,7 @@ export const useSIWE = (postSignin: () => void) => {
       disconnectAsync();
       resetSignMessage();
     } finally {
-      setIsSignedIn(false);
+      // setIsSignedIn(false);
     }
   };
 

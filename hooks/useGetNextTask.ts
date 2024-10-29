@@ -14,7 +14,7 @@ export interface TaskResponse {
 const useGetNextInProgressTask = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+  const tokenType = `dojoui__jwtToken`;
   const jwtToken = getFromLocalStorage(tokenType);
 
   const fetchNextInProgressTask = useCallback(

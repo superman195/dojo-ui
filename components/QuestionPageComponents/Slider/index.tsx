@@ -19,8 +19,7 @@ const Slider: React.FC<SliderProps> = ({
     setValue(initialValue);
   }, [initialValue]);
 
-  const percentage = ((value - min) / (max - min)) * 100;
-
+  const percentage = value !== undefined ? ((value - min) / (max - min)) * 100 : 0;
   const numberOfSteps = Math.floor((max - min) / step) + 1;
 
   const stepsArray = Array.from({ length: numberOfSteps }, (_, i) => min + i * step);
@@ -45,7 +44,7 @@ const Slider: React.FC<SliderProps> = ({
         onChange={handleSliderChange}
         className={`border-end h-1.5 w-full cursor-pointer appearance-none border border-e border-black bg-transparent focus:outline-none disabled:pointer-events-none
         disabled:opacity-50
-        [&::-webkit-slider-thumb]:z-50
+        [&::-webkit-slider-thumb]:z-[9999]
         [&::-webkit-slider-thumb]:size-[14px]
         [&::-webkit-slider-thumb]:appearance-none
         [&::-webkit-slider-thumb]:rounded-full

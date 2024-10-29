@@ -109,7 +109,6 @@ const Datatable = ({
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
   });
-
   // Assuming you have a maximum number of pagination buttons you want to show
   const maxPageButtons = 5;
 
@@ -139,8 +138,7 @@ const Datatable = ({
   const onStartHandler = (id: string, type: string) => {
     if (exp) {
       const currTask = tasklistFull.find((t) => t.taskId === id);
-      console.log('pls', currTask);
-      if (currTask && currTask.taskData.responses.length == 1) router.push(`/Questionsv2?taskId=${id}&exp=demo`);
+      if (currTask && currTask.taskData.responses.length == 1) router.push(`/Questions?taskId=${id}&exp=demo`);
       else router.push(`/Questions?taskId=${id}&exp=demo`);
     } else {
       router.push(`/Questions?taskId=${id}`);

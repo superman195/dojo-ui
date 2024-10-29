@@ -1,17 +1,17 @@
-import { ButtonProps } from '@/types/CommonTypes';
 import { cn } from '@/utils/tw';
-import { cva } from 'class-variance-authority';
+import { FontManrope } from '@/utils/typography';
+import { VariantProps, cva } from 'class-variance-authority';
 import React from 'react';
 
 const buttonVariants = cva(
-  'focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap rounded-sm border-2 border-black text-sm font-medium ring-offset-background transition-colors hover:cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none',
+  'focus-visible:ring-ring inline-flex h-[45px] items-center justify-center whitespace-nowrap rounded-sm border-2 border-black text-sm font-medium ring-offset-background transition-colors hover:cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none',
   {
     variants: {
       variant: {
         default: 'bg-primary text-font-secondary visited:text-font-secondary hover:bg-primary/70',
-        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+        danger: 'bg-danger-400 text-font-secondary hover:bg-danger-400/90',
         secondary: 'bg-secondary text-font-primary',
-        link: 'border-0 bg-transparent text-primary underline-offset-4 visited:text-primary hover:cursor-pointer hover:underline',
+        link: 'border-0 bg-transparent text-primary underline-offset-4 visited:text-primary hover:cursor-pointer hover:text-primary hover:underline',
         disabled: 'bg-muted text-gray-500/50 hover:cursor-not-allowed hover:bg-muted',
         none: 'border-0 bg-none p-0 text-font-primary hover:bg-none',
         transit: 'bg-transit text-font-secondary hover:cursor-not-allowed',
@@ -30,16 +30,23 @@ const buttonVariants = cva(
   }
 );
 
-const CustomButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  loading?: boolean;
+}
+
+const ButtonNew = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, children, loading, ...props }, ref) => {
     return (
       <button
         className={cn(
           buttonVariants({
-            variant: variant,
+            variant: props.disabled ? 'disabled' : variant,
             size,
             className,
           }),
+          FontManrope.className,
           className
         )}
         ref={ref}
@@ -60,6 +67,6 @@ const CustomButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 
-CustomButton.displayName = 'CustomButton';
+ButtonNew.displayName = 'ButtonNew';
 
-export { buttonVariants, CustomButton };
+export { ButtonNew, buttonVariants };

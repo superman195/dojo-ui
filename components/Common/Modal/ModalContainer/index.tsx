@@ -1,44 +1,121 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { ModalContainerProps } from '@/types/CommonTypes';
 import { cn } from '@/utils/tw';
-import { FontSpaceMono } from '@/utils/typography';
+import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { IconX } from '@tabler/icons-react';
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
+import { ButtonNew } from '../../Button/ButtonNew';
 import { BrutCard } from '../../CustomComponents/brut-card';
-
-const ModalContainer = React.forwardRef<HTMLInputElement, ModalContainerProps>(
-  ({ className, headerClassName, bodyClassName, open, onClose, header, children, ...props }, ref) => {
+interface Props extends HTMLAttributes<HTMLDivElement> {
+  open: boolean;
+  onClose: () => void;
+  onSave: () => void;
+  children: React.ReactNode;
+  header?: React.ReactNode;
+  headerClassName?: string;
+  bodyClassName?: string;
+  modalMode?: boolean;
+  buttonFail?: React.ReactNode;
+  buttonFailFn?: () => void;
+  buttonSuccess?: React.ReactNode;
+  buttonSuccessFn?: () => void;
+  buttonGroupClassName?: string;
+  buttonFailClassName?: string;
+  buttonSuccessClassName?: string;
+}
+const ModalContainer = React.forwardRef<HTMLInputElement, Props>(
+  (
+    {
+      className,
+      headerClassName,
+      bodyClassName,
+      open,
+      onClose,
+      header,
+      children,
+      modalMode,
+      buttonFail,
+      buttonFailFn,
+      buttonSuccess,
+      buttonSuccessFn,
+      buttonGroupClassName,
+      buttonFailClassName,
+      buttonSuccessClassName,
+      ...props
+    },
+    ref
+  ) => {
+    const isModal = modalMode ?? true;
     return (
       <>
         {open && (
           <div
-            onClick={(e) => onClose()}
-            className="fixed left-0 top-0 z-10 size-[10000px] bg-black/40 backdrop-blur-sm"
-          ></div>
-        )}
-        {open && (
-          <BrutCard
-            className={cn(
-              `${className} p-0 z-10 fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] min-w-[200px]`
-            )}
+            className={cn(isModal && 'fixed w-[100vw] h-[100vh] top-0 left-0 z-20 flex items-center justify-center ')}
           >
-            <div className="flex flex-col">
-              {/* header */}
-              <div className={cn('flex items-stretch justify-center border-b-[2px] border-b-black', headerClassName)}>
-                <span className={cn(FontSpaceMono.className, 'p-2 flex grow items-center justify-start font-bold')}>
-                  {header}
-                </span>
-                <div
-                  onClick={(e) => onClose()}
-                  className="flex items-center justify-center  border-l-2 border-black px-4 py-1 hover:cursor-pointer"
-                >
-                  <IconX className="size-6"></IconX>
+            <div
+              onClick={(e) => onClose()}
+              className={cn(
+                'fixed z-30 w-[10000px] h-[10000px] top-0 left-0',
+                isModal && 'bg-black/40 backdrop-blur-sm'
+              )}
+            ></div>
+            <BrutCard className={cn('p-0 z-30', isModal ? 'max-w-[80%] sm:max-w-[600px]' : 'absolute', className, '')}>
+              <div className="flex flex-col">
+                {/* header */}
+                <div className={cn('flex items-stretch justify-center border-b-[2px] border-b-black')}>
+                  <span
+                    className={cn(
+                      FontSpaceMono.className,
+                      'p-2 flex grow items-center justify-start font-bold',
+                      headerClassName
+                    )}
+                  >
+                    {header}
+                  </span>
+                  <div
+                    onClick={(e) => onClose()}
+                    className="flex aspect-square w-[40px] items-center justify-center border-l-2 border-black p-1 hover:cursor-pointer"
+                  >
+                    <IconX className="size-4"></IconX>
+                  </div>
                 </div>
+                <div className={cn(FontManrope.className, 'p-2', bodyClassName)}>{children}</div>
               </div>
-              <div className={cn('p-2', bodyClassName)}>{children}</div>
-            </div>
-          </BrutCard>
+              {(buttonFail || buttonSuccess) && (
+                <div
+                  className={cn(
+                    FontManrope.className,
+                    'w-full flex items-center justify-end gap-[20px] p-2 mt-1',
+                    buttonGroupClassName
+                  )}
+                >
+                  {buttonFail && (
+                    <ButtonNew
+                      onClick={(e) => {
+                        onClose();
+                        buttonFailFn?.();
+                      }}
+                      variant="secondary"
+                      className={cn('w-3/12 h-fit bg-transaparent', buttonFailClassName)}
+                    >
+                      {buttonFail}
+                    </ButtonNew>
+                  )}
+                  {buttonSuccess && (
+                    <ButtonNew
+                      onClick={(e) => {
+                        onClose();
+                        buttonSuccessFn?.();
+                      }}
+                      className={cn('w-3/12 h-fit', buttonSuccessClassName)}
+                    >
+                      {buttonSuccess}
+                    </ButtonNew>
+                  )}
+                </div>
+              )}
+            </BrutCard>
+          </div>
         )}
       </>
     );

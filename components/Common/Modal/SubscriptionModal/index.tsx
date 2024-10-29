@@ -3,10 +3,12 @@ import Modal from '@/components/Common/Modal';
 import { ErrorModal } from '@/components/QuestionPageComponents';
 import { useCreateSubscriptionKey } from '@/hooks/useCreateSubscriptionKey';
 import useDisableMinerByWorker from '@/hooks/useDisableMinerByWorker';
+import { useModal } from '@/hooks/useModal';
 import { usePartnerList } from '@/hooks/usePartnerList';
 import useUpdateWorkerPartner from '@/hooks/useUpdateWorkerPartner';
 import { useSubmit } from '@/providers/submitContext';
 import { SubscriptionData, SubscriptionModalProps } from '@/types/CommonTypes';
+import { MODAL } from '@/types/ProvidersTypes';
 import { getFirstAndLastCharacters } from '@/utils/math_helpers';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { IconCheck, IconEdit, IconLoader, IconTrash, IconX } from '@tabler/icons-react';
@@ -43,6 +45,13 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isModalVisible, s
       setInputValue2('');
       setRefetchTrigger((prev) => prev + 1);
       if (response?.success) {
+        // openInfoModal({
+        //   headerTitle: 'Success',
+        //   content: response.body || 'Subscription Key Created Successfully',
+        //   buttonMeta: {
+        //     buttonSuccess: 'Close',
+        //   },
+        // });
         setModalHeaderTitle('Success');
         setModalMsg(response.body || 'Subscription Key Created Successfully');
       } else {
@@ -57,16 +66,44 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isModalVisible, s
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
   const [modalMsg, setModalMsg] = useState('');
   const [modalHeaderTitle, setModalHeaderTitle] = useState('');
+  const { openModal: openInfoModal } = useModal(MODAL.informational);
+
   useEffect(() => {
     if (error) {
-      setIsFeedbackModalOpen(true);
-      setModalHeaderTitle('Error');
-      setModalMsg(error);
+      openInfoModal({
+        headerTitle: 'Error',
+        content: (
+          <div className="flex w-full gap-[10px]">
+            {' '}
+            <div className="flex w-2/12 justify-center">
+              <IconX className=" size-8 rounded-full bg-red-400 p-[2px] text-white" />
+            </div>
+            <div className="flex grow items-center">{error || 'An error occurred'}</div>
+          </div>
+        ),
+        buttonMeta: {
+          buttonSuccess: 'Close',
+          buttonGroupClassName: 'flex justify-center',
+        },
+      });
     }
     if (response) {
-      setIsFeedbackModalOpen(true);
-      setModalHeaderTitle('Success');
-      setModalMsg(response.body);
+      openInfoModal({
+        headerTitle: 'Success',
+        content: (
+          <div className="flex w-full gap-[10px]">
+            {' '}
+            <div className="flex w-2/12 justify-center">
+              <IconCheck className=" size-8 rounded-full bg-primary p-[2px] text-white" />
+            </div>
+            <div className="flex grow">{response.body}</div>
+          </div>
+        ),
+        buttonMeta: {
+          buttonSuccess: 'Close',
+          buttonGroupClassName: 'flex justify-center',
+        },
+      });
     }
   }, [response, error]);
 
@@ -92,9 +129,22 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isModalVisible, s
     );
 
     if (response?.success) {
-      setIsFeedbackModalOpen(true);
-      setModalHeaderTitle('Success');
-      setModalMsg('Subscription Key Updated Successfully');
+      openInfoModal({
+        headerTitle: 'Success',
+        content: (
+          <div className="flex gap-[10px]">
+            {' '}
+            <div className="flex w-2/12 justify-center">
+              <IconCheck className=" size-8 rounded-full bg-primary p-[2px] text-white" />
+            </div>
+            Subscription key updated successfully.
+          </div>
+        ),
+        buttonMeta: {
+          buttonSuccess: 'Close',
+          buttonGroupClassName: 'flex justify-center',
+        },
+      });
     } else {
       setIsFeedbackModalOpen(true);
       setModalHeaderTitle('Error');
@@ -121,13 +171,39 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isModalVisible, s
     setIsSubscriptionModalLoading(true);
     const response = await disableMinerByWorker(item.subscriptionKey, true);
     if (response?.success) {
-      setIsFeedbackModalOpen(true);
-      setModalHeaderTitle('Success');
-      setModalMsg(response.body.message || 'Subscription Key has been removed Successfully');
+      openInfoModal({
+        headerTitle: 'Success',
+        content: (
+          <div className="flex w-full gap-[10px]">
+            {' '}
+            <div className="flex w-2/12 justify-center">
+              <IconCheck className=" size-8 rounded-full bg-primary p-[2px] text-white" />
+            </div>
+            <div className="flex grow items-center">{response.body.message}</div>
+          </div>
+        ),
+        buttonMeta: {
+          buttonSuccess: 'Close',
+          buttonGroupClassName: 'flex justify-center',
+        },
+      });
     } else {
-      setIsFeedbackModalOpen(true);
-      setModalHeaderTitle('Error');
-      setModalMsg(response?.error || 'An error occurred');
+      openInfoModal({
+        headerTitle: 'Error',
+        content: (
+          <div className="flex w-full gap-[10px]">
+            {' '}
+            <div className="flex w-2/12 justify-center">
+              <IconX className=" size-8 rounded-full bg-red-400 p-[2px] text-white" />
+            </div>
+            <div className="flex grow items-center">{response?.error || 'An error occurred'}</div>
+          </div>
+        ),
+        buttonMeta: {
+          buttonSuccess: 'Close',
+          buttonGroupClassName: 'flex justify-center',
+        },
+      });
     }
     setRefetchTrigger((prev) => prev + 1);
     setIsSubscriptionModalLoading(false);

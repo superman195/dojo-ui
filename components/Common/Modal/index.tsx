@@ -9,7 +9,7 @@ function Modal({ title, showModal, setShowModal, btnText, className, children }:
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden text-black outline-none backdrop-blur-sm backdrop-brightness-50 focus:outline-none">
+    <div className="fixed inset-0 z-10 flex items-center justify-center overflow-y-auto overflow-x-hidden text-black outline-none backdrop-blur-sm backdrop-brightness-50 focus:outline-none">
       <div className="relative px-4">
         <div className="border-1 relative top-0 m-2 flex min-w-[300px] border-collapse flex-col border border-neutral-950 bg-card-background shadow-brut-sm outline-none focus:outline-none md:m-0 lg:w-[900px]">
           <div className="flex items-start justify-between border border-solid border-gray-900">

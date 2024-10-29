@@ -1,3 +1,5 @@
+import { CriterionWithResponses, Task } from '../QuestionPageTypes';
+
 export interface AuthContextType {
   isAuthenticated: boolean;
   workerLogin: (loginPayload: any) => Promise<void>; // Adjust the type of `loginPayload` as needed
@@ -9,10 +11,11 @@ export interface AuthContextType {
 export enum MODAL {
   connect,
   wallet,
+  informational,
 }
 
 export type ModalContextValue = {
-  openModal: (modal: MODAL) => void;
+  openModal: (modal: MODAL, modalOptions?: any) => void;
   closeModal: () => void;
 };
 
@@ -26,10 +29,11 @@ export interface SubmitContextType {
   updateScore: (score: number) => void;
   updateMultiScore: (data: { [key: string]: number }) => void;
   handleSubmit: Function;
+  handleSubmitNew: () => void;
   triggerTaskPageReload: boolean;
   setTriggerTaskPageReload: React.Dispatch<React.SetStateAction<boolean>>;
   submissionErr: string | null;
-  setSubmissionErr: Function;
+  resetSubmissionError: () => void;
   isSubscriptionModalLoading: boolean;
   setIsSubscriptionModalLoading: Function;
   partnerCount: number;
@@ -46,6 +50,9 @@ export interface SubmitContextType {
   minMultiScore: number;
   handleMaxMultiScore: (value: number) => void;
   handleMinMultiScore: (value: number) => void;
+  addCriterionForResponse: (index: string, value: string) => void;
+  getCriterionForResponse: () => CriterionWithResponses[];
+  resetCriterionForResponse: (task: Task) => void;
 }
 
 export type RankOrder = { [key: string]: string };

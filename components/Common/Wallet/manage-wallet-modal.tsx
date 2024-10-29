@@ -1,5 +1,6 @@
 'use client';
 
+import { useSIWE } from '@/hooks/useSIWE';
 import { useAuth } from '@/providers/authContext';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
@@ -21,24 +22,31 @@ const allowedNetwork: number[] = [1, 42161, 10, 8453];
 
 const ManageWalletConnectModal = ({ open, onSave, onClose, ...props }: Props) => {
   const { connectors, connectAsync } = useConnect();
-  const { connector, address, status } = useAccount();
-  const { setIsSignedIn } = useAuth();
-  // const { workerLoginAuth } = useWorkerLoginAuth();
+  const { connector, address, status, isConnected } = useAccount();
+  const { signInWithEthereum } = useSIWE(() => {});
   const { isAuthenticated } = useAuth();
   const chainId = useChainId();
 
   const connectWalletHandler = async (connectorId: string) => {
-    setIsSignedIn(true);
     const connector = getConnectorById(connectors, connectorId);
     if (!connector) {
       console.error('Failed to find connector');
       return;
     }
+    if (isConnected && address) {
+      signInWithEthereum(address ?? '');
+      return;
+    }
     try {
       const { accounts } = await connectAsync({ connector, chainId });
-      if (!accounts.length) throw new Error('No accounts returned');
+      if (!accounts.length) {
+        throw new Error('No accounts returned');
+      } else {
+        signInWithEthereum(accounts[0]);
+      }
     } catch (error) {
       console.error('Error connecting wallet:', error);
+    } finally {
     }
   };
 
@@ -47,11 +55,9 @@ const ManageWalletConnectModal = ({ open, onSave, onClose, ...props }: Props) =>
       header={'MANAGE WALLET'}
       open={open}
       onSave={() => {
-        console.log('Modal saved');
         onSave?.();
       }}
       onClose={() => {
-        console.log('Modal closed');
         onClose?.();
       }}
       bodyClassName="p-0"

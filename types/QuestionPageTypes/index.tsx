@@ -16,6 +16,7 @@ export type ErrorModalProps = {
   errorMessage: string | null;
   className?: string;
   headerTitle?: string;
+  showButton?: boolean;
 };
 
 export interface HTMLContentVisualizerProps {
@@ -140,19 +141,32 @@ export type Task = {
   isCompletedByWorker: boolean;
 };
 
-export type CriterionType = 'multi-select' | 'single-select' | 'multi-score' | 'ranking' | 'rich-human-feedback';
+export type CriterionType =
+  | 'multi-select'
+  | 'single-select'
+  | 'multi-score'
+  | 'score'
+  | 'ranking'
+  | 'rich-human-feedback';
 
 export type Criterion = {
   type: CriterionType;
-  label?: string;
+  text?: string;
   options?: string[];
   max?: number;
   min?: number;
 };
 
-export type CriterionWithResponses = Criterion & {
-  responses: string[];
-};
+export type CriterionWithResponses =
+  | (Criterion & {
+      type: 'multi-score';
+      responses?: Record<string, number>;
+    })
+  | (Criterion & { type: 'score'; responses?: number })
+  | (Criterion & { type: 'multi-select'; responses?: string[] })
+  | (Criterion & { type: 'single-select'; responses: string })
+  | (Criterion & { type: 'ranking'; responses: string })
+  | (Criterion & { type: 'rich-human-feedback'; responses: any });
 
 export type TaskResponses = {
   model: string;

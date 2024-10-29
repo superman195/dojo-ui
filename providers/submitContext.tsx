@@ -1,8 +1,9 @@
 import useFeature from '@/hooks/useFeature';
-import useSubmitTask from '@/hooks/useSubmitTask';
+import { useSubmitTaskNew } from '@/hooks/useSubmitTaskNew';
 import { RankOrder, SubmitContextType } from '@/types/ProvidersTypes';
+import { CriterionWithResponses, Task } from '@/types/QuestionPageTypes';
 import { useRouter } from 'next/router';
-import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import React, { ReactNode, createContext, useCallback, useContext, useState } from 'react';
 
 const SubmitContext = createContext<SubmitContextType | undefined>(undefined);
 
@@ -15,12 +16,13 @@ export const useSubmit = () => {
 };
 
 export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [criterionForResponse, setCriterionForResponse] = useState<CriterionWithResponses[]>([]);
+  const { submitTask, error, resetError: resetSubmissionError, response } = useSubmitTaskNew();
   const [multiSelectData, setMultiSelectData] = useState<string[]>([]);
   const [rankingData, setRankingData] = useState<any>();
   const [scoreData, setScoreData] = useState<number>(0);
   const [multiScore, setMultiScore] = useState<any>();
   const [triggerTaskPageReload, setTriggerTaskPageReload] = useState<boolean>(false);
-  const [submissionErr, setSubmissionErr] = useState<string | null>(null);
   const [isSubscriptionModalLoading, setIsSubscriptionModalLoading] = useState<boolean>(true);
   const [partnerCount, setPartnerCount] = useState(0);
 
@@ -44,7 +46,6 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
   const updateMultiSelect = (data: string[]) => {
     setMultiSelectData(data);
-    console.log(multiSelectData);
   };
 
   const updateRanking = (data: RankOrder) => {
@@ -59,36 +60,54 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const updateScore = (score: number) => {
     setScoreData(score);
   };
-  const { submitTask, response, error } = useSubmitTask();
-  const handleSubmit = async () => {
-    if (!router.isReady) return;
 
-    const taskId = String(router.query.taskId || '');
+  // Current impl: index is just the criterion label since each label has to be unique.
+  const addCriterionForResponse = useCallback((index: string, value: string) => {
+    setCriterionForResponse((prev) => {
+      const updated = prev.map((c) => {
+        const criterionTextId = index.split('::')[0];
+        // if (c.text !== criterionTextId) return c; //IMPORTANT TODO: REINSTATE THIS BACK WHEN MORE CRITERION IS ADDED
 
-    if (rankingData || scoreData || multiSelectData.length > 0 || multiScore) {
-      console.log('submitting task');
-      await submitTask(
-        taskId,
-        multiSelectData,
-        rankingData,
-        scoreData,
-        multiScore,
-        isMultiSelectQuestion,
-        isRankQuestion,
-        isMultiScore,
-        isSlider,
-        maxMultiScore,
-        minMultiScore
-      );
-      if (error) {
-        console.log('WORKED >>> ', error);
-        setSubmissionErr(error);
-        return;
-      }
-      setSubmissionErr(null);
+        // For multi select, we need check if the value was selected before
+        if (c.type === 'multi-select') {
+          c.responses = c.responses || []; //init incase empty
+          if (c.responses.includes(value)) {
+            return { ...c, responses: c.responses.filter((r) => r !== value) };
+          }
+          return { ...c, responses: [...c.responses, value] };
+        } else if (c.type === 'multi-score') {
+          //multi-score index will be in this format (id::score)
+          const tmpResponses = c.responses || {}; //init incase empty
+          const tmpArr = index.split('::');
+          const modelId = tmpArr.length > 1 ? tmpArr[1] : '';
+          tmpResponses[modelId] = value as any; //backend will check so frontend its important to be string or number
+          return { ...c, responses: { ...tmpResponses } };
+        } else {
+          // Single Scoring, Single Select wise we only nede 1 value
+          return { ...c, responses: value as any };
+        }
+      });
+      return updated;
+    });
+  }, []);
+  const getCriterionForResponse = useCallback(() => criterionForResponse, [criterionForResponse]);
+  const resetCriterionForResponse = useCallback((task: Task) => {
+    setCriterionForResponse([
+      ...task.taskData.criteria.map((c) => ({ ...c, type: c.type as any, responses: undefined })),
+    ]); //Setting up the initial state with responses
+  }, []);
+  const submitTaskNew = useCallback(async () => {
+    //Prepare the results data first
+    const resultData = criterionForResponse.map((c) => {
+      return { type: c.type, value: c.responses };
+    });
+    const submitTaskRes = await submitTask(resultData as any);
+    if (submitTaskRes?.success) {
+      resetSubmissionError();
       router.push('/task-list');
     }
-  };
+    //Then call the submit api
+  }, [criterionForResponse]);
 
   const handleSetIsMultiSelectQuestion = (value: boolean) => {
     setIsMultiSelectQuestion(value);
@@ -105,13 +124,6 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const handleSetIsSlider = (value: boolean) => {
     setIsSlider(value);
   };
-
-  useEffect(() => {
-    if (error) {
-      setSubmissionErr(error);
-    }
-  }, [error]);
-
   return (
     <SubmitContext.Provider
       value={{
@@ -124,10 +136,11 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         updateRanking: (data: string[]) =>
           updateRanking(Object.fromEntries(data.map((item, index) => [item, index.toString()]))),
         updateScore,
-        handleSubmit,
+        handleSubmit: submitTaskNew,
+        handleSubmitNew: submitTaskNew,
         setTriggerTaskPageReload,
-        submissionErr,
-        setSubmissionErr,
+        submissionErr: error,
+        resetSubmissionError,
         isSubscriptionModalLoading,
         setIsSubscriptionModalLoading,
         partnerCount,
@@ -145,6 +158,9 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         handleSetIsSlider,
         handleMaxMultiScore,
         handleMinMultiScore,
+        addCriterionForResponse,
+        getCriterionForResponse,
+        resetCriterionForResponse,
       }}
     >
       {children}

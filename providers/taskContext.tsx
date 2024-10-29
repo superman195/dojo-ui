@@ -40,7 +40,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [cache, setCache] = useState<Map<string, TasksResponse>>(new Map());
   const router = useRouter();
-  const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+  const tokenType = `dojoui__jwtToken`;
   const jwtToken = getFromLocalStorage(tokenType);
 
   const fetchTasks = useCallback(

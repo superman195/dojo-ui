@@ -1,3 +1,4 @@
+import { csp_source_whitelist } from '@/utils/states';
 import { useEffect, useRef, useState } from 'react';
 const decodeString = (encodedString: string): string => {
   return encodedString
@@ -7,14 +8,38 @@ const decodeString = (encodedString: string): string => {
     .replace(/\\"/g, '"');
 };
 
+const replaceLinksWithBlanks = (html: string): string => {
+  // Replace anchor tags
+  html = html.replace(/<a\s+(?:[^>]*?\s+)?href=(["'])(.*?)\1/g, '<a href="#"');
+
+  // Replace window.location assignments
+  html = html.replace(/window\.location(?:\.href)?\s*=\s*(['"])(.*?)\1/g, '');
+  html = html.replace(/window\.location(?:\.assign)?\s*=\s*(['"])(.*?)\1/g, '');
+  html = html.replace(/window\.location(?:\.replace)?\s*=\s*(['"])(.*?)\1/g, '');
+
+  return html;
+};
+
 interface CodegenVisProps {
   encodedHtml: string;
 }
-const csp_source_whitelist = ['https://cdnjs.cloudflare.com', 'https://cdn.jsdelivr.net', 'https://unpkg.com'];
-const decodedCSP = `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' ${csp_source_whitelist.join(' ')}; style-src 'unsafe-inline'; img-src data: blob: https://threejsfundamentals.org; connect-src 'none'; form-action 'none'; base-uri 'none';">`;
+const featurePolicy = `<meta http-equiv="Feature-Policy" content="
+  camera 'none';
+  microphone 'none';
+  geolocation 'none';
+  accelerometer 'none';
+  gyroscope 'none';
+  magnetometer 'none';
+  payment 'none';
+  usb 'none';
+">`;
+const decodedCSP = `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' ${csp_source_whitelist.join(' ')}; style-src 'unsafe-inline'; media-src 'self' blob: data:; img-src data: blob: https://threejsfundamentals.org; connect-src 'none'; form-action 'none'; base-uri 'none';">`;
 const iFrameStyles = `
 body {
-width: 100%;
+
+
+}
+#content-wrapper {
 }
 ::-webkit-scrollbar {
   width: 6px;
@@ -38,10 +63,48 @@ const decodedJsSecurity = `
       (function() {
         // Clear any existing globals if want to be eeven more finegrained. but some prompt response may fail to run
         // Object.keys(window).forEach(key => {
-        //   if (!['document', 'location', 'navigator','setInterval'].includes(key)) {
+        //   if (['location'].includes(key)) {
         //     delete window[key];
         //   }
         // });
+
+        // Remove or restrict access to navigation-related functions and properties
+        const restrictedNavigation = [
+          'location',
+          'history',
+          'navigate',
+          'open',
+          'postMessage',
+          'pushState',
+          'replaceState',
+          'assign',
+          'reload',
+          'href'
+        ];
+
+        restrictedNavigation.forEach(prop => {
+          if (prop in window) {
+            delete window[prop];
+          }
+          if (prop in document) {
+            delete document[prop];
+          }
+        });
+
+        // Overwrite window.open
+        window.open = function() {
+          console.warn('window.open is disabled for security reasons');
+          return null;
+        };
+
+        // Disable navigation events
+        ['popstate', 'hashchange', 'beforeunload'].forEach(event => {
+          window.addEventListener(event, function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+          }, true);
+        });
+        
 
         // Disable cookie access
         Object.defineProperty(document, 'cookie', {
@@ -78,6 +141,16 @@ const decodedJsSecurity = `
       })();
     `;
 
+const htmlSanitize = (payload: string) => {
+  return replaceLinksWithBlanks(payload);
+  // return payload
+  //   .replaceAll('<', '&lt;')
+  //   .replaceAll('>', '&gt;')
+  //   .replaceAll('&', '&amp;')
+  //   .replaceAll("'", '&#39;')
+  //   .replaceAll('"', '&quot;');
+};
+
 const CodegenViewer = ({ encodedHtml }: CodegenVisProps) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [iframeSrc, setIframeSrc] = useState<string | null>(null);
@@ -89,12 +162,15 @@ const CodegenViewer = ({ encodedHtml }: CodegenVisProps) => {
     let url = '';
     try {
       const decodedHtml = decodeString(encodedHtml);
+
       const blob = new Blob(
         [
-          decodedHtml
-            .replace(/<head>/, `<head>${decodedCSP}`)
-            .replace(/<script/, `<script>${decodedJsSecurity}</script><script`)
-            .replace(/<style>/, `<style>${iFrameStyles}`),
+          htmlSanitize(
+            decodedHtml
+              .replace(/<head>/, `<head>${decodedCSP}${featurePolicy}`)
+              .replace(/<script/, `<script>${decodedJsSecurity}</script><script`)
+              .replace(/<style>/, `<style>${iFrameStyles}`)
+          ),
         ],
         { type: 'text/html' }
       );
@@ -110,6 +186,7 @@ const CodegenViewer = ({ encodedHtml }: CodegenVisProps) => {
 
   return (
     <iframe
+      referrerPolicy="no-referrer"
       allowFullScreen={false}
       key={urlString}
       ref={iframeRef}
@@ -117,7 +194,7 @@ const CodegenViewer = ({ encodedHtml }: CodegenVisProps) => {
       src={iframeSrc || ''}
       title="Dynamic Visualization"
       style={{ border: 'none', display: 'block' }}
-      className="aspect-[3/4] w-full"
+      className="aspect-[16/9] w-full"
     />
   );
 };
