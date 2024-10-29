@@ -45,7 +45,7 @@ import { Task } from '@/types/QuestionPageTypes';
 import { cn } from '@/utils/tw';
 import { ColumnDef, Row } from '@tanstack/react-table';
 import Head from 'next/head';
-const countdownTimerAutoFetchTask = 10;
+const countdownTimerAutoFetchTask = 120;
 const getCategoryObjectsFromUrlQuery = (query: string | string[] | undefined, baseCategories: any[]) => {
   if (!query) return [];
   if (typeof query === 'string') {
