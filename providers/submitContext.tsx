@@ -99,21 +99,28 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       ...task.taskData.criteria.map((c) => ({ ...c, type: c.type as any, responses: undefined })),
     ]); //Setting up the initial state with responses
   }, []);
-  const submitTaskNew = useCallback(async () => {
-    if (!router) return;
-    //Prepare the results data first
-    const resultData = criterionForResponse.map((c) => {
-      return { type: c.type, value: c.responses };
-    });
-    const submitTaskRes = await submitTask(resultData as any);
-    if (submitTaskRes?.success) {
-      resetSubmissionError();
-      const nextTaskResponse = await fetchNextInProgressTask(getTaskIdFromRouter(router));
-      if (nextTaskResponse) router.replace(`/Questions?taskId=${nextTaskResponse.nextInProgressTaskId}`);
-      else router.push('/task-list');
-    }
-    //Then call the submit api
-  }, [criterionForResponse]);
+  const submitTaskNew = useCallback(
+    async (preCallback?: (flag: boolean) => void, postCallback?: (flag: boolean) => void) => {
+      if (!router) return;
+      //Prepare the results data first
+      const resultData = criterionForResponse.map((c) => {
+        return { type: c.type, value: c.responses };
+      });
+      preCallback?.(true);
+      const submitTaskRes = await submitTask(resultData as any);
+      if (submitTaskRes?.success) {
+        resetSubmissionError();
+        postCallback?.(true);
+        const nextTaskResponse = await fetchNextInProgressTask(getTaskIdFromRouter(router));
+        if (nextTaskResponse) router.replace(`/Questions?taskId=${nextTaskResponse.nextInProgressTaskId}`);
+        else router.push('/task-list');
+      } else {
+        postCallback?.(false);
+      }
+      //Then call the submit api
+    },
+    [criterionForResponse]
+  );
 
   const handleSetIsMultiSelectQuestion = (value: boolean) => {
     setIsMultiSelectQuestion(value);

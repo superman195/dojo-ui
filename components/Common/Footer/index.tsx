@@ -1,28 +1,46 @@
 import { ErrorModal } from '@/components/QuestionPageComponents';
 import useFeature from '@/hooks/useFeature';
 import useGetNextInProgressTask, { NextTaskResponse } from '@/hooks/useGetNextTask';
+import { useModal } from '@/hooks/useModal';
 import useScrollRestoration from '@/hooks/useScrollRestoration';
 import { useSubmit } from '@/providers/submitContext';
+import { MODAL } from '@/types/ProvidersTypes';
 import { Task } from '@/types/QuestionPageTypes';
 import { wait } from '@/utils/general_helpers';
 import { tasklistFull } from '@/utils/states';
 import { cn } from '@/utils/tw';
+import { IconLoader } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
-import { HTMLAttributes, useCallback, useState } from 'react';
+import { HTMLAttributes, useCallback, useEffect, useState } from 'react';
 import { Button } from '../Button';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   task: Task;
 }
 
+interface loadingState {
+  state: boolean;
+  message: string | null;
+}
+
 const Footer = ({ task, className, ...props }: Props) => {
   const router = useRouter();
   const taskId = task.taskId;
-  const { handleSubmit, handleSubmitNew, resetSubmissionError, submissionErr, getCriterionForResponse } = useSubmit();
+  const { handleSubmit, resetSubmissionError, submissionErr, getCriterionForResponse } = useSubmit();
   const { fetchNextInProgressTask } = useGetNextInProgressTask();
   const { exp } = useFeature({ kw: 'demo' });
   const [feError, setFeError] = useState<string | null>(null);
   const { saveScrollPosition, restoreScrollPosition } = useScrollRestoration();
+  const { openModal: openInfoModal, closeModal: closeInfoModal } = useModal(MODAL.informational);
+  const [loading, setLoading] = useState<loadingState>({ state: false, message: null } as loadingState);
+
+  const startLoading = (message?: string) => {
+    setLoading((prev) => ({ ...prev, state: true, message: message || 'Loading...' }));
+  };
+
+  const stopLoading = () => {
+    setLoading((prev) => ({ state: false, message: '' }));
+  };
 
   const handleDemoTasklistRotation = useCallback(
     (taskId: string, backward: boolean = false) => {
@@ -102,6 +120,27 @@ const Footer = ({ task, className, ...props }: Props) => {
     });
     return tmpFlag;
   }, [task, getCriterionForResponse]);
+
+  useEffect(() => {
+    if (!loading) return;
+    if (submissionErr) closeInfoModal();
+    if (loading.state) {
+      openInfoModal({
+        headerTitle: 'Loading',
+        content: (
+          <div className="flex w-full items-center gap-[10px]">
+            {' '}
+            <div className="flex w-2/12 justify-center">
+              <IconLoader className="size-8 animate-spin rounded-full p-[2px] text-font-primary" />
+            </div>
+            <div className="flex grow">{loading.message ?? 'Loading...'}</div>
+          </div>
+        ),
+      });
+    } else if (loading.state == false) {
+      closeInfoModal();
+    }
+  }, [loading, submissionErr]);
 
   return (
     <div className=" w-full border-t-2 border-t-black p-4">
@@ -185,7 +224,20 @@ const Footer = ({ task, className, ...props }: Props) => {
             className={cn('bg-primary px-[37px] py-[15px] text-white hover:shadow-brut-sm', 'w-1/2 sm:w-auto')}
             onClick={() => {
               if (!exp) {
-                feValidationBeforeSubmit() && handleSubmit();
+                if (feValidationBeforeSubmit()) {
+                  handleSubmit(
+                    () => {
+                      startLoading('Submitting...');
+                    },
+                    (f) => {
+                      if (f) {
+                        startLoading('Submitted!');
+                      } else {
+                        stopLoading();
+                      }
+                    }
+                  );
+                }
               } else {
                 handleDemoTasklistRotation(taskId as string);
               }
