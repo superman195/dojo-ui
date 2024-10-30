@@ -210,7 +210,7 @@ const CodegenViewer = ({ encodedHtml }: CodegenVisProps) => {
       src={iframeSrc || ''}
       title="Dynamic Visualization"
       style={{ border: 'none', display: 'block' }}
-      className="aspect-square w-full"
+      className="aspect-square w-full min-w-[400px]"
     />
   );
 };

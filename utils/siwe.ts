@@ -38,7 +38,7 @@ export const createSiweMessage = (address: string, nonce: string, statement: str
       nonce: nonce,
     });
     const preparedMessage = message.prepareMessage();
-
+    console.log('preparedMessage SIWE:', preparedMessage);
     return preparedMessage;
   }
   return '';
