@@ -1,3 +1,4 @@
+import { wait } from '@/utils/general_helpers';
 import { csp_source_whitelist } from '@/utils/states';
 import { useEffect, useRef, useState } from 'react';
 const decodeString = (encodedString: string): string => {
@@ -36,10 +37,33 @@ const featurePolicy = `<meta http-equiv="Feature-Policy" content="
 const decodedCSP = `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' ${csp_source_whitelist.join(' ')}; style-src 'unsafe-inline'; media-src 'self' blob: data:; img-src data: blob: https://threejsfundamentals.org; connect-src 'none'; form-action 'none'; base-uri 'none';">`;
 const iFrameStyles = `
 body {
-
-
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
+
+canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  min-width: 400px;
+  min-height: 400px;
+  /* Add these properties to force hardware acceleration and prevent layout issues */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000;
+}
+
 #content-wrapper {
+  width: 100%;
+  height: 100vh;
+  /* Add this to ensure proper sizing */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 /* Scrollbar styles */
 ::-webkit-scrollbar {
@@ -171,6 +195,22 @@ const CodegenViewer = ({ encodedHtml }: CodegenVisProps) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [iframeSrc, setIframeSrc] = useState<string | null>(null);
   const [urlString, setUrlString] = useState('');
+
+  // This is to ensure that the iframe is resized on load and set back to 100% width height
+  // Because canvas cannot load sometimes if its 100%, so need to set static
+  const handleIframeLoad = async () => {
+    if (!iframeRef.current) return;
+    // Initial size adjustment if needed
+    const parent = iframeRef.current.parentElement;
+    if (parent) {
+      iframeRef.current.style.width = `${parent.offsetWidth}px`;
+      iframeRef.current.style.height = `${parent.offsetHeight}px`;
+      await wait(100);
+      iframeRef.current.style.width = '100%';
+      iframeRef.current.style.height = '100%';
+    }
+  };
+
   useEffect(() => {
     // console.log('parent eth in window', 'ethereum' in window);
     // console.log('parent has cookies', !!document.cookie);
@@ -211,6 +251,7 @@ const CodegenViewer = ({ encodedHtml }: CodegenVisProps) => {
       title="Dynamic Visualization"
       style={{ border: 'none', display: 'block' }}
       className="aspect-square w-full min-w-[400px]"
+      onLoad={handleIframeLoad}
     />
   );
 };

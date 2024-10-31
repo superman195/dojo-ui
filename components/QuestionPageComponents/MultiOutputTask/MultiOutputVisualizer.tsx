@@ -50,7 +50,7 @@ const MultiOutputVisualizer = ({ task, className, ...props }: TaskVisualizerProp
               {task.taskData.responses.map((response, index) => (
                 <div key={`${task.type}_${index}`} className="flex w-full flex-col justify-center ">
                   <div
-                    className={`flex h-fit w-full flex-col rounded-sm border-2 border-black bg-ecru-white shadow-brut-sm `}
+                    className={`flex h-fit w-full flex-col overflow-hidden rounded-sm border-2 border-black bg-ecru-white shadow-brut-sm`}
                   >
                     {renderVisualizer(task.type, response, index)}
                     <>
