@@ -61,7 +61,7 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
         style: { fontFamily: 'Arial, sans-serif' },
       },
       title: {
-        text: 'CUMULATIVE EMISSIONS PAST 30 DAYS',
+        text: 'LIVE EMISSIONS PAST 30 DAYS',
         align: 'left',
         style: {
           fontSize: '16px',
@@ -216,7 +216,7 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
   const kpiMetrics = [
     { label: 'TOTAL EMISSIONS', value: subnetData ? subnetData.totalEmissions.toFixed(2) + ' τ' : 'N/A' },
     { label: 'MINER COUNT', value: subnetData ? subnetData.minerCount : 'N/A' },
-    { label: 'EMISSION PCT', value: subnetData ? subnetData.emissionPct.toFixed(2) + '%' : 'N/A' },
+    { label: 'TASK COUNT', value: subnetData ? subnetData.emissionPct.toFixed(2) + '%' : 'N/A' },
   ];
 
   if (error) {

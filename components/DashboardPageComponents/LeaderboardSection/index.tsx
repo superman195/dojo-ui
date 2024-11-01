@@ -16,7 +16,7 @@ const LeaderboardSection: React.FC<LeaderboardSectionProps> = ({ miners, loading
   return (
     <>
       <div className="my-5">
-        <h2 className={`${FontSpaceMono.className} text-4xl font-bold`}>LEADERBOARDS</h2>
+        <h2 className={`${FontSpaceMono.className} text-4xl font-bold`}>LEADERBOARD</h2>
       </div>
       <LeaderboardTwo miners={miners} isLoading={loading} />
     </>

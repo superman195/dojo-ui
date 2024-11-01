@@ -1,24 +1,11 @@
 import Datatablev2 from '@/components/Common/DataTable/Datatablev2';
+import { Pagination } from '@/components/Common/Pagination';
 import { NonRootNeuronObj } from '@/types/DashboardTypes';
 import { getFirstAndLastCharacters } from '@/utils/math_helpers';
-import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { createColumnHelper } from '@tanstack/react-table';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import React, { useMemo } from 'react';
-interface MinerData {
-  hotkey: string;
-  rank: number;
-  emission: number;
-  stakedAmt: number;
-  minerWeight: number;
-  performanceData: number[];
-  historicalEmissions?: {
-    blockNumber: number;
-    blockTime: number;
-    emission: number;
-  }[];
-}
+import React, { useCallback, useMemo, useState } from 'react';
 
 interface LeaderboardProps {
   miners: NonRootNeuronObj[] | null;
@@ -73,28 +60,10 @@ const PerformanceChart: React.FC<{ data: number[] }> = ({ data }) => {
 
   return <HighchartsReact highcharts={Highcharts} options={options} />;
 };
-
-const ShimmerRow: React.FC = () => (
-  <tr className={`${FontManrope.className} h-11 animate-pulse border-b border-gray-100 text-lg font-bold`}>
-    <td className="w-10">
-      <div className="h-4 w-8 rounded bg-gray-200"></div>
-    </td>
-    <td className="w-10">
-      <div className="h-4 w-20 rounded bg-gray-200"></div>
-    </td>
-    <td className="w-10">
-      <div className="h-4 w-16 rounded bg-gray-200"></div>
-    </td>
-    <td className="w-10">
-      <div className="h-4 w-24 rounded bg-gray-200"></div>
-    </td>
-    <td className="w-10">
-      <div className="h-8 w-20 rounded bg-gray-200"></div>
-    </td>
-  </tr>
-);
-
 const LeaderboardTwo = ({ miners, isLoading }: LeaderboardProps) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Set the number of items per page
+
   const columnHelper = createColumnHelper<NonRootNeuronObj>();
 
   const columns = useMemo(
@@ -110,77 +79,57 @@ const LeaderboardTwo = ({ miners, isLoading }: LeaderboardProps) => {
         cell: (info) => getFirstAndLastCharacters(info.getValue(), 5),
       }),
       columnHelper.accessor('minerWeight', {
-        header: 'Score',
+        header: 'mTrust',
         size: 100,
         cell: (info) => {
           return Number(info.getValue()).toFixed(9);
         },
+        enableSorting: true,
       }),
       columnHelper.accessor('emission', {
         header: 'Emission',
         size: 100,
         cell: (info) => info.getValue().toFixed(6),
+        enableSorting: true,
       }),
       columnHelper.accessor('stakedAmt', {
         header: 'Staked Amount',
         size: 100,
         cell: (info) => info.getValue().toFixed(6),
+        enableSorting: true,
       }),
       columnHelper.accessor('performanceData', {
         header: 'Performance',
         size: 100,
         cell: (info) => <PerformanceChart data={info.getValue()} />,
+        enableSorting: true,
       }),
     ],
     []
   );
+
+  const handlePageChange = useCallback((pageIndex: number) => {
+    setCurrentPage(pageIndex);
+  }, []);
+
+  const paginatedData = useMemo(() => {
+    if (!miners) return [];
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return miners.slice(startIndex, endIndex);
+  }, [miners, currentPage, itemsPerPage]);
+
   return (
     <div className="pb-[30px]">
       <Datatablev2
         tableClassName="max-w-[892px]"
         minColumnSize={20}
         columnDef={columns}
-        data={miners || []}
-        pageSize={200}
+        data={paginatedData}
+        pageSize={itemsPerPage}
       />
-    </div>
-  );
-};
-
-const Leaderboard: React.FC<LeaderboardProps> = ({ miners, isLoading }) => {
-  return (
-    <div className="mx-auto mb-6 max-w-4xl rounded-sm border-2 border-black bg-white p-4 shadow-brut-sm">
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[500px]">
-          <thead>
-            <tr className={`${FontSpaceMono.className} border-b-2 border-gray-200`}>
-              <th className="pb-2 pr-4 text-left">POSITION</th>
-              <th className="pb-2 pr-4 text-left">MINER</th>
-              <th className="pb-2 pr-4 text-left">SCORE</th>
-              {/* <th className="pb-2 pr-4 text-left">STAKED AMOUNT</th> */}
-              <th className="pb-2 text-left">PERFORMANCE</th>
-            </tr>
-          </thead>
-          <tbody>
-            {isLoading
-              ? Array.from({ length: 10 }).map((_, index) => <ShimmerRow key={index} />)
-              : miners?.slice(-10).map((miner, index) => (
-                  <tr
-                    key={miner.hotkey}
-                    className={`${FontManrope.className} h-11 border-b border-gray-100 text-lg font-bold`}
-                  >
-                    <td className="w-10">#{index + 1}</td>
-                    <td className="w-10">{getFirstAndLastCharacters(miner.hotkey, 5)}</td>
-                    <td className="w-10">{miner.minerWeight}</td>
-                    {/* <td className="w-10 opacity-60">{miner.stakedAmt.toFixed(6)}</td> */}
-                    <td className="w-10">
-                      <PerformanceChart data={miner.performanceData} />
-                    </td>
-                  </tr>
-                ))}
-          </tbody>
-        </table>
-      </div>
+      <div className="mt-3"></div>
+      <Pagination totalPages={Math.ceil((miners?.length || 0) / itemsPerPage)} handlePageChange={handlePageChange} />
     </div>
   );
 };
