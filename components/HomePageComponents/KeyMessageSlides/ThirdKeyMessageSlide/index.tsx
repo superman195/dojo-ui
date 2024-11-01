@@ -66,13 +66,7 @@ const ThirdKeyMessageSlide = () => {
 
   return (
     <motion.section className="sticky left-0 top-0 z-[200] flex h-screen w-full justify-center overflow-hidden border-t-4 border-solid border-black bg-gray-100">
-      <Image
-        src="/grid.svg"
-        alt="Example Icon"
-        width={100}
-        height={200}
-        className="absolute size-full opacity-[0.03]"
-      />
+      <Image src="/grid.svg" alt="Example Icon" width={100} height={200} className="absolute w-full opacity-[0.03]" />
       <motion.div
         variants={elemAnimParentVariant}
         initial="hide"
