@@ -20,6 +20,25 @@ const replaceLinksWithBlanks = (html: string): string => {
 
   return html;
 };
+const extractScriptContent = (html: string): { scriptContent: string; remainingHtml: string } => {
+  const scriptRegex = /<script[^>]*>([\s\S]*?)<\/script>/gi;
+  let extractedContent = '';
+
+  // Replace only script tags without src attribute and collect their content
+  const remainingHtml = html.replace(scriptRegex, (match, content, offset) => {
+    // Check if the script tag has a src attribute
+    if (match.includes('src=')) {
+      return match; // Keep external scripts intact
+    }
+    extractedContent += content + '\n';
+    return ''; // Remove inline script tags from HTML
+  });
+
+  return {
+    scriptContent: extractedContent.trim(),
+    remainingHtml,
+  };
+};
 
 interface CodegenVisProps {
   encodedHtml: string;
@@ -45,15 +64,15 @@ body {
 }
 
 canvas {
-  width: 100% !important;
-  height: 100% !important;
-  display: block;
-  min-width: 400px;
-  min-height: 400px;
-  /* Add these properties to force hardware acceleration and prevent layout issues */
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000;
+  // width: 100% !important;
+  // height: 100% !important;
+  // display: block;
+  // min-width: 400px;
+  // min-height: 400px;
+  // /* Add these properties to force hardware acceleration and prevent layout issues */
+  // transform: translateZ(0);
+  // backface-visibility: hidden;
+  // perspective: 1000;
 }
 
 #content-wrapper {
@@ -100,7 +119,9 @@ canvas {
 }
 `;
 const decodedJsSecurity = `
-      (function() {
+document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(() => {      
+(function() {
         // Clear any existing globals if want to be eeven more finegrained. but some prompt response may fail to run
         // Object.keys(window).forEach(key => {
         //   if (['location'].includes(key)) {
@@ -178,7 +199,10 @@ const decodedJsSecurity = `
         // console.log("iframe eth in window",'ethereum' in window)
         // console.log("iframe has cookies",!!document.cookie)
         // console.log("iframe has localstorage",localStorage)
+        ##JS_CONTENT##
       })();
+          }, 100);
+      });
     `;
 
 const htmlSanitize = (payload: string) => {
@@ -217,14 +241,17 @@ const CodegenViewer = ({ encodedHtml }: CodegenVisProps) => {
     // console.log('parent has localstorage', localStorage);
     let url = '';
     try {
-      const decodedHtml = decodeString(encodedHtml);
-
+      let decodedHtml = decodeString(encodedHtml);
+      const { scriptContent, remainingHtml } = extractScriptContent(decodedHtml);
+      decodedHtml = remainingHtml;
+      const modifiedJs = decodedJsSecurity.replace('##JS_CONTENT##', scriptContent);
       const blob = new Blob(
         [
           htmlSanitize(
             decodedHtml
               .replace(/<head>/, `<head>${decodedCSP}${featurePolicy}`)
-              .replace(/<script/, `<script>${decodedJsSecurity}</script><script`)
+              .replace(/<\/body/, `<script>${modifiedJs}</script></body`)
+              // .replace(/<script/, `<script>${decodedJsSecurity}</script><script`)
               .replace(/<style>/, `<style>${iFrameStyles}`)
           ),
         ],
