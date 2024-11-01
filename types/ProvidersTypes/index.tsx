@@ -28,8 +28,8 @@ export interface SubmitContextType {
   updateRanking: (data: string[]) => void;
   updateScore: (score: number) => void;
   updateMultiScore: (data: { [key: string]: number }) => void;
-  handleSubmit: Function;
-  handleSubmitNew: () => void;
+  handleSubmit: (preCallback?: (flag: boolean) => void, postCallback?: (flag: boolean) => void) => void;
+  handleSubmitNew: (preCallback?: (flag: boolean) => void, postCallback?: (flag: boolean) => void) => void;
   triggerTaskPageReload: boolean;
   setTriggerTaskPageReload: React.Dispatch<React.SetStateAction<boolean>>;
   submissionErr: string | null;
