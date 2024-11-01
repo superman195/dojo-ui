@@ -18,8 +18,10 @@ const Footer: React.FC = () => {
 
     nextTaskResponse = await fetchNextInProgressTask(taskId);
 
-    if (!nextTaskResponse) {
-      router.push('/task-list');
+    // If there is no next task, redirect to home page
+    if (!nextTaskResponse || !nextTaskResponse.nextInProgressTaskId) {
+      console.info('No next task found');
+      router.push('/');
       return;
     }
     router.push(`/Questions?taskId=${nextTaskResponse.nextInProgressTaskId}`);
