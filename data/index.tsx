@@ -8,7 +8,503 @@ interface HeaderItem {
   title: string;
   url: string;
 }
+export const exampleInteractiveData = {
+  combined_html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newton's Cradle Visualization</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #f0f0f0;
+        }
+        #canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        #chaosButton {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 8px 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            z-index: 10;
+        }
+        #instructions {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            color: #333;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            text-align: center;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <button id="chaosButton">Toggle Chaos Mode</button>
+    <div id="instructions">Click and drag a ball to interact. Hover over a ball to turn it red. Toggle Chaos Mode for unpredictable behavior.</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.18.0/matter.min.js"></script>
+    <script>
+    (function() {
+        const Engine = Matter.Engine,
+            Render = Matter.Render,
+            Runner = Matter.Runner,
+            Body = Matter.Body,
+            Composite = Matter.Composite,
+            Constraint = Matter.Constraint,
+            Bodies = Matter.Bodies,
+            Events = Matter.Events,
+            Mouse = Matter.Mouse,
+            MouseConstraint = Matter.MouseConstraint;
 
+        const engine = Engine.create(),
+            world = engine.world;
+
+        const canvas = document.getElementById('canvas');
+        let width = canvas.clientWidth;
+        let height = canvas.clientHeight;
+
+        const render = Render.create({
+            canvas: canvas,
+            engine: engine,
+            options: {
+                width: width,
+                height: height,
+                wireframes: false,
+                background: '#f0f0f0'
+            }
+        });
+
+        Render.run(render);
+        const runner = Runner.create();
+        Runner.run(runner, engine);
+
+        function createNewtonsCradle() {
+            const cradle = Composite.create();
+            const minDimension = Math.min(width, height);
+            const ballRadius = minDimension * (width < 480 ? 0.08 : 0.05);
+            const ballGap = ballRadius * 0.25;
+            const numBalls = width < 480 ? 3 : 5;
+            const startX = width / 2 - ((numBalls - 1) * (ballRadius * 2 + ballGap)) / 2;
+            const startY = height / 2;
+
+            const balls = [];
+            const constraints = [];
+
+            for (let i = 0; i < numBalls; i++) {
+                const ball = Bodies.circle(
+                    startX + i * (ballRadius * 2 + ballGap),
+                    startY + ballRadius * 3,
+                    ballRadius,
+                    {
+                        inertia: Infinity,
+                        restitution: 1,
+                        friction: 0,
+                        frictionAir: 0.0001,
+                        slop: 1,
+                        render: { fillStyle: '#c0c0c0' }
+                    }
+                );
+                balls.push(ball);
+
+                const constraint = Constraint.create({
+                    pointA: { x: startX + i * (ballRadius * 2 + ballGap), y: startY - ballRadius * 3 },
+                    bodyB: ball,
+                    length: ballRadius * 6,
+                    stiffness: 1,
+                    render: { strokeStyle: '#222', lineWidth: 2 }
+                });
+                constraints.push(constraint);
+            }
+
+            Composite.add(cradle, [...balls, ...constraints]);
+            return { cradle, balls };
+        }
+
+        let { cradle, balls } = createNewtonsCradle();
+        Composite.add(world, cradle);
+
+        const support = Bodies.rectangle(width / 2, height / 2 - balls[0].circleRadius * 3, width / 2, 10, {
+            isStatic: true,
+            render: { fillStyle: '#333' }
+        });
+        Composite.add(world, support);
+
+        // Mouse control
+        const mouse = Mouse.create(render.canvas);
+        const mouseConstraint = MouseConstraint.create(engine, {
+            mouse: mouse,
+            constraint: {
+                stiffness: 0.2,
+                render: {
+                    visible: false
+                }
+            }
+        });
+
+        Composite.add(world, mouseConstraint);
+
+        // Keep the mouse in sync with rendering
+        render.mouse = mouse;
+
+        let chaosMode = false;
+        const chaosButton = document.getElementById('chaosButton');
+        chaosButton.addEventListener('click', () => {
+            chaosMode = !chaosMode;
+            chaosButton.textContent = chaosMode ? 'Disable Chaos' : 'Enable Chaos';
+        });
+
+        Events.on(engine, 'afterUpdate', () => {
+            balls.forEach((ball) => {
+                if (chaosMode && Math.random() < 0.01) {
+                    Body.applyForce(ball, ball.position, {
+                        x: (Math.random() - 0.5) * 0.002,
+                        y: (Math.random() - 0.5) * 0.002
+                    });
+                }
+            });
+        });
+
+        function resizeCanvas() {
+            width = canvas.clientWidth;
+            height = canvas.clientHeight;
+            render.canvas.width = width;
+            render.canvas.height = height;
+            render.options.width = width;
+            render.options.height = height;
+            Matter.Render.setPixelRatio(render, window.devicePixelRatio);
+
+            Composite.clear(world, false);
+            let newCradle = createNewtonsCradle();
+            Composite.add(world, [newCradle.cradle, support, mouseConstraint]);
+            balls = newCradle.balls;
+            Body.setPosition(support, { x: width / 2, y: height / 2 - balls[0].circleRadius * 3 });
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Add hover effect
+        Events.on(render, 'afterRender', function() {
+            const hoveredBall = Matter.Query.point(balls, mouse.position)[0];
+            balls.forEach(ball => {
+                if (ball === hoveredBall) {
+                    ball.render.fillStyle = '#ff0000'; // Red color on hover
+                } else {
+                    ball.render.fillStyle = '#c0c0c0'; // Default color
+                }
+            });
+        });
+    })();
+    </script>
+</body>
+</html>`,
+};
+export const keySliderInteractiveData = {
+  combined_html: `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newton's Cradle Visualization</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        #canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            touch-action: none;
+        }
+        #chaosButton {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            z-index: 10;
+            transition: background-color 0.3s;
+        }
+        #chaosButton:hover {
+            background-color: #45a049;
+        }
+        #instructions {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            color: #333;
+            font-size: 12px;
+            text-align: center;
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 5px;
+            border-radius: 5px;
+        }
+        @media (max-width: 600px) {
+            #chaosButton {
+                top: 5px;
+                left: 5px;
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+            #instructions {
+                font-size: 10px;
+                bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <button id="chaosButton">Toggle Chaos Mode</button>
+    <div id="instructions">Tap and drag a ball to interact. Toggle Chaos Mode for unpredictable behavior.</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.18.0/matter.min.js"></script>
+    <script>
+    (function() {
+        // Newton's Cradle Visualization
+        const Engine = Matter.Engine,
+            Render = Matter.Render,
+            Runner = Matter.Runner,
+            Body = Matter.Body,
+            Composite = Matter.Composite,
+            Constraint = Matter.Constraint,
+            Bodies = Matter.Bodies,
+            Events = Matter.Events,
+            Mouse = Matter.Mouse,
+            MouseConstraint = Matter.MouseConstraint;
+
+        const engine = Engine.create(),
+            world = engine.world;
+
+        const canvas = document.getElementById('canvas');
+        let width = canvas.clientWidth;
+        let height = canvas.clientHeight;
+
+        const render = Render.create({
+            canvas: canvas,
+            engine: engine,
+            options: {
+                width: width,
+                height: height,
+                wireframes: false,
+                background: '#f0f0f0'
+            }
+        });
+
+        Render.run(render);
+        const runner = Runner.create();
+        Runner.run(runner, engine);
+
+        // Create Newton's Cradle
+        function createNewtonsCradle() {
+            const cradle = Composite.create();
+            const ballRadius = Math.min(width, height) * (width < 600 ? 0.05 : 0.03);
+            const ballGap = 5;
+            const numBalls = width < 600 ? 3 : 5;
+            const startX = width / 2 - ((numBalls - 1) * (ballRadius * 2 + ballGap)) / 2;
+            const startY = height / 2;
+
+            const balls = [];
+            const constraints = [];
+
+            for (let i = 0; i < numBalls; i++) {
+                const ball = Bodies.circle(
+                    startX + i * (ballRadius * 2 + ballGap),
+                    startY + ballRadius * 5,
+                    ballRadius,
+                    {
+                        inertia: Infinity,
+                        restitution: 1,
+                        friction: 0,
+                        frictionAir: 0.0001,
+                        slop: 1,
+                        render: {
+                            fillStyle: '#c0c0c0'
+                        }
+                    }
+                );
+                balls.push(ball);
+
+                const constraint = Constraint.create({
+                    pointA: { x: startX + i * (ballRadius * 2 + ballGap), y: startY - ballRadius * 5 },
+                    bodyB: ball,
+                    length: ballRadius * 10,
+                    stiffness: 1,
+                    render: {
+                        strokeStyle: '#222'
+                    }
+                });
+                constraints.push(constraint);
+            }
+
+            Composite.add(cradle, [...balls, ...constraints]);
+            return { cradle, balls };
+        }
+
+        let { cradle, balls } = createNewtonsCradle();
+        Composite.add(world, cradle);
+
+        // Add horizontal support
+        const support = Bodies.rectangle(width / 2, height / 2 - balls[0].circleRadius * 5, width / 2, 10, {
+            isStatic: true,
+            render: {
+                fillStyle: '#333'
+            }
+        });
+        Composite.add(world, support);
+
+        // Mouse control
+        const mouse = Mouse.create(render.canvas);
+        const mouseConstraint = MouseConstraint.create(engine, {
+            mouse: mouse,
+            constraint: {
+                stiffness: 0.2,
+                render: {
+                    visible: false
+                }
+            }
+        });
+        Composite.add(world, mouseConstraint);
+
+        // Chaos mode
+        let chaosMode = false;
+        const chaosButton = document.getElementById('chaosButton');
+        chaosButton.addEventListener('click', () => {
+            chaosMode = !chaosMode;
+            chaosButton.textContent = chaosMode ? 'Disable Chaos' : 'Enable Chaos';
+            // Send message to parent
+            window.parent.postMessage({ type: 'chaosMode', value: chaosMode }, '*');
+        });
+        // Automatically trigger chaos mode
+        setTimeout(() => {
+            chaosMode = true;
+            chaosButton.textContent = 'Disable Chaos';
+            window.parent.postMessage({ type: 'chaosMode', value: true }, '*');
+        }, 0); 
+
+
+        // Color changing and energy calculation
+        Events.on(engine, 'afterUpdate', () => {
+            let totalKineticEnergy = 0;
+            balls.forEach((ball, index) => {
+                const velocity = Math.sqrt(ball.velocity.x ** 2 + ball.velocity.y ** 2);
+                const maxVelocity = 5;
+                const normalizedVelocity = Math.min(velocity / maxVelocity, 1);
+                const color = interpolateColor('#c0c0c0', '#ff0000', normalizedVelocity);
+                ball.render.fillStyle = color;
+
+                // Calculate kinetic energy
+                totalKineticEnergy += 0.5 * ball.mass * velocity ** 2;
+
+                // Chaos mode
+                if (chaosMode && Math.random() < 0.01) {
+                    Body.applyForce(ball, ball.position, {
+                        x: (Math.random() - 0.5) * 0.001,
+                        y: (Math.random() - 0.5) * 0.001
+                    });
+                }
+            });
+
+            // Send kinetic energy to parent
+            window.parent.postMessage({ type: 'kineticEnergy', value: Math.round(totalKineticEnergy) }, '*');
+        });
+
+        // Helper function to interpolate colors
+        function interpolateColor(color1, color2, factor) {
+            const r1 = parseInt(color1.substr(1, 2), 16);
+            const g1 = parseInt(color1.substr(3, 2), 16);
+            const b1 = parseInt(color1.substr(5, 2), 16);
+
+            const r2 = parseInt(color2.substr(1, 2), 16);
+            const g2 = parseInt(color2.substr(3, 2), 16);
+            const b2 = parseInt(color2.substr(5, 2), 16);
+
+            const r = Math.round(r1 + factor * (r2 - r1));
+            const g = Math.round(g1 + factor * (g2 - g1));
+            const b = Math.round(b1 + factor * (b2 - b1));
+
+            return \`rgb(\${r}, \${g}, \${b})\`;
+        }
+
+        // Resize canvas on window resize
+        function resizeCanvas() {
+            width = canvas.clientWidth;
+            height = canvas.clientHeight;
+            render.canvas.width = width;
+            render.canvas.height = height;
+            render.options.width = width;
+            render.options.height = height;
+            Render.setPixelRatio(render, window.devicePixelRatio);
+
+            // Recreate the Newton's Cradle
+            Composite.clear(world, false);
+            let newCradle = createNewtonsCradle();
+            Composite.add(world, [newCradle.cradle, support, mouseConstraint]);
+            balls = newCradle.balls;
+
+            // Update support position
+            Body.setPosition(support, { x: width / 2, y: height / 2 - balls[0].circleRadius * 5 });
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas(); // Initial call to set up the canvas correctly
+
+        // Clean up function
+        window.addEventListener('message', (event) => {
+            if (event.data === 'cleanup') {
+                window.removeEventListener('resize', resizeCanvas);
+                Render.stop(render);
+                Runner.stop(runner);
+                Engine.clear(engine);
+            }
+        });
+
+        // Change cursor on ball hover
+        Events.on(render, 'afterRender', function() {
+            const hoveredBall = Matter.Query.point(balls, mouse.position)[0];
+            if (hoveredBall) {
+                canvas.style.cursor = 'pointer';
+            } else {
+                canvas.style.cursor = 'default';
+            }
+        });
+    })();
+    </script>
+</body>
+</html>`,
+};
+
+// ... rest of the code ...
 export const steps: StepCardProps[] = [
   {
     stepNumber: 1,
