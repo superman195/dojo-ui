@@ -47,6 +47,12 @@ const DashboardPage = () => {
               performanceData: neuron.historicalEmissions?.map((e) => e.emission) ?? [],
             })) || []
           }
+          validators={
+            subnetData?.nonRootNeurons.map((neuron) => ({
+              ...neuron,
+              performanceData: neuron.historicalEmissions?.map((e) => e.emission) ?? [],
+            })) || []
+          }
           loading={loading}
           error={error}
         />

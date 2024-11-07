@@ -8,7 +8,7 @@ import HighchartsReact from 'highcharts-react-official';
 import React, { useCallback, useMemo, useState } from 'react';
 
 interface LeaderboardProps {
-  miners: NonRootNeuronObj[] | null;
+  validators: NonRootNeuronObj[] | null;
   isLoading: boolean;
 }
 
@@ -60,7 +60,7 @@ const PerformanceChart: React.FC<{ data: number[] }> = ({ data }) => {
 
   return <HighchartsReact highcharts={Highcharts} options={options} />;
 };
-const LeaderboardTwo = ({ miners, isLoading }: LeaderboardProps) => {
+const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set the number of items per page
 
@@ -68,18 +68,29 @@ const LeaderboardTwo = ({ miners, isLoading }: LeaderboardProps) => {
 
   const columns = useMemo(
     () => [
-      columnHelper.accessor('uid', {
+      columnHelper.display({
+        id: 'position',
         header: 'Position',
-        size: 100,
-        cell: (info) => `#${info.getValue() + 1}`,
+        size: 50,
+        cell: (info) => `#${info.row.index + 1}`,
+      }),
+      columnHelper.accessor('uid', {
+        header: 'UID',
+        size: 50,
+        cell: (info) => info.getValue(),
       }),
       columnHelper.accessor('hotkey', {
-        header: 'Miner',
+        header: 'Hot Key',
         size: 100,
         cell: (info) => getFirstAndLastCharacters(info.getValue(), 5),
       }),
-      columnHelper.accessor('minerWeight', {
-        header: 'mTrust',
+      columnHelper.accessor('coldkey', {
+        header: 'Cold Key',
+        size: 100,
+        cell: (info) => getFirstAndLastCharacters(info.getValue(), 5),
+      }),
+      columnHelper.accessor('validatorTrust', {
+        header: 'vTrust',
         size: 100,
         cell: (info) => {
           return Number(info.getValue()).toFixed(9);
@@ -93,16 +104,20 @@ const LeaderboardTwo = ({ miners, isLoading }: LeaderboardProps) => {
         enableSorting: true,
       }),
       columnHelper.accessor('stakedAmt', {
-        header: 'Staked Amount',
+        header: 'Stake',
         size: 100,
         cell: (info) => info.getValue().toFixed(6),
         enableSorting: true,
       }),
-      columnHelper.accessor('performanceData', {
+      columnHelper.accessor('historicalEmissions', {
         header: 'Performance',
         size: 100,
-        cell: (info) => <PerformanceChart data={info.getValue()} />,
-        enableSorting: true,
+        cell: (info) => {
+          const emissionsData = info.getValue();
+          const chartData = emissionsData.map(({ emission }) => emission);
+
+          return <PerformanceChart data={chartData} />;
+        },
       }),
     ],
     []
@@ -113,11 +128,11 @@ const LeaderboardTwo = ({ miners, isLoading }: LeaderboardProps) => {
   }, []);
 
   const paginatedData = useMemo(() => {
-    if (!miners) return [];
+    if (!validators) return [];
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return miners.slice(startIndex, endIndex);
-  }, [miners, currentPage, itemsPerPage]);
+    return validators.slice(startIndex, endIndex);
+  }, [validators, currentPage, itemsPerPage]);
 
   return (
     <div className="pb-[30px]">
@@ -129,9 +144,12 @@ const LeaderboardTwo = ({ miners, isLoading }: LeaderboardProps) => {
         pageSize={itemsPerPage}
       />
       <div className="mt-3"></div>
-      <Pagination totalPages={Math.ceil((miners?.length || 0) / itemsPerPage)} handlePageChange={handlePageChange} />
+      <Pagination
+        totalPages={Math.ceil((validators?.length || 0) / itemsPerPage)}
+        handlePageChange={handlePageChange}
+      />
     </div>
   );
 };
 
-export default LeaderboardTwo;
+export default ValidatorLeaderboard;
