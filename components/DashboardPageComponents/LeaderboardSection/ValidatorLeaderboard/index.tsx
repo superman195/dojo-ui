@@ -4,7 +4,7 @@ import { getFirstAndLastCharacters } from '@/utils/math_helpers';
 import { createColumnHelper } from '@tanstack/react-table';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 interface LeaderboardProps {
   validators: NonRootNeuronObj[] | null;
@@ -60,7 +60,6 @@ const PerformanceChart: React.FC<{ data: number[] }> = ({ data }) => {
   return <HighchartsReact highcharts={Highcharts} options={options} />;
 };
 const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
-  const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set the number of items per page
 
   const columnHelper = createColumnHelper<NonRootNeuronObj>();
@@ -128,17 +127,6 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
     []
   );
 
-  const handlePageChange = useCallback((pageIndex: number) => {
-    setCurrentPage(pageIndex);
-  }, []);
-
-  // const paginatedData = useMemo(() => {
-  //   if (!validators) return [];
-  //   const startIndex = (currentPage - 1) * itemsPerPage;
-  //   const endIndex = startIndex + itemsPerPage;
-  //   return validators.slice(startIndex, endIndex);
-  // }, [validators, currentPage, itemsPerPage]);
-
   return (
     <div className="pb-[30px]">
       <Datatablev2
@@ -150,10 +138,6 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
         tooltipShowingXofY={false}
       />
       <div className="mt-3"></div>
-      {/* <Pagination
-        totalPages={Math.ceil((validators?.length || 0) / itemsPerPage)}
-        handlePageChange={handlePageChange}
-      /> */}
     </div>
   );
 };

@@ -96,6 +96,7 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
         cell: (info) => {
           return Number(info.getValue()).toFixed(9);
         },
+        enableSorting: true,
         sortingFn: (rowA, rowB) => {
           return Number(rowA.original.trust) - Number(rowB.original.trust); // Access minerWeight from original data
         },
