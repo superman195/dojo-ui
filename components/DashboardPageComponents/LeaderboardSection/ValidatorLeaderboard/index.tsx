@@ -97,9 +97,15 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
         enableSorting: true,
       }),
       columnHelper.accessor('emission', {
-        header: 'Emission',
+        header: 'Daily Emission',
         size: 100,
-        cell: (info) => info.getValue().toFixed(6),
+        cell: (info) => `${info.getValue().toFixed(6)} τ`,
+        enableSorting: true,
+      }),
+      columnHelper.accessor('totalEmission', {
+        header: 'Lifetime Emission',
+        size: 100,
+        cell: (info) => `${info.getValue().toFixed(6)} τ`,
         enableSorting: true,
       }),
       columnHelper.accessor('stakedAmt', {

@@ -30,6 +30,8 @@ export interface SubnetData {
 }
 
 export interface NonRootNeuronObj {
+  totalEmission: number;
+  position: any;
   uid: number;
   hotkey: string;
   rank: number;

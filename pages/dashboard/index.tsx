@@ -35,14 +35,17 @@ const DashboardPage: React.FC<Props> = ({ delegates }) => {
     const validators: NonRootNeuronObj[] = [];
 
     subnetData?.nonRootNeurons.forEach((data) => {
+      const totalEmission = data.historicalEmissions.reduce((sum, { emission }) => sum + emission, 0);
+      const neuronWithEmission = { ...data, totalEmission };
+
       const matchedValidator = delegateKeys.find((key) => key === data.hotkey);
       if (matchedValidator) {
-        console.log(matchedValidator);
-        validators.push(data);
+        validators.push(neuronWithEmission);
       } else {
-        miners.push(data);
+        miners.push(neuronWithEmission);
       }
     });
+
     setMinerData(miners);
     setValidatorData(validators);
   }, [delegates, subnetData]);
