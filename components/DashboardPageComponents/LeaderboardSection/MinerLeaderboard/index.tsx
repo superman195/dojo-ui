@@ -1,5 +1,4 @@
 import Datatablev2 from '@/components/Common/DataTable/Datatablev2';
-import { Pagination } from '@/components/Common/Pagination';
 import { NonRootNeuronObj } from '@/types/DashboardTypes';
 import { getFirstAndLastCharacters } from '@/utils/math_helpers';
 import { createColumnHelper } from '@tanstack/react-table';
@@ -135,12 +134,12 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
     setCurrentPage(pageIndex);
   }, []);
 
-  const paginatedData = useMemo(() => {
-    if (!miners) return [];
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return miners.slice(startIndex, endIndex);
-  }, [miners, currentPage, itemsPerPage]);
+  // const paginatedData = useMemo(() => {
+  //   if (!miners) return [];
+  //   const startIndex = (currentPage - 1) * itemsPerPage;
+  //   const endIndex = startIndex + itemsPerPage;
+  //   return miners.slice(startIndex, endIndex);
+  // }, [miners, currentPage, itemsPerPage]);
 
   return (
     <div className="pb-[30px]">
@@ -148,11 +147,11 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
         tableClassName="max-w-[892px]"
         minColumnSize={20}
         columnDef={columns}
-        data={paginatedData}
+        data={miners ?? []}
         pageSize={itemsPerPage}
       />
       <div className="mt-3"></div>
-      <Pagination totalPages={Math.ceil((miners?.length || 0) / itemsPerPage)} handlePageChange={handlePageChange} />
+      {/* <Pagination totalPages={Math.ceil((miners?.length || 0) / itemsPerPage)} handlePageChange={handlePageChange} /> */}
     </div>
   );
 };

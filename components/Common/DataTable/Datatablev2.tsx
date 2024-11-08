@@ -19,7 +19,14 @@ import { HTMLAttributes, useEffect, useRef, useState } from 'react';
 
 import { wait } from '@/utils/general_helpers';
 import { cn } from '@/utils/tw';
-import { IconArrowsSort, IconSortAscending, IconSortDescending } from '@tabler/icons-react';
+import { FontSpaceMono } from '@/utils/typography';
+import {
+  IconArrowsSort,
+  IconChevronsLeft,
+  IconChevronsRight,
+  IconSortAscending,
+  IconSortDescending,
+} from '@tabler/icons-react';
 import React from 'react';
 import { BrutCard } from '../CustomComponents/brut-card';
 import Shimmers from '../CustomComponents/shimmers';
@@ -301,7 +308,6 @@ const Datatablev2 = ({
   return (
     <div className="flex w-full flex-col gap-[8px]">
       {/* Table controls */}
-
       {showTooltipShowingXofY && (
         <span className={cn('text-xs text-muted-foreground')}>
           Showing{' '}
@@ -425,6 +431,70 @@ const Datatablev2 = ({
           )}
         </table>
       </BrutCard>
+      {table.getPageCount() > 1 && (
+        //pagination section
+        <div className="mt-[10px] flex items-center justify-end gap-[8px]">
+          <button
+            disabled={!table.getCanPreviousPage()}
+            onClick={prevPageHandler}
+            className={cn(
+              FontSpaceMono.className,
+              !table.getCanPreviousPage() && 'text-muted bg-transparent border-none',
+              'font-bold p-0'
+            )}
+          >
+            PREV
+          </button>
+          <button
+            onClick={firstPageOnClickHandler}
+            className={cn(
+              'flex aspect-square h-[30px] items-center justify-center p-0',
+              table.getState().pagination.pageIndex == 0 ? 'text-muted' : 'text-font-primary'
+            )}
+          >
+            <IconChevronsLeft />
+          </button>
+          {pageControlPagesShown.map((v, i) => {
+            return (
+              <button
+                onClick={() => {
+                  goToPageOnClickHandler(v);
+                }}
+                className={cn(
+                  FontSpaceMono.className,
+                  'font-bold p-0',
+                  table.getState().pagination.pageIndex + 1 == v ? 'text-black' : ' text-font-primary/40'
+                )}
+                key={`pageControlPages_${i}`}
+              >
+                {v}
+              </button>
+            );
+          })}
+          <button
+            onClick={lastPageOnClickHandler}
+            className={cn(
+              'flex aspect-square h-[30px] items-center justify-center p-0',
+              table.getState().pagination.pageIndex + 1 == table.getPageCount() || table.getPageCount() == 0
+                ? 'text-muted'
+                : 'text-font-primary'
+            )}
+          >
+            <IconChevronsRight />
+          </button>
+          <button
+            disabled={!table.getCanNextPage()}
+            onClick={nextPageHandler}
+            className={cn(
+              FontSpaceMono.className,
+              !table.getCanNextPage() && 'text-muted bg-transparent border-none',
+              'font-bold p-0'
+            )}
+          >
+            NEXT
+          </button>
+        </div>
+      )}
     </div>
   );
 };

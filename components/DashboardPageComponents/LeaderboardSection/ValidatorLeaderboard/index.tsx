@@ -1,5 +1,4 @@
 import Datatablev2 from '@/components/Common/DataTable/Datatablev2';
-import { Pagination } from '@/components/Common/Pagination';
 import { NonRootNeuronObj } from '@/types/DashboardTypes';
 import { getFirstAndLastCharacters } from '@/utils/math_helpers';
 import { createColumnHelper } from '@tanstack/react-table';
@@ -127,12 +126,12 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
     setCurrentPage(pageIndex);
   }, []);
 
-  const paginatedData = useMemo(() => {
-    if (!validators) return [];
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return validators.slice(startIndex, endIndex);
-  }, [validators, currentPage, itemsPerPage]);
+  // const paginatedData = useMemo(() => {
+  //   if (!validators) return [];
+  //   const startIndex = (currentPage - 1) * itemsPerPage;
+  //   const endIndex = startIndex + itemsPerPage;
+  //   return validators.slice(startIndex, endIndex);
+  // }, [validators, currentPage, itemsPerPage]);
 
   return (
     <div className="pb-[30px]">
@@ -140,14 +139,15 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
         tableClassName="max-w-[892px]"
         minColumnSize={20}
         columnDef={columns}
-        data={paginatedData}
+        data={validators ?? []}
         pageSize={itemsPerPage}
+        tooltipShowingXofY={false}
       />
       <div className="mt-3"></div>
-      <Pagination
+      {/* <Pagination
         totalPages={Math.ceil((validators?.length || 0) / itemsPerPage)}
         handlePageChange={handlePageChange}
-      />
+      /> */}
     </div>
   );
 };
