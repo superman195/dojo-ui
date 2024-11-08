@@ -10,13 +10,17 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   Row,
+  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
 import { HTMLAttributes, useEffect, useRef, useState } from 'react';
 
 import { wait } from '@/utils/general_helpers';
 import { cn } from '@/utils/tw';
+import { IconArrowsSort, IconSortAscending, IconSortDescending } from '@tabler/icons-react';
+import React from 'react';
 import { BrutCard } from '../CustomComponents/brut-card';
 import Shimmers from '../CustomComponents/shimmers';
 
@@ -48,6 +52,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   isLastSticky?: boolean;
   globalFilter?: string;
   getRowCanExpand?: (row: Row<any>) => boolean;
+  onSortingChange?: (sorting: any) => void;
 }
 
 export interface dateRangeType {
@@ -78,6 +83,7 @@ const Datatablev2 = ({
   globalFilter = '',
   containerClassName,
   getRowCanExpand,
+  onSortingChange,
   ...props
 }: Props) => {
   // Configuration
@@ -91,6 +97,7 @@ const Datatablev2 = ({
   // const [globalFilter, setGlobalFiltering] = useState('');
   const [allFilters, setAllFilters] = useState<filterControlState>(); //Filter controls state to store all
   const [columnFilterState, setColumnFilterState] = useState<ColumnFilter[]>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const tableContainerRef = useRef<HTMLDivElement>(null);
 
@@ -101,7 +108,14 @@ const Datatablev2 = ({
 
   const table = useReactTable({
     data: data,
-    columns: columnDef,
+    columns: React.useMemo(
+      () =>
+        columnDef.map((column) => ({
+          ...column,
+          enableSorting: column.enableSorting ?? false,
+        })),
+      [columnDef]
+    ),
     defaultColumn: {
       size: tableDefaultColumnSize,
       minSize: tableMinColumnSize,
@@ -109,12 +123,18 @@ const Datatablev2 = ({
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: (updater) => {
+      const newSorting = typeof updater === 'function' ? updater(sorting) : updater;
+      setSorting(newSorting);
+      onSortingChange?.(newSorting);
+    },
     initialState: { pagination: { pageSize: initialPageSize } },
     state: {
       globalFilter: globalFilter,
       columnFilters: columnFilterState,
       columnVisibility: columnVisibility,
-      pagination: { pageSize: initialPageSize, pageIndex: 0 },
+      sorting,
     },
     getRowCanExpand: getRowCanExpand,
     enableExpanding: getRowCanExpand ? true : false,
@@ -292,7 +312,8 @@ const Datatablev2 = ({
             table.getFilteredRowModel().rows.length,
             (table.getState().pagination.pageIndex + 1) * initialPageSize
           )}{' '}
-          of {table.getFilteredRowModel().rows.length}
+          of {table.getFilteredRowModel().rows.length}..
+          {table.getFilteredRowModel().rows.length}
         </span>
       )}
       <BrutCard
@@ -323,11 +344,13 @@ const Datatablev2 = ({
               <tr className="" key={hg.id}>
                 {hg.headers.map((header, idx) => (
                   <th
+                    onClick={header.column.getToggleSortingHandler()}
                     key={header.id}
                     className={cn(
                       'text-start px-[12px] py-[6px]',
                       headerCellClassName,
-                      idx === hg.headers.length - 1 && isLastSticky && 'sticky-column'
+                      idx === hg.headers.length - 1 && isLastSticky && 'sticky-column',
+                      header.column.getCanSort() && 'cursor-pointer'
                     )}
                     style={{
                       boxShadow:
@@ -339,7 +362,16 @@ const Datatablev2 = ({
                       minWidth: header.column.getSize() == 0 ? 'auto' : `${header.column.getSize()}px`,
                     }}
                   >
-                    {flexRender(header.column.columnDef.header, header.getContext())}
+                    <div className="flex items-center gap-[3px]">
+                      {flexRender(header.column.columnDef.header, header.getContext())}
+                      {{
+                        asc: <IconSortAscending size={16} />,
+                        desc: <IconSortDescending size={16} />,
+                      }[header.column.getIsSorted() as string] ??
+                        (header.column.getCanSort() ? (
+                          <IconArrowsSort className="text-font-primary/40" size={16} />
+                        ) : null)}
+                    </div>
                   </th>
                 ))}
               </tr>
