@@ -71,7 +71,7 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
     () => [
       columnHelper.display({
         id: 'position',
-        header: 'Position',
+        header: 'Pos.',
         size: 50,
         cell: (info) => `#${info.row.index + 1}`,
       }),
@@ -82,17 +82,18 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
       }),
       columnHelper.accessor('hotkey', {
         header: 'Hot Key',
-        size: 100,
+        size: 110,
         cell: (info) => getFirstAndLastCharacters(info.getValue(), 5),
       }),
       columnHelper.accessor('coldkey', {
         header: 'Cold Key',
-        size: 100,
+        size: 110,
         cell: (info) => getFirstAndLastCharacters(info.getValue(), 5),
       }),
       columnHelper.accessor('trust', {
         header: 'mTrust',
         size: 100,
+        enableSorting: true,
         cell: (info) => {
           return Number(info.getValue()).toFixed(9);
         },
@@ -150,7 +151,7 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
   return (
     <div className="pb-[30px]">
       <Datatablev2
-        tableClassName="max-w-[892px]"
+        tableClassName="min-w-[892px]"
         minColumnSize={20}
         columnDef={columns}
         data={miners ?? []}
