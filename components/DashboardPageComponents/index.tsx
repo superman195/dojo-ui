@@ -1,6 +1,6 @@
 import DashboardGraphAndMetrics from './DashboardGraphAndMetrics';
 import DashboardHeader from './DashboardHeader';
 import LeaderboardSection from './LeaderboardSection';
-import Leaderboard from './LeaderboardSection/Leaderboard';
+import MinerLeaderboard from './LeaderboardSection/MinerLeaderboard';
 
-export { DashboardGraphAndMetrics, DashboardHeader, Leaderboard, LeaderboardSection };
+export { DashboardGraphAndMetrics, DashboardHeader, LeaderboardSection, MinerLeaderboard };

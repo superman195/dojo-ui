@@ -30,6 +30,8 @@ export interface SubnetData {
 }
 
 export interface NonRootNeuronObj {
+  totalEmission: number;
+  position: any;
   uid: number;
   hotkey: string;
   rank: number;
@@ -37,7 +39,7 @@ export interface NonRootNeuronObj {
   stakedAmt: number;
   minerWeight: number;
   performanceData: number[];
-  historicalEmissions?: HistoricalEmission[];
+  historicalEmissions: HistoricalEmission[];
   coldkey: string;
 
   netuid: number;

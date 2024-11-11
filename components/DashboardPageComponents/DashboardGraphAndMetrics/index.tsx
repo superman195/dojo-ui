@@ -1,3 +1,5 @@
+import useCompletedTasksCount from '@/hooks/useCompletedTasksCount';
+import { abbreviateNumber } from '@/utils/math_helpers';
 import { FontSpaceMono } from '@/utils/typography';
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts/highstock';
@@ -43,7 +45,7 @@ interface DashboardGraphAndMetricsProps {
 
 function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraphAndMetricsProps) {
   const [chartOptions, setChartOptions] = useState<Highcharts.Options>({});
-
+  const { numCompletedTasks, loading: completedTasksLoading, error: completedTasksError } = useCompletedTasksCount();
   useEffect(() => {
     if (!subnetData || subnetData.historicalSubnetEmissions.length < 2) {
       console.warn('Not enough data points for the chart');
@@ -61,7 +63,7 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
         style: { fontFamily: 'Arial, sans-serif' },
       },
       title: {
-        text: 'CUMULATIVE EMISSIONS PAST 30 DAYS',
+        text: 'LIVE EMISSIONS PAST 30 DAYS',
         align: 'left',
         style: {
           fontSize: '16px',
@@ -216,7 +218,10 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
   const kpiMetrics = [
     { label: 'TOTAL EMISSIONS', value: subnetData ? subnetData.totalEmissions.toFixed(2) + ' τ' : 'N/A' },
     { label: 'MINER COUNT', value: subnetData ? subnetData.minerCount : 'N/A' },
-    { label: 'EMISSION PCT', value: subnetData ? subnetData.emissionPct.toFixed(2) + '%' : 'N/A' },
+    {
+      label: 'TASK COUNT',
+      value: completedTasksLoading ? '0' : numCompletedTasks ? abbreviateNumber(numCompletedTasks) : 'N/A',
+    },
   ];
 
   if (error) {
@@ -236,7 +241,7 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
               {loading ? (
                 <div className={`${FontSpaceMono.className} h-8 w-24 animate-pulse bg-gray-200 lg:h-10 lg:w-36`}></div>
               ) : (
-                <div className={`${FontSpaceMono.className} text-2xl font-bold lg:text-4xl`}>{metric.value}</div>
+                <div className={`text-2xl font-bold lg:text-4xl`}>{metric.value}</div>
               )}
             </div>
           ))}
