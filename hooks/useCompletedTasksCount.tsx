@@ -21,7 +21,7 @@ const useCompletedTasksCount = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: ['completedTasksCount'],
     queryFn: fetchCompletedTasksCount,
-    refetchInterval: 1500,
+    refetchInterval: 10000,
   });
 
   const numCompletedTasks = data?.success && data.body ? parseInt(data.body.numCompletedTasks, 10) : null;
