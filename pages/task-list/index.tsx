@@ -24,7 +24,7 @@ import {
 } from '@tabler/icons-react';
 import { useSearchParams } from 'next/navigation';
 import { NextRouter, useRouter } from 'next/router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAccount } from 'wagmi';
 
 import { Button } from '@/components/Common/Button';
@@ -37,15 +37,15 @@ import TasktypePill from '@/components/QuestionPageComponents/TaskPrompt/tasktyp
 import CategoryItem from '@/components/TaskListPageComponents/CategoryList/CategoryItem';
 import { ALL_CATEGORY } from '@/constants';
 import useFeature from '@/hooks/useFeature';
+import useSaveSortLocalStorage from '@/hooks/useSaveSortLocalStorage';
 import Layout from '@/layout';
 import { ButtonState } from '@/types/CommonTypes';
 import { MODAL } from '@/types/ProvidersTypes';
 import { Task } from '@/types/QuestionPageTypes';
-import { tasklistFull } from '@/utils/states';
 import { cn } from '@/utils/tw';
 import { ColumnDef, Row } from '@tanstack/react-table';
 import Head from 'next/head';
-
+const countdownTimerAutoFetchTask = 120;
 const getCategoryObjectsFromUrlQuery = (query: string | string[] | undefined, baseCategories: any[]) => {
   if (!query) return [];
   if (typeof query === 'string') {
@@ -136,7 +136,7 @@ const RenderButton = (id: string, state: ButtonState, router: NextRouter, exp: b
   }
   return (
     <Tooltip className="w-fit" tooltipContent={tooltipContent} showCondition={!!state.text.toLowerCase()}>
-      <button
+      {/* <button
         onClick={() => {
           if (exp) {
             const currTask = tasklistFull.find((t) => t.taskId === id);
@@ -153,7 +153,17 @@ const RenderButton = (id: string, state: ButtonState, router: NextRouter, exp: b
         )}
       >
         {state.text}
-      </button>
+      </button> */}
+      <a
+        href={state.disabled ? '' : exp ? `/Questions?taskId=${id}&exp=demo` : `/Questions?taskId=${id}`}
+        className={cn(
+          'uppercase h-[40px] font-bold border-[2px] rounded-sm border-black w-[113px] bg-primary text-white disabled:cursor-not-allowed',
+          FontSpaceMono.className,
+          state.disabled && 'pointer-events-none bg-gray-400 '
+        )}
+      >
+        <span className="flex size-full items-center justify-center">{state.text}</span>
+      </a>
     </Tooltip>
   );
 };
@@ -162,12 +172,13 @@ export default function Index() {
   const [activeCategories, setActiveCategories] = useState<string[]>([ALL_CATEGORY]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [showUserCard, setShowUserCard] = useState(false);
-  const [countdown, setCountdown] = useState(120);
+  const [countdown, setCountdown] = useState(countdownTimerAutoFetchTask);
 
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const { openModal } = useModal(MODAL.wallet);
-  const { updateSorting } = useSorting();
+  const { updateSorting, updateOrderSorting } = useSorting();
+  const { applySortToUrl } = useSaveSortLocalStorage();
   const { isDropdownOpen, handleToggle, handleClickOutside, dropdownRef } = useDropdown();
   const { address, isConnected } = useAccount();
   const { triggerTaskPageReload } = useSubmit();
@@ -276,15 +287,25 @@ export default function Index() {
     yieldMin ? parseInt(yieldMin as string) : undefined,
     yieldMax ? parseInt(yieldMax as string) : undefined
   );
+
   const { partners } = usePartnerList(triggerTaskPageReload);
-  const handlePollingTasks = useCallback(async () => {
-    if (countdown === 0) {
-      await refetchTasks();
-      setCountdown(120); // Reset the countdown only after refetchTasks completes
-    } else {
-      setCountdown((prev) => prev - 1); // Decrease the countdown
-    }
-  }, [countdown, refetchTasks]);
+  const countdownRef = useRef(countdownTimerAutoFetchTask);
+
+  useEffect(() => {
+    const timer = setInterval(async () => {
+      if (countdownRef.current == 0) {
+        countdownRef.current = countdownTimerAutoFetchTask + 1;
+        await refetchTasks();
+      } else {
+        countdownRef.current -= 1;
+      }
+      setCountdown(countdownRef.current); // Update the state for display purposes
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [refetchTasks]);
 
   useEffect(() => {
     if (!isAuthenticated || !isConnected) return;
@@ -293,11 +314,6 @@ export default function Index() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [handleClickOutside]);
-
-  useEffect(() => {
-    const timer = setInterval(handlePollingTasks, 1000);
-    return () => clearInterval(timer);
-  }, [handlePollingTasks]);
 
   const handleCategoryClick = useCallback(
     (categoryLabel: string) => {
@@ -331,25 +347,10 @@ export default function Index() {
     },
     [router, categories]
   );
-
-  const updateOrderSorting = useCallback(
-    (sort: string) => {
-      const newQuery = {
-        ...router.query,
-        order: sort,
-      };
-
-      router.replace(
-        {
-          pathname: router.pathname,
-          query: newQuery,
-        },
-        undefined,
-        { shallow: true }
-      );
-    },
-    [router]
-  );
+  useEffect(() => {
+    // Apply the sorting from local storage when the component mounts
+    applySortToUrl();
+  }, []);
 
   const handlePageChange = (pageIndex: number | string) => {
     setCurrentPage(pageIndex.toString());

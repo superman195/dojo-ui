@@ -1,7 +1,9 @@
 import useFeature from '@/hooks/useFeature';
+import useGetNextInProgressTask from '@/hooks/useGetNextTask';
 import { useSubmitTaskNew } from '@/hooks/useSubmitTaskNew';
 import { RankOrder, SubmitContextType } from '@/types/ProvidersTypes';
 import { CriterionWithResponses, Task } from '@/types/QuestionPageTypes';
+import { getTaskIdFromRouter } from '@/utils/general_helpers';
 import { useRouter } from 'next/router';
 import React, { ReactNode, createContext, useCallback, useContext, useState } from 'react';
 
@@ -19,6 +21,7 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [criterionForResponse, setCriterionForResponse] = useState<CriterionWithResponses[]>([]);
   const { submitTask, error, resetError: resetSubmissionError, response } = useSubmitTaskNew();
   const [multiSelectData, setMultiSelectData] = useState<string[]>([]);
+  const { fetchNextInProgressTask } = useGetNextInProgressTask();
   const [rankingData, setRankingData] = useState<any>();
   const [scoreData, setScoreData] = useState<number>(0);
   const [multiScore, setMultiScore] = useState<any>();
@@ -96,18 +99,28 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       ...task.taskData.criteria.map((c) => ({ ...c, type: c.type as any, responses: undefined })),
     ]); //Setting up the initial state with responses
   }, []);
-  const submitTaskNew = useCallback(async () => {
-    //Prepare the results data first
-    const resultData = criterionForResponse.map((c) => {
-      return { type: c.type, value: c.responses };
-    });
-    const submitTaskRes = await submitTask(resultData as any);
-    if (submitTaskRes?.success) {
-      resetSubmissionError();
-      router.push('/task-list');
-    }
-    //Then call the submit api
-  }, [criterionForResponse]);
+  const submitTaskNew = useCallback(
+    async (preCallback?: (flag: boolean) => void, postCallback?: (flag: boolean) => void) => {
+      if (!router) return;
+      //Prepare the results data first
+      const resultData = criterionForResponse.map((c) => {
+        return { type: c.type, value: c.responses };
+      });
+      preCallback?.(true);
+      const submitTaskRes = await submitTask(resultData as any);
+      if (submitTaskRes?.success) {
+        resetSubmissionError();
+        postCallback?.(true);
+        const nextTaskResponse = await fetchNextInProgressTask(getTaskIdFromRouter(router));
+        if (nextTaskResponse) router.replace(`/Questions?taskId=${nextTaskResponse.nextInProgressTaskId}`);
+        else router.push('/task-list');
+      } else {
+        postCallback?.(false);
+      }
+      //Then call the submit api
+    },
+    [criterionForResponse]
+  );
 
   const handleSetIsMultiSelectQuestion = (value: boolean) => {
     setIsMultiSelectQuestion(value);

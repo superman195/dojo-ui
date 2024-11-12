@@ -32,4 +32,10 @@ const retry = async <T>(
   }
   throw new Error('Max retries exceeded.'); // Throw the error if max retries exceeded
 };
-export { clearLocalStorage, getFromLocalStorage, retry, wait };
+
+const getTaskIdFromRouter = (router: any) => {
+  if (!router) return '';
+  if (typeof router.query.taskId === 'string') return router.query.taskId;
+  return '';
+};
+export { clearLocalStorage, getFromLocalStorage, getTaskIdFromRouter, retry, wait };

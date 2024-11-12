@@ -1,3 +1,4 @@
+import { wait } from '@/utils/general_helpers';
 import { csp_source_whitelist } from '@/utils/states';
 import { useEffect, useRef, useState } from 'react';
 const decodeString = (encodedString: string): string => {
@@ -19,6 +20,25 @@ const replaceLinksWithBlanks = (html: string): string => {
 
   return html;
 };
+const extractScriptContent = (html: string): { scriptContent: string; remainingHtml: string } => {
+  const scriptRegex = /<script[^>]*>([\s\S]*?)<\/script>/gi;
+  let extractedContent = '';
+
+  // Replace only script tags without src attribute and collect their content
+  const remainingHtml = html.replace(scriptRegex, (match, content, offset) => {
+    // Check if the script tag has a src attribute
+    if (match.includes('src=')) {
+      return match; // Keep external scripts intact
+    }
+    extractedContent += content + '\n';
+    return ''; // Remove inline script tags from HTML
+  });
+
+  return {
+    scriptContent: extractedContent.trim(),
+    remainingHtml,
+  };
+};
 
 interface CodegenVisProps {
   encodedHtml: string;
@@ -36,10 +56,33 @@ const featurePolicy = `<meta http-equiv="Feature-Policy" content="
 const decodedCSP = `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' ${csp_source_whitelist.join(' ')}; style-src 'unsafe-inline'; media-src 'self' blob: data:; img-src data: blob: https://threejsfundamentals.org; connect-src 'none'; form-action 'none'; base-uri 'none';">`;
 const iFrameStyles = `
 body {
-
-
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  // overflow: hidden;
 }
+
+canvas {
+  // width: 100% !important;
+  // height: 100% !important;
+  // display: block;
+  // min-width: 400px;
+  // min-height: 400px;
+  // /* Add these properties to force hardware acceleration and prevent layout issues */
+  // transform: translateZ(0);
+  // backface-visibility: hidden;
+  // perspective: 1000;
+}
+
 #content-wrapper {
+  width: 100%;
+  height: 100vh;
+  /* Add this to ensure proper sizing */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 /* Scrollbar styles */
 ::-webkit-scrollbar {
@@ -76,7 +119,9 @@ body {
 }
 `;
 const decodedJsSecurity = `
-      (function() {
+document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(() => {      
+(function() {
         // Clear any existing globals if want to be eeven more finegrained. but some prompt response may fail to run
         // Object.keys(window).forEach(key => {
         //   if (['location'].includes(key)) {
@@ -154,7 +199,10 @@ const decodedJsSecurity = `
         // console.log("iframe eth in window",'ethereum' in window)
         // console.log("iframe has cookies",!!document.cookie)
         // console.log("iframe has localstorage",localStorage)
+        ##JS_CONTENT##
       })();
+          }, 100);
+      });
     `;
 
 const htmlSanitize = (payload: string) => {
@@ -171,20 +219,39 @@ const CodegenViewer = ({ encodedHtml }: CodegenVisProps) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [iframeSrc, setIframeSrc] = useState<string | null>(null);
   const [urlString, setUrlString] = useState('');
+
+  // This is to ensure that the iframe is resized on load and set back to 100% width height
+  // Because canvas cannot load sometimes if its 100%, so need to set static
+  const handleIframeLoad = async () => {
+    if (!iframeRef.current) return;
+    // Initial size adjustment if needed
+    const parent = iframeRef.current.parentElement;
+    if (parent) {
+      iframeRef.current.style.width = `${parent.offsetWidth}px`;
+      iframeRef.current.style.height = `${parent.offsetHeight}px`;
+      await wait(100);
+      iframeRef.current.style.width = '100%';
+      iframeRef.current.style.height = '100%';
+    }
+  };
+
   useEffect(() => {
     // console.log('parent eth in window', 'ethereum' in window);
     // console.log('parent has cookies', !!document.cookie);
     // console.log('parent has localstorage', localStorage);
     let url = '';
     try {
-      const decodedHtml = decodeString(encodedHtml);
-
+      let decodedHtml = decodeString(encodedHtml);
+      const { scriptContent, remainingHtml } = extractScriptContent(decodedHtml);
+      decodedHtml = remainingHtml;
+      const modifiedJs = decodedJsSecurity.replace('##JS_CONTENT##', scriptContent);
       const blob = new Blob(
         [
           htmlSanitize(
             decodedHtml
               .replace(/<head>/, `<head>${decodedCSP}${featurePolicy}`)
-              .replace(/<script/, `<script>${decodedJsSecurity}</script><script`)
+              .replace(/<\/body/, `<script>${modifiedJs}</script></body`)
+              // .replace(/<script/, `<script>${decodedJsSecurity}</script><script`)
               .replace(/<style>/, `<style>${iFrameStyles}`)
           ),
         ],
@@ -210,7 +277,8 @@ const CodegenViewer = ({ encodedHtml }: CodegenVisProps) => {
       src={iframeSrc || ''}
       title="Dynamic Visualization"
       style={{ border: 'none', display: 'block' }}
-      className="aspect-[16/9] w-full"
+      className="aspect-square w-full min-w-[400px]"
+      onLoad={handleIframeLoad}
     />
   );
 };
