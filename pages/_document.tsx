@@ -14,7 +14,7 @@ function generateCSP() {
     'style-src': ["'self'", "'unsafe-inline'"], // nonce to be implemented
     'img-src': ["'self'", 'data:', 'https:'],
     'font-src': ["'self'"],
-    'frame-src': ['blob: data:', 'https://verify.walletconnect.org'],
+    'frame-src': ['blob: data:', 'https://verify.walletconnect.org', "'self'"],
     'connect-src': [
       "'self'",
       'https://*.tensorplex.ai',
@@ -25,7 +25,7 @@ function generateCSP() {
     ],
     'worker-src': ["'self'", 'blob:'],
     'media-src': ["'self'", 'blob: data:'],
-    'object-src': ["'none'"],
+    'object-src': ["'self'"],
     'child-src': ["'none'"],
     'form-action': ["'self'"],
     'base-uri': ["'self'"],
