@@ -55,7 +55,7 @@ const HeroCardSection = () => {
           </div>
           <hr className="border-black" />
           <div className="mt-6 flex flex-col gap-4 md:flex-row">
-            <div>
+            {/* <div>
               <h3
                 className={`uppercase ${FontSpaceMono.className} text-lg font-bold text-gray-500 sm:text-lg md:text-sm xl:text-base`}
               >
@@ -73,7 +73,7 @@ const HeroCardSection = () => {
                   formattingFn={formatTime}
                 />
               </h3>
-            </div>
+            </div> */}
             <div>
               <h3
                 className={`uppercase ${FontSpaceMono.className} text-base font-bold text-gray-500 sm:text-lg md:text-sm xl:text-base`}
@@ -104,7 +104,7 @@ const HeroCardSection = () => {
           <div className="static left-4 flex w-full items-center self-center p-0 md:absolute md:w-[70vw] lg:w-[50vw] lg:min-w-[500px] lg:max-w-[900px]">
             <Image
               alt="Tensorplex Dojo user interface example"
-              src="/hero-kv.png"
+              src="/hero-banner-img.gif"
               width={1742}
               height={1236}
               className="w-full rounded-xl border-2 border-solid border-black shadow-brut-sm"

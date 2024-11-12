@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
 enum MetricsType {
   TOTAL_NUM_COMPLETED_TASKS = 'total_num_completed_tasks',
@@ -12,36 +12,25 @@ interface CompletedTasksCountResponse {
   error: string | null;
 }
 
+const fetchCompletedTasksCount = async (): Promise<CompletedTasksCountResponse> => {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/metrics/completed-tasks-count`);
+  return response.json();
+};
+
 const useCompletedTasksCount = () => {
-  const [numCompletedTasks, setNumCompletedTasks] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['completedTasksCount'],
+    queryFn: fetchCompletedTasksCount,
+    refetchInterval: 10000,
+  });
 
-  useEffect(() => {
-    const fetchCompletedTasksCount = async () => {
-      try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/metrics/completed-tasks-count`);
-        const data: CompletedTasksCountResponse = await response.json();
+  const numCompletedTasks = data?.success && data.body ? parseInt(data.body.numCompletedTasks, 10) : null;
 
-        if (data.success && data.body) {
-          setNumCompletedTasks(parseInt(data.body.numCompletedTasks, 10));
-          setError(null);
-        } else {
-          setNumCompletedTasks(null);
-          setError(data.error || 'Unknown error occurred');
-        }
-      } catch (error) {
-        setNumCompletedTasks(null);
-        setError('Failed to fetch completed tasks count');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCompletedTasksCount();
-  }, []);
-
-  return { numCompletedTasks, loading, error };
+  return {
+    numCompletedTasks,
+    loading: isLoading,
+    error: error ? 'Failed to fetch completed tasks count' : data?.error || null,
+  };
 };
 
 export default useCompletedTasksCount;
