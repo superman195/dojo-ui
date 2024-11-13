@@ -28,19 +28,19 @@ const LeaderboardSection: React.FC<LeaderboardSectionProps> = ({ miners, validat
         <h2 className={`${FontSpaceMono.className} text-4xl font-bold uppercase`}>
           {showValidators ? 'Validators' : 'Miners'} LEADERBOARD
         </h2>
-        <label className="flex cursor-pointer items-center">
+        <label className="flex cursor-pointer items-center gap-3">
+          <span className={`${FontManrope.className} font-semibold text-gray-700`}>
+            Showing: {showValidators ? 'Validators' : 'Miners'}
+          </span>
           <div className="relative">
             <input type="checkbox" checked={showValidators} onChange={toggleLeaderboard} className="sr-only" />
-            <div className="block h-8 w-14 rounded-full bg-gray-600"></div>
+            <div className="block h-6 w-10 rounded-full bg-gray-600"></div>
             <div
-              className={`dot absolute left-1 top-1 size-6 rounded-full bg-white transition ${
+              className={`absolute left-1 top-1 size-4 rounded-full bg-white transition ${
                 showValidators ? 'translate-x-full bg-[#00B6A6]' : ''
               }`}
             ></div>
           </div>
-          <span className={`${FontManrope.className} ml-3 font-semibold text-gray-700`}>
-            {showValidators ? 'Show Miners' : 'Show Validators'}
-          </span>
         </label>
       </div>
       {showValidators ? (

@@ -371,11 +371,11 @@ const Datatablev2 = ({
                     <div className="flex items-center gap-[3px]">
                       {flexRender(header.column.columnDef.header, header.getContext())}
                       {{
-                        asc: <IconSortAscending size={16} />,
-                        desc: <IconSortDescending size={16} />,
+                        asc: <IconSortAscending className="shrink-0" size={16} />,
+                        desc: <IconSortDescending className="shrink-0" size={16} />,
                       }[header.column.getIsSorted() as string] ??
                         (header.column.getCanSort() ? (
-                          <IconArrowsSort className="text-font-primary/40" size={16} />
+                          <IconArrowsSort className="shrink-0 text-font-primary/40" size={16} />
                         ) : null)}
                     </div>
                   </th>

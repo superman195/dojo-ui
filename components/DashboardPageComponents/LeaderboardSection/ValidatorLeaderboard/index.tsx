@@ -68,7 +68,7 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
     () => [
       columnHelper.display({
         id: 'position',
-        header: 'Position',
+        header: 'Pos.',
         size: 50,
         cell: (info) => `#${info.row.index + 1}`,
       }),
@@ -130,7 +130,7 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
   return (
     <div className="pb-[30px]">
       <Datatablev2
-        tableClassName="max-w-[892px]"
+        tableClassName="min-w-[892px]"
         minColumnSize={20}
         columnDef={columns}
         data={validators ?? []}
