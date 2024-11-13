@@ -120,7 +120,7 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
           const emissionsData = info.getValue();
           const chartData = emissionsData.map(({ emission }) => emission);
 
-          return <PerformanceChart data={chartData} />;
+          return <PerformanceChart data={chartData.reverse()} />;
         },
       }),
     ],
