@@ -58,6 +58,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   columnVisibility?: Record<string, boolean>;
   isLastSticky?: boolean;
   globalFilter?: string;
+  showPagination?: boolean;
   getRowCanExpand?: (row: Row<any>) => boolean;
   onSortingChange?: (sorting: any) => void;
 }
@@ -91,6 +92,7 @@ const Datatablev2 = ({
   containerClassName,
   getRowCanExpand,
   onSortingChange,
+  showPagination = true,
   ...props
 }: Props) => {
   // Configuration
@@ -431,7 +433,7 @@ const Datatablev2 = ({
           )}
         </table>
       </BrutCard>
-      {table.getPageCount() > 1 && (
+      {showPagination && table.getPageCount() > 1 && (
         //pagination section
         <div className="mt-[10px] flex items-center justify-end gap-[8px]">
           <button
