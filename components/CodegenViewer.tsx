@@ -5,7 +5,6 @@ const decodeString = (encodedString: string): string => {
   return encodedString
     .replace(/\\u003c/g, '<')
     .replace(/\\u003e/g, '>')
-    .replace(/\\n/g, '\n')
     .replace(/\\"/g, '"');
 };
 
