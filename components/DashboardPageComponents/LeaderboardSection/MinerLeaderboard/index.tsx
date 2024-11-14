@@ -4,7 +4,7 @@ import { getFirstAndLastCharacters } from '@/utils/math_helpers';
 import { createColumnHelper } from '@tanstack/react-table';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 interface LeaderboardProps {
   miners: NonRootNeuronObj[] | null;
@@ -60,7 +60,6 @@ const PerformanceChart: React.FC<{ data: number[] }> = ({ data }) => {
   return <HighchartsReact highcharts={Highcharts} options={options} />;
 };
 const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
-  const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set the number of items per page
 
   const columnHelper = createColumnHelper<NonRootNeuronObj>();
@@ -127,26 +126,13 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
         size: 100,
         cell: (info) => {
           const emissionsData = info.getValue();
-          const chartData = emissionsData.map(({ emission }) => emission); // Extract only the emission values
-
-          return <PerformanceChart data={chartData} />; // Pass the array of numbers
+          const chartData = emissionsData.map(({ emission }) => emission);
+          return <PerformanceChart data={chartData.reverse()} />;
         },
-        // enableSorting: true,
       }),
     ],
     []
   );
-
-  const handlePageChange = useCallback((pageIndex: number) => {
-    setCurrentPage(pageIndex);
-  }, []);
-
-  // const paginatedData = useMemo(() => {
-  //   if (!miners) return [];
-  //   const startIndex = (currentPage - 1) * itemsPerPage;
-  //   const endIndex = startIndex + itemsPerPage;
-  //   return miners.slice(startIndex, endIndex);
-  // }, [miners, currentPage, itemsPerPage]);
 
   return (
     <div className="pb-[30px]">
@@ -158,7 +144,6 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
         pageSize={itemsPerPage}
       />
       <div className="mt-3"></div>
-      {/* <Pagination totalPages={Math.ceil((miners?.length || 0) / itemsPerPage)} handlePageChange={handlePageChange} /> */}
     </div>
   );
 };

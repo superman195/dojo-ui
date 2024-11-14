@@ -25,9 +25,7 @@ const LeaderboardSection: React.FC<LeaderboardSectionProps> = ({ miners, validat
   return (
     <>
       <div className="my-5 flex items-center justify-between">
-        <h2 className={`${FontSpaceMono.className} text-4xl font-bold uppercase`}>
-          {showValidators ? 'Validators' : 'Miners'} LEADERBOARD
-        </h2>
+        <h2 className={`${FontSpaceMono.className} text-4xl font-bold uppercase`}>LEADERBOARD</h2>
         <label className="flex cursor-pointer items-center gap-3">
           <span className={`${FontManrope.className} font-semibold text-gray-700`}>
             Showing: {showValidators ? 'Validators' : 'Miners'}

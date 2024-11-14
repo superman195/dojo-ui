@@ -477,9 +477,11 @@ export default function Index() {
               columnDef={columnDef}
               pageSize={pagination?.pageSize || 10}
               loadingState={loading}
+              showPagination={!exp ? false : true}
             />
-            <div className="mt-3"></div>
-            <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange} />
+            <div className="mt-3">
+              {!exp && <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange} />}
+            </div>
             {isAuthenticated ? (
               partners.length === 0 || tasks.length <= 0 ? (
                 <div className="text-center">
