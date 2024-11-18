@@ -34,10 +34,21 @@ const extractScriptContent = (html: string): { scriptContent: string; remainingH
   });
 
   // Checking for domcontentloaded and extracting everything within it
-  const domContentLoadedRegex = /document\.addEventListener\('DOMContentLoaded',\s*\(\)\s*=>\s*\{([\s\S]*)\}\);/;
+  const domContentLoadedRegex = /document\.addEventListener\(['"]DOMContentLoaded['"],\s*\(\)\s*=>\s*\{([\s\S]*)\}\);/;
   const domContentLoadedMatch = html.match(domContentLoadedRegex);
-  if (domContentLoadedMatch) {
+  if (domContentLoadedMatch && remainingHtml.includes('<canvas')) {
+    // This step is to ensure the initial generated script SHOULD NOT
+    // be wrapped in domcontentloaded, because i will be manually wrapping it
+    // in the codegen viewer
     extractedContent += domContentLoadedMatch[1];
+  }
+
+  // New regex to capture window load event listeners. Use while loop to loop through all matches.
+  const windowLoadRegex =
+    /window\.addEventListener\(['"]load['"],\s*(?:\(\)\s*=>|function\s*\(\)\s*)\s*\{([\s\S]*?)\}\);/g;
+  let windowLoadMatch;
+  while ((windowLoadMatch = windowLoadRegex.exec(html)) !== null) {
+    extractedContent += windowLoadMatch[1] + '\n';
   }
 
   return {
@@ -66,19 +77,10 @@ body {
   padding: 0;
   width: 100%;
   height: 100%;
-  // overflow: hidden;
 }
 
 canvas {
-  // width: 100% !important;
-  // height: 100% !important;
-  // display: block;
-  // min-width: 400px;
-  // min-height: 400px;
-  // /* Add these properties to force hardware acceleration and prevent layout issues */
-  // transform: translateZ(0);
-  // backface-visibility: hidden;
-  // perspective: 1000;
+
 }
 
 #content-wrapper {
@@ -124,11 +126,9 @@ canvas {
   background: hsl(30, 3%, 15%);
 }
 `;
-const decodedJsSecurity = `
-document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(() => {      
-(function() {
-        // Clear any existing globals if want to be eeven more finegrained. but some prompt response may fail to run
+
+const JSSecurityFull = `
+// Clear any existing globals if want to be eeven more finegrained. but some prompt response may fail to run
         // Object.keys(window).forEach(key => {
         //   if (['location'].includes(key)) {
         //     delete window[key];
@@ -205,11 +205,22 @@ document.addEventListener('DOMContentLoaded', function() {
         // console.log("iframe eth in window",'ethereum' in window)
         // console.log("iframe has cookies",!!document.cookie)
         // console.log("iframe has localstorage",localStorage)
+`;
+const decodedJsSecurityForCanvas = `
+document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(() => {      
+(function() {
+        ##JS_SECURITY_FULL##
         ##JS_CONTENT##
       })();
           }, 100);
       });
-    `;
+    `.replaceAll('##JS_SECURITY_FULL##', JSSecurityFull);
+
+const decodedJsSecurityForNonCanvas = `
+        ##JS_SECURITY_FULL##
+        ##JS_CONTENT##
+    `.replaceAll('##JS_SECURITY_FULL##', JSSecurityFull);
 
 const htmlSanitize = (payload: string) => {
   return replaceLinksWithBlanks(payload);
@@ -250,7 +261,16 @@ const CodegenViewer = ({ encodedHtml }: CodegenVisProps) => {
       let decodedHtml = decodeString(encodedHtml);
       const { scriptContent, remainingHtml } = extractScriptContent(decodedHtml);
       decodedHtml = remainingHtml;
-      const modifiedJs = decodedJsSecurity.replace('##JS_CONTENT##', scriptContent);
+      let modifiedJs = '';
+
+      // The reason for detecting canvas is that canvas
+      // nmight initialize with dimensions 0 on first load, so need to wrap it in
+      // domcontentloaded to ensure it loads after the page has loaded
+      if (decodedHtml.includes('<canvas')) {
+        modifiedJs = decodedJsSecurityForCanvas.replace('##JS_CONTENT##', scriptContent);
+      } else {
+        modifiedJs = decodedJsSecurityForNonCanvas.replace('##JS_CONTENT##', scriptContent);
+      }
       const blob = new Blob(
         [
           htmlSanitize(
