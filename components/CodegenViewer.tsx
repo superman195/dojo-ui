@@ -33,6 +33,14 @@ const extractScriptContent = (html: string): { scriptContent: string; remainingH
     return ''; // Remove inline script tags from HTML
   });
 
+  // Checking for domcontentloaded and extracting everything within it
+  const domContentLoadedRegex = /document\.addEventListener\('DOMContentLoaded',\s*\(\)\s*=>\s*\{([\s\S]*)\}\);/;
+  const domContentLoadedMatch = html.match(domContentLoadedRegex);
+  if (domContentLoadedMatch) {
+    console.log('found domcontentloaded', domContentLoadedMatch[1]);
+    extractedContent += domContentLoadedMatch[1];
+  }
+
   return {
     scriptContent: extractedContent.trim(),
     remainingHtml,
