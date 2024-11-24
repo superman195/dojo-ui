@@ -57,6 +57,7 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
       .sort((a, b) => a[0] - b[0]);
 
     const options: Highcharts.Options = {
+      credits: { enabled: false },
       chart: {
         height: 430,
         backgroundColor: 'transparent',
