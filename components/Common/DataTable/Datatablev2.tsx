@@ -320,8 +320,7 @@ const Datatablev2 = ({
             table.getFilteredRowModel().rows.length,
             (table.getState().pagination.pageIndex + 1) * initialPageSize
           )}{' '}
-          of {table.getFilteredRowModel().rows.length}..
-          {table.getFilteredRowModel().rows.length}
+          of {table.getFilteredRowModel().rows.length}
         </span>
       )}
       <BrutCard
