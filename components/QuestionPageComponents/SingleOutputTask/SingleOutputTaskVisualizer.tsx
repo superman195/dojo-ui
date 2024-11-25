@@ -422,7 +422,6 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
             )}
           </span>
         </div>
-
         <VisualizerContentBox>
           <div className="flex gap-[5px]">
             <IconSparkles className="my-[2px] size-[20px] shrink-0 animate-pulse"></IconSparkles>
