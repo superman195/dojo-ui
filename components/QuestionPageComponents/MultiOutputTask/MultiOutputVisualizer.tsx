@@ -5,13 +5,61 @@ import { Criterion, Task, TaskResponses } from '@/types/QuestionPageTypes';
 import { TaskType } from '@/utils/states';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
+import { useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 import { TaskVisualizerProps } from '../SingleOutputTask/SingleOutputTaskVisualizer';
 import Slider from '../Slider';
 import TaskPrompt from '../TaskPrompt';
 
+interface MinerData {
+  address: string;
+  percentage: number;
+}
+
+interface LeaderboardProps {
+  miners: MinerData[];
+}
+
+const Leaderboard = ({ miners }: LeaderboardProps) => {
+  return (
+    <div className="flex flex-col py-2">
+      {miners.map((miner, index) => (
+        <div
+          key={index}
+          className={`flex items-center justify-between px-2 rounded ${FontSpaceMono.className} font-bold`}
+        >
+          <div className="font-mono text-sm truncate">{miner.address}</div>
+          <div className="font-mono font-bold">{miner.percentage}%</div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const leaderboardData = [
+  {
+    address: '5CCefwu4fFXkBorK4ETJpaiJXTG3LD5J2kBb7U5qEP4eABny',
+    percentage: 80,
+  },
+  {
+    address: '5ERG2E7U5E5WS67zFFGHfqGqPXgLtmT8tsp21VoPdYToHSY',
+    percentage: 70,
+  },
+  {
+    address: '5CCefwu4fFXkBorK4ETJpaiJXTG3LD5J2kBb7U5qEP4eABny',
+    percentage: 80,
+  },
+  {
+    address: '5ERG2E7U5E5WS67zFFGHfqGqPXgLtmT8tsp21VoPdYToHSY',
+    percentage: 70,
+  },
+];
+
 const MultiOutputVisualizer = ({ task, className, ...props }: TaskVisualizerProps) => {
   const { addCriterionForResponse, getCriterionForResponse } = useSubmit();
+  const searchParams = useSearchParams();
+  const showLeaderboard = searchParams.get('showIndividualMinerLeadersboard') === 'true';
+
   const renderVisualizer = useCallback((taskT: TaskType, response: TaskResponses, index: number) => {
     let ttiUrl = '';
     switch (taskT) {
@@ -54,22 +102,28 @@ const MultiOutputVisualizer = ({ task, className, ...props }: TaskVisualizerProp
                   >
                     {renderVisualizer(task.type, response, index)}
                     <>
-                      <div
-                        className={` w-full justify-between px-4 text-base ${FontSpaceMono.className} border-t-2 border-black py-2  font-bold uppercase`}
-                      >
-                        response quality
-                      </div>
                       <div className={`px-4`}>
-                        <Slider
-                          min={1}
-                          max={10}
-                          step={1}
-                          initialValue={1}
-                          onChange={(rating) => {
-                            addCriterionForResponse(`${criteria.text}::${response.model}`, rating.toString());
-                          }}
-                          showSections
-                        />
+                        {showLeaderboard ? (
+                          <Leaderboard miners={leaderboardData} />
+                        ) : (
+                          <>
+                            <div
+                              className={` w-full justify-between px-4 text-base ${FontSpaceMono.className} border-t-2 border-black py-2  font-bold uppercase`}
+                            >
+                              response quality
+                            </div>
+                            <Slider
+                              min={1}
+                              max={10}
+                              step={1}
+                              initialValue={1}
+                              onChange={(rating) => {
+                                addCriterionForResponse(`${criteria.text}::${response.model}`, rating.toString());
+                              }}
+                              showSections
+                            />
+                          </>
+                        )}
                       </div>
                     </>
                   </div>

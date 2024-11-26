@@ -1,6 +1,8 @@
 import Datatablev2 from '@/components/Common/DataTable/Datatablev2';
 import { NonRootNeuronObj } from '@/types/DashboardTypes';
 import { getFirstAndLastCharacters } from '@/utils/math_helpers';
+import { cn } from '@/utils/tw';
+import { FontSpaceMono } from '@/utils/typography';
 import { createColumnHelper } from '@tanstack/react-table';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
@@ -82,7 +84,15 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
       columnHelper.accessor('hotkey', {
         header: 'Hot Key',
         size: 110,
-        cell: (info) => getFirstAndLastCharacters(info.getValue(), 5),
+        cell: (info) => (
+          <button
+            onClick={() => (window.location.href = `/dashboard/miner/${info.getValue()}`)}
+            className={cn('hover:text-primary hover:underline text-[#0784c3] inline-flex items-center')}
+            title={`${info.getValue()}`}
+          >
+            {getFirstAndLastCharacters(info.getValue(), 5)}
+          </button>
+        ),
       }),
       columnHelper.accessor('coldkey', {
         header: 'Cold Key',
@@ -128,6 +138,24 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
           const emissionsData = info.getValue();
           const chartData = emissionsData.map(({ emission }) => emission);
           return <PerformanceChart data={chartData.reverse()} />;
+        },
+      }),
+      columnHelper.display({
+        id: 'action',
+        header: '',
+        size: 120,
+        cell: (info) => {
+          return (
+            <button
+              onClick={() => (window.location.href = `/dashboard/miner/${info.row.original.hotkey}`)}
+              className={cn(
+                'uppercase h-[40px] font-bold border-[2px] rounded-sm border-black w-[113px] bg-primary text-white disabled:cursor-not-allowed',
+                FontSpaceMono.className
+              )}
+            >
+              <span className="flex size-full items-center justify-center">View</span>
+            </button>
+          );
         },
       }),
     ],
