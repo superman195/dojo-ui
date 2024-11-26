@@ -1,17 +1,20 @@
 import CodegenViewer from '@/components/CodegenViewer';
+import Tooltip from '@/components/Common/Tooltip';
 import GaussianSplatViewer from '@/components/GaussianSplatViewer';
 import { useSubmit } from '@/providers/submitContext';
 import { Criterion, Task, TaskResponses } from '@/types/QuestionPageTypes';
 import { TaskType } from '@/utils/states';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
-import { useCallback } from 'react';
+import { IconLayoutGrid, IconLayoutList } from '@tabler/icons-react';
+import { useCallback, useState } from 'react';
 import { TaskVisualizerProps } from '../SingleOutputTask/SingleOutputTaskVisualizer';
 import Slider from '../Slider';
 import TaskPrompt from '../TaskPrompt';
 
 const MultiOutputVisualizer = ({ task, className, ...props }: TaskVisualizerProps) => {
   const { addCriterionForResponse, getCriterionForResponse } = useSubmit();
+  const [isGrid, setIsGrid] = useState(true);
   const renderVisualizer = useCallback((taskT: TaskType, response: TaskResponses, index: number) => {
     let ttiUrl = '';
     switch (taskT) {
@@ -37,57 +40,94 @@ const MultiOutputVisualizer = ({ task, className, ...props }: TaskVisualizerProp
     }
   }, []);
 
-  const renderCriteria = useCallback((task: Task, criteria: Criterion, index: number) => {
-    switch (criteria.type) {
-      case 'multi-score':
-        return (
-          <>
-            <div className={cn('max-w-[1075px] w-full', FontSpaceMono.className, 'font-bold')}>
-              {index + 1}.{' '}
-              {criteria.text ?? 'Please score the below responses on the quality (10 - highest, 1 - lowest)'}
-            </div>
-            <div className="grid w-full max-w-full grid-cols-1 gap-x-5 gap-y-10 xl:grid-cols-2">
-              {task.taskData.responses.map((response, index) => (
-                <div key={`${task.type}_${index}`} className="flex w-full flex-col justify-center ">
-                  <div
-                    className={`flex h-fit w-full flex-col overflow-hidden rounded-sm border-2 border-black bg-ecru-white shadow-brut-sm`}
-                  >
-                    {renderVisualizer(task.type, response, index)}
-                    <>
-                      <div
-                        className={` w-full justify-between px-4 text-base ${FontSpaceMono.className} border-t-2 border-black py-2  font-bold uppercase`}
-                      >
-                        response quality
-                      </div>
-                      <div className={`px-4`}>
-                        <Slider
-                          min={1}
-                          max={10}
-                          step={1}
-                          initialValue={1}
-                          onChange={(rating) => {
-                            addCriterionForResponse(`${criteria.text}::${response.model}`, rating.toString());
-                          }}
-                          showSections
-                        />
-                      </div>
-                    </>
+  const renderCriteria = useCallback(
+    (task: Task, criteria: Criterion, index: number) => {
+      switch (criteria.type) {
+        case 'multi-score':
+          return (
+            <>
+              <div className={cn('max-w-[1075px] w-full', FontSpaceMono.className, 'font-bold')}>
+                {index + 1}.{' '}
+                {criteria.text ?? 'Please score the below responses on the quality (10 - highest, 1 - lowest)'}
+              </div>
+              <div
+                className={cn(
+                  'grid w-full max-w-full gap-x-5 gap-y-10 grid-cols-1',
+                  isGrid ? 'xl:grid-cols-2' : 'xl:grid-cols-1'
+                )}
+              >
+                {task.taskData.responses.map((response, index) => (
+                  <div key={`${task.type}_${index}`} className="flex w-full flex-col justify-center ">
+                    <div
+                      className={`flex h-fit w-full flex-col overflow-hidden rounded-sm border-2 border-black bg-ecru-white shadow-brut-sm`}
+                    >
+                      {renderVisualizer(task.type, response, index)}
+                      <>
+                        <div
+                          className={` w-full justify-between px-4 text-base ${FontSpaceMono.className} border-t-2 border-black py-2  font-bold uppercase`}
+                        >
+                          response quality
+                        </div>
+                        <div className={`px-4`}>
+                          <Slider
+                            min={1}
+                            max={10}
+                            step={1}
+                            initialValue={1}
+                            onChange={(rating) => {
+                              addCriterionForResponse(`${criteria.text}::${response.model}`, rating.toString());
+                            }}
+                            showSections
+                          />
+                        </div>
+                      </>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </>
-        );
-      default:
-        return <></>;
-    }
-  }, []);
+                ))}
+              </div>
+            </>
+          );
+        default:
+          return <></>;
+      }
+    },
+    [isGrid]
+  );
   return (
     <div className={cn('flex w-full flex-col gap-[30px] items-stretch', props.containerClassName)}>
       {/* Headers */}
       <div className="flex w-full justify-center px-4">
         <div className="w-full max-w-[1075px]">
           {task && <TaskPrompt title={task?.title} taskType={task.type} formattedPrompt={task.taskData.prompt} />}
+        </div>
+      </div>
+      <div className="flex h-px w-full justify-center">
+        <div className="hidden max-w-[1075px] grow items-center justify-end gap-[4px] xl:flex">
+          <Tooltip tooltipContent={<div>Grid View</div>}>
+            <IconLayoutGrid
+              strokeWidth={2}
+              size={28}
+              onClick={() => setIsGrid(true)}
+              className="cursor-pointer rounded-md border border-slate-200 bg-background-accent p-px text-slate-500 hover:bg-slate-200"
+            />
+          </Tooltip>
+          <Tooltip
+            tooltipContent={
+              <div>
+                List View
+                <p className="max-w-[140px] text-font-secondary/70">
+                  In case some outputs are not displaying correctly due to size constraints
+                </p>
+              </div>
+            }
+          >
+            <IconLayoutList
+              strokeWidth={2}
+              size={28}
+              onClick={() => setIsGrid(false)}
+              className="cursor-pointer rounded-md border border-slate-200 bg-background-accent p-px text-slate-500 hover:bg-slate-200"
+            />
+          </Tooltip>
         </div>
       </div>
       <hr className="border-2 border-t-0 border-black"></hr>
