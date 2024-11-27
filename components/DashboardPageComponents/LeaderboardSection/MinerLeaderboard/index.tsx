@@ -1,8 +1,8 @@
+import { CustomButton } from '@/components/Common/CustomComponents/button';
 import Datatablev2 from '@/components/Common/DataTable/Datatablev2';
 import { NonRootNeuronObj } from '@/types/DashboardTypes';
 import { getFirstAndLastCharacters } from '@/utils/math_helpers';
-import { cn } from '@/utils/tw';
-import { FontSpaceMono } from '@/utils/typography';
+import { IconExternalLink } from '@tabler/icons-react';
 import { createColumnHelper } from '@tanstack/react-table';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
@@ -65,9 +65,7 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
   const [itemsPerPage, setItemsPerPage] = useState(10); // Set the number of items per page
 
   const columnHelper = createColumnHelper<NonRootNeuronObj>();
-  const sortingmTrust = (a: NonRootNeuronObj, b: NonRootNeuronObj) => {
-    return Number(a.trust) - Number(b.trust);
-  };
+
   const columns = useMemo(
     () => [
       columnHelper.display({
@@ -85,13 +83,16 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
         header: 'Hot Key',
         size: 110,
         cell: (info) => (
-          <button
-            onClick={() => (window.location.href = `/dashboard/miner/${info.getValue()}`)}
-            className={cn('hover:text-primary hover:underline text-[#0784c3] inline-flex items-center')}
-            title={`${info.getValue()}`}
+          <CustomButton
+            onClick={() => window.open(`/dashboard/miner/${info.getValue()}`, '_blank')}
+            className="h-fit p-0 font-bold text-darkGreen"
+            variant={'link'}
           >
-            {getFirstAndLastCharacters(info.getValue(), 5)}
-          </button>
+            <span className="mr-[3px] text-xs underline underline-offset-2">
+              {getFirstAndLastCharacters(info.getValue(), 5)}
+            </span>{' '}
+            <IconExternalLink className="size-4" />
+          </CustomButton>
         ),
       }),
       columnHelper.accessor('coldkey', {
@@ -138,24 +139,6 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
           const emissionsData = info.getValue();
           const chartData = emissionsData.map(({ emission }) => emission);
           return <PerformanceChart data={chartData.reverse()} />;
-        },
-      }),
-      columnHelper.display({
-        id: 'action',
-        header: '',
-        size: 120,
-        cell: (info) => {
-          return (
-            <button
-              onClick={() => (window.location.href = `/dashboard/miner/${info.row.original.hotkey}`)}
-              className={cn(
-                'uppercase h-[40px] font-bold border-[2px] rounded-sm border-black w-[113px] bg-primary text-white disabled:cursor-not-allowed',
-                FontSpaceMono.className
-              )}
-            >
-              <span className="flex size-full items-center justify-center">View</span>
-            </button>
-          );
         },
       }),
     ],

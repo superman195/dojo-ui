@@ -72,6 +72,7 @@ const IndividualMinerPage = () => {
         },
       },
     },
+    credits: { enabled: false },
     legend: { enabled: false },
     plotOptions: {
       areaspline: {
@@ -188,48 +189,48 @@ const IndividualMinerPage = () => {
             {/* Miner Info Skeleton */}
             <div className="mb-8">
               <div className="flex items-center gap-4">
-                <div className="h-6 w-48 animate-pulse bg-gray-200 rounded"></div>
-                <div className="h-6 w-24 animate-pulse bg-gray-200 rounded"></div>
+                <div className="h-6 w-48 animate-pulse rounded bg-gray-200"></div>
+                <div className="h-6 w-24 animate-pulse rounded bg-gray-200"></div>
               </div>
             </div>
 
             {/* Stats Grid Skeleton */}
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 mb-8">
+            <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
               {[1, 2, 3, 4].map((index) => (
                 <div key={index} className="border-2 border-black bg-white p-4 shadow-brut-sm">
-                  <div className={`${FontSpaceMono.className} h-4 w-32 animate-pulse bg-gray-200 mb-2 rounded`}></div>
-                  <div className="h-8 w-24 animate-pulse bg-gray-200 rounded"></div>
+                  <div className={`${FontSpaceMono.className} mb-2 h-4 w-32 animate-pulse rounded bg-gray-200`}></div>
+                  <div className="h-8 w-24 animate-pulse rounded bg-gray-200"></div>
                 </div>
               ))}
             </div>
 
             {/* Secondary Stats Grid Skeleton */}
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3 mb-8">
+            <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">
               {[1, 2, 3].map((index) => (
                 <div key={index} className="border-2 border-black bg-white p-4 shadow-brut-sm">
-                  <div className={`${FontSpaceMono.className} h-4 w-32 animate-pulse bg-gray-200 mb-2 rounded`}></div>
-                  <div className="h-8 w-24 animate-pulse bg-gray-200 rounded"></div>
+                  <div className={`${FontSpaceMono.className} mb-2 h-4 w-32 animate-pulse rounded bg-gray-200`}></div>
+                  <div className="h-8 w-24 animate-pulse rounded bg-gray-200"></div>
                 </div>
               ))}
             </div>
 
             {/* Chart Skeleton */}
             <div className="border-2 border-black bg-white p-4 shadow-brut-sm">
-              <div className={`${FontSpaceMono.className} h-6 w-48 animate-pulse bg-gray-200 mb-4 rounded`}></div>
-              <div className="h-[300px] w-full animate-pulse bg-gray-200 rounded"></div>
+              <div className={`${FontSpaceMono.className} mb-4 h-6 w-48 animate-pulse rounded bg-gray-200`}></div>
+              <div className="h-[300px] w-full animate-pulse rounded bg-gray-200"></div>
             </div>
 
             {/* Additional Info Skeleton */}
             <div className="mt-8 border-2 border-black bg-white p-4 shadow-brut-sm">
-              <div className={`${FontSpaceMono.className} h-6 w-48 animate-pulse bg-gray-200 mb-4 rounded`}></div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className={`${FontSpaceMono.className} mb-4 h-6 w-48 animate-pulse rounded bg-gray-200`}></div>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
-                  <div className="h-4 w-24 animate-pulse bg-gray-200 mb-2 rounded"></div>
-                  <div className="h-6 w-48 animate-pulse bg-gray-200 rounded"></div>
+                  <div className="mb-2 h-4 w-24 animate-pulse rounded bg-gray-200"></div>
+                  <div className="h-6 w-48 animate-pulse rounded bg-gray-200"></div>
                 </div>
                 <div>
-                  <div className="h-4 w-24 animate-pulse bg-gray-200 mb-2 rounded"></div>
-                  <div className="h-6 w-48 animate-pulse bg-gray-200 rounded"></div>
+                  <div className="mb-2 h-4 w-24 animate-pulse rounded bg-gray-200"></div>
+                  <div className="h-6 w-48 animate-pulse rounded bg-gray-200"></div>
                 </div>
               </div>
             </div>
@@ -237,16 +238,16 @@ const IndividualMinerPage = () => {
             {/* VisualizationTaskList Skeleton */}
             <div className="mt-8">
               <div
-                className={`${FontSpaceMono.className} text-4xl font-bold uppercase mb-8 animate-pulse bg-gray-200 h-10 w-96 rounded`}
+                className={`${FontSpaceMono.className} mb-8 h-10 w-96 animate-pulse rounded bg-gray-200 text-4xl font-bold uppercase`}
               ></div>
 
               <div className="mx-auto max-w-[1075px]">
-                <div className="border-2 rounded-sm border-black bg-white overflow-hidden">
+                <div className="overflow-hidden rounded-sm border-2 border-black bg-white">
                   {/* Table Header */}
                   <div className="grid grid-cols-[400px,200px,120px] border-b border-black/10">
                     {['NAME', 'TYPE', ''].map((header) => (
                       <div key={header} className={cn('p-4 text-sm uppercase', FontSpaceMono.className)}>
-                        <div className="h-4 w-20 animate-pulse bg-gray-200 rounded"></div>
+                        <div className="h-4 w-20 animate-pulse rounded bg-gray-200"></div>
                       </div>
                     ))}
                   </div>
@@ -255,16 +256,16 @@ const IndividualMinerPage = () => {
                   {[1, 2, 3, 4, 5].map((index) => (
                     <div key={index} className="grid grid-cols-[400px,200px,120px] border-b border-black/10">
                       <div className="p-4">
-                        <div className="h-[15px] w-3/4 animate-pulse bg-gray-200 rounded"></div>
+                        <div className="h-[15px] w-3/4 animate-pulse rounded bg-gray-200"></div>
                       </div>
                       <div className="p-4">
                         <div className="flex gap-2">
-                          <div className="h-7 w-32 animate-pulse bg-gray-200 rounded-full"></div>
-                          <div className="h-7 w-7 animate-pulse bg-gray-200 rounded-full"></div>
+                          <div className="h-7 w-32 animate-pulse rounded-full bg-gray-200"></div>
+                          <div className="size-7 animate-pulse rounded-full bg-gray-200"></div>
                         </div>
                       </div>
                       <div className="p-4">
-                        <div className="h-[40px] w-[113px] animate-pulse bg-gray-200 rounded-sm"></div>
+                        <div className="h-[40px] w-[113px] animate-pulse rounded-sm bg-gray-200"></div>
                       </div>
                     </div>
                   ))}
@@ -297,13 +298,13 @@ const IndividualMinerPage = () => {
                 Hotkey: {getFirstAndLastCharacters(hotkey as string, 5)}
               </p>
               <p className={`${FontSpaceMono.className} text-gray-600`}>UID: {minerData.uid}</p>
-              <span className={`${FontSpaceMono.className} px-2 py-1 bg-green-100 rounded-full text-sm`}>
+              <span className={`${FontSpaceMono.className} rounded-full bg-green-100 px-2 py-1 text-sm`}>
                 {minerData.active ? 'Active' : 'Inactive'}
               </span>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 mb-8">
+          <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
             {[
               { label: 'DAILY EMISSION', value: `${minerData.emission.toFixed(6)} τ` },
               { label: 'LIFETIME EMISSION', value: `${minerData.totalEmission.toFixed(6)} τ` },
@@ -312,15 +313,15 @@ const IndividualMinerPage = () => {
             ].map((stat, index) => (
               <div
                 key={index}
-                className="border-2 rounded-sm border-black bg-white p-4 shadow-brut-sm hover:shadow-brut-md transition-shadow"
+                className="rounded-sm border-2 border-black bg-white p-4 shadow-brut-sm transition-shadow hover:shadow-brut-md"
               >
-                <div className={`${FontSpaceMono.className} text-sm font-bold mb-1`}>{stat.label}</div>
+                <div className={`${FontSpaceMono.className} mb-1 text-sm font-bold`}>{stat.label}</div>
                 <div className={`${FontSpaceMono.className} text-2xl font-bold`}>{stat.value || 'N/A'}</div>
               </div>
             ))}
           </div>
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 mb-8">
+          <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">
             {[
               { label: 'RANK', value: `#${minerData.rank}` },
               { label: 'CONSENSUS', value: minerData.consensus.toFixed(6) },
@@ -328,16 +329,16 @@ const IndividualMinerPage = () => {
             ].map((stat, index) => (
               <div
                 key={index}
-                className="border-2 rounded-sm border-black bg-white p-4 shadow-brut-sm hover:shadow-brut-md transition-shadow"
+                className="rounded-sm border-2 border-black bg-white p-4 shadow-brut-sm transition-shadow hover:shadow-brut-md"
               >
-                <div className={`${FontSpaceMono.className} text-sm font-bold mb-1`}>{stat.label}</div>
+                <div className={`${FontSpaceMono.className} mb-1 text-sm font-bold`}>{stat.label}</div>
                 <div className={`${FontSpaceMono.className} text-xl font-bold`}>{stat.value || 'N/A'}</div>
               </div>
             ))}
           </div>
 
-          <div className="border-2 rounded-sm border-black bg-white p-4 shadow-brut-sm">
-            <h2 className={`${FontSpaceMono.className} text-xl font-bold mb-4`}>EMISSION HISTORY</h2>
+          <div className="rounded-sm border-2 border-black bg-white p-4 shadow-brut-sm">
+            <h2 className={`${FontSpaceMono.className} mb-4 text-xl font-bold`}>EMISSION HISTORY</h2>
             <HighchartsReact highcharts={Highcharts} options={chartOptions} />{' '}
           </div>
 

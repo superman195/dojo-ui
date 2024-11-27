@@ -26,9 +26,9 @@ const Leaderboard = ({ miners }: LeaderboardProps) => {
       {miners.map((miner, index) => (
         <div
           key={index}
-          className={`flex items-center justify-between px-2 rounded ${FontSpaceMono.className} font-bold`}
+          className={`flex items-center justify-between rounded px-2 ${FontSpaceMono.className} font-bold`}
         >
-          <div className="font-mono text-sm truncate">{miner.address}</div>
+          <div className="truncate font-mono text-sm">{miner.address}</div>
           <div className="font-mono font-bold">{miner.percentage}%</div>
         </div>
       ))}

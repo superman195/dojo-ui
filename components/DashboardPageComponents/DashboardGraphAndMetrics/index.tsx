@@ -118,6 +118,7 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
           },
         },
       },
+      credits: { enabled: false },
       series: [
         {
           type: 'areaspline',
