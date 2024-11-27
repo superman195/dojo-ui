@@ -42,7 +42,9 @@ function generateCSP() {
 export default function Document() {
   return (
     <Html lang="en">
-      <Head />
+      <Head>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </Head>
       <title>Dojo - Improve Decentralized AI Model with Crowd Sourcing</title>
       <meta
         name="description"
