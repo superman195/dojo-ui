@@ -28,7 +28,6 @@ import {
   IconSortDescending,
 } from '@tabler/icons-react';
 import React from 'react';
-import { BrutCard } from '../CustomComponents/brut-card';
 import Shimmers from '../CustomComponents/shimmers';
 
 export interface FilterDef {
@@ -323,7 +322,7 @@ const Datatablev2 = ({
           of {table.getFilteredRowModel().rows.length}
         </span>
       )}
-      <BrutCard
+      {/* <BrutCard
         variant={isStyled ? 'default' : 'none'}
         ref={tableContainerRef}
         className={cn(
@@ -333,7 +332,8 @@ const Datatablev2 = ({
           containerClassName,
           'rounded-sm'
         )}
-      >
+      > */}
+      <div className="overflow-x-auto relative border-2 border-black rounded-sm">
         {/* Default col size in tanstack table is 150px  */}
         {/* Table size is page body size (800 atm) -2pixel cuz of borders */}
         {/* Have to put fixed width and table-fixed if not the widths will let the content anyhow run */}
@@ -346,7 +346,7 @@ const Datatablev2 = ({
           </div>
         )}
         <table className={cn('table-fixed w-[1100px] relative', tableClassName)}>
-          <thead className={cn('border-b-[1px] border-muted-foreground', headerClassName)}>
+          <thead className={cn('border-b border-black/10 bg-[#F7F7F2]', headerClassName)}>
             {table.getHeaderGroups().map((hg) => (
               <tr className="" key={hg.id}>
                 {hg.headers.map((header, idx) => (
@@ -354,8 +354,9 @@ const Datatablev2 = ({
                     onClick={header.column.getToggleSortingHandler()}
                     key={header.id}
                     className={cn(
-                      'text-start px-[12px] py-[6px]',
+                      'text-start px-[12px] py-[6px] transition-colors duration-200',
                       headerCellClassName,
+                      header.column.getIsSorted() ? 'text-[#3A3A2B]' : 'text-[#838378] hover:bg-[#E3E3D2]',
                       idx === hg.headers.length - 1 && isLastSticky && 'sticky-column',
                       header.column.getCanSort() && 'cursor-pointer'
                     )}
@@ -369,14 +370,19 @@ const Datatablev2 = ({
                       minWidth: header.column.getSize() == 0 ? 'auto' : `${header.column.getSize()}px`,
                     }}
                   >
-                    <div className="flex items-center gap-[3px]">
+                    <div
+                      className={cn(
+                        'flex items-center gap-[3px]',
+                        header.column.getIsSorted() ? 'text-gray-900' : 'text-gray-500'
+                      )}
+                    >
                       {flexRender(header.column.columnDef.header, header.getContext())}
                       {{
                         asc: <IconSortAscending className="shrink-0" size={16} />,
                         desc: <IconSortDescending className="shrink-0" size={16} />,
                       }[header.column.getIsSorted() as string] ??
                         (header.column.getCanSort() ? (
-                          <IconArrowsSort className="shrink-0 text-font-primary/40" size={16} />
+                          <IconArrowsSort className="shrink-0 opacity-40" size={16} />
                         ) : null)}
                     </div>
                   </th>
@@ -431,7 +437,7 @@ const Datatablev2 = ({
             </>
           )}
         </table>
-      </BrutCard>
+      </div>
       {showPagination && table.getPageCount() > 1 && (
         //pagination section
         <div className="mt-[10px] flex items-center justify-end gap-[8px]">
