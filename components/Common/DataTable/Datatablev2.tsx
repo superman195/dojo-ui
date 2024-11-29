@@ -357,17 +357,15 @@ const Datatablev2 = ({
                       'text-start px-[12px] py-[6px] transition-colors duration-200',
                       headerCellClassName,
                       header.column.getIsSorted() ? 'text-[#3A3A2B]' : 'text-[#838378] hover:bg-[#E3E3D2]',
-                      header.column.columnDef.header === 'Hot Key' && 'sticky left-0 z-10 bg-[#F7F7F2]',
-                      header.column.columnDef.header === 'Hot Key' && 'shadow-[2px_0_4px_-2px_rgba(0,0,0,0.2)]',
                       header.column.getCanSort() && 'cursor-pointer'
                     )}
-                    style={{
-                      ...(header.column.columnDef.header === 'Hot Key' && { width: '150px', minWidth: '150px' }),
-                      ...(header.column.columnDef.header !== 'Hot Key' && {
-                        width: header.column.getSize(),
-                        minWidth: header.column.getSize(),
-                      }),
-                    }}
+                    // style={{
+                    //   ...(header.column.columnDef.header === 'Hot Key' && { width: '150px', minWidth: '150px' }),
+                    //   ...(header.column.columnDef.header !== 'Hot Key' && {
+                    //     width: header.column.getSize(),
+                    //     minWidth: header.column.getSize(),
+                    //   }),
+                    // }}
                   >
                     <div
                       className={cn(
@@ -404,17 +402,17 @@ const Datatablev2 = ({
                           key={cell.id}
                           className={cn(
                             'border-b-[1px] px-[12px] py-[6px] h-[55px]',
-                            cell.column.columnDef.header === 'Hot Key' && 'sticky left-0 z-10 bg-white',
-                            cell.column.columnDef.header === 'Hot Key' && 'shadow-[2px_0_4px_-2px_rgba(0,0,0,0.2)]',
+                            // cell.column.columnDef.header === 'Hot Key' && 'sticky left-0 z-10 bg-white',
+                            // cell.column.columnDef.header === 'Hot Key' && 'shadow-[2px_0_4px_-2px_rgba(0,0,0,0.2)]',
                             typeof cellsClassName === 'string' ? cellsClassName : cellsClassName && cellsClassName(row)
                           )}
-                          style={{
-                            ...(cell.column.columnDef.header === 'Hot Key' && { width: '150px', minWidth: '150px' }),
-                            ...(cell.column.columnDef.header !== 'Hot Key' && {
-                              width: cell.column.getSize(),
-                              minWidth: cell.column.getSize(),
-                            }),
-                          }}
+                          // style={{
+                          //   ...(cell.column.columnDef.header === 'Hot Key' && { width: '150px', minWidth: '150px' }),
+                          //   ...(cell.column.columnDef.header !== 'Hot Key' && {
+                          //     width: cell.column.getSize(),
+                          //     minWidth: cell.column.getSize(),
+                          //   }),
+                          // }}
                         >
                           {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </td>

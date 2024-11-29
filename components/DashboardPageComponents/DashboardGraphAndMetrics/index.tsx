@@ -232,7 +232,7 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
   return (
     <div className="mb-6">
       <div className="flex w-full flex-col justify-between gap-3 lg:flex-row">
-        <div className="flex flex-row gap-3 overflow-x-auto p-3 lg:w-1/4 lg:flex-col lg:overflow-x-visible lg:p-0">
+        <div className="flex flex-row gap-3 overflow-x-auto p-3 lg:w-[240px] lg:flex-col lg:overflow-x-visible lg:p-0">
           {kpiMetrics.map((metric, index) => (
             <div
               key={index}
@@ -247,7 +247,7 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
             </div>
           ))}
         </div>
-        <div className="min-h-[300px] flex-1 rounded-sm border-2 border-black bg-white shadow-brut-sm lg:min-h-[400px] lg:w-3/4">
+        <div className="min-h-[300px] flex-1 rounded-sm border-2 border-black bg-white shadow-brut-sm lg:min-h-[400px]">
           <div className="h-full p-4">
             {loading ? (
               <div className="flex h-full flex-col">
