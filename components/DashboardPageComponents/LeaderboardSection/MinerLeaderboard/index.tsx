@@ -4,7 +4,7 @@ import { NonRootNeuronObj } from '@/types/DashboardTypes';
 import { getFirstAndLastCharacters } from '@/utils/math_helpers';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
-import { IconChevronsLeft, IconChevronsRight } from '@tabler/icons-react';
+import { IconChevronDown, IconChevronsLeft, IconChevronsRight, IconChevronUp } from '@tabler/icons-react';
 import { createColumnHelper } from '@tanstack/react-table';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
@@ -101,8 +101,8 @@ const MinerCard: React.FC<{ miner: NonRootNeuronObj; position: number }> = ({ mi
         className="flex cursor-pointer flex-col items-start justify-between gap-4 sm:flex-row sm:items-center"
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <div className="flex items-start gap-4 sm:items-center">
-          <span className="w-9 text-2xl font-bold text-neutral-400">#{position}</span>
+        <div className="flex items-start gap-2 sm:items-center">
+          <span className="shrink-0 text-2xl font-bold text-neutral-400">#{position}</span>
           <div className="flex flex-col">
             <div className="text-sm font-medium">{getFirstAndLastCharacters(miner.hotkey, 5)}</div>
             <div className="text-xs text-neutral-500">UID: {miner.uid}</div>
@@ -142,7 +142,7 @@ const MinerCard: React.FC<{ miner: NonRootNeuronObj; position: number }> = ({ mi
 const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(0);
-  const [sortBy, setSortBy] = useState<'trust' | 'emission' | 'stakedAmt'>('trust');
+  const [sortBy, setSortBy] = useState<'default' | 'trust' | 'emission' | 'stakedAmt'>('default');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const isMobile = useMediaQuery('(max-width: 768px)');
 
@@ -150,25 +150,27 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
     if (!miners) return [];
     let sortedMiners = [...miners];
 
-    switch (sortBy) {
-      case 'trust':
-        sortedMiners.sort((a, b) => {
-          const multiplier = sortOrder === 'desc' ? -1 : 1;
-          return multiplier * (Number(a.trust) - Number(b.trust));
-        });
-        break;
-      case 'emission':
-        sortedMiners.sort((a, b) => {
-          const multiplier = sortOrder === 'desc' ? -1 : 1;
-          return multiplier * (a.emission - b.emission);
-        });
-        break;
-      case 'stakedAmt':
-        sortedMiners.sort((a, b) => {
-          const multiplier = sortOrder === 'desc' ? -1 : 1;
-          return multiplier * (a.stakedAmt - b.stakedAmt);
-        });
-        break;
+    if (sortBy !== 'default') {
+      switch (sortBy) {
+        case 'trust':
+          sortedMiners.sort((a, b) => {
+            const multiplier = sortOrder === 'desc' ? -1 : 1;
+            return multiplier * (Number(a.trust) - Number(b.trust));
+          });
+          break;
+        case 'emission':
+          sortedMiners.sort((a, b) => {
+            const multiplier = sortOrder === 'desc' ? -1 : 1;
+            return multiplier * (a.emission - b.emission);
+          });
+          break;
+        case 'stakedAmt':
+          sortedMiners.sort((a, b) => {
+            const multiplier = sortOrder === 'desc' ? -1 : 1;
+            return multiplier * (a.stakedAmt - b.stakedAmt);
+          });
+          break;
+      }
     }
 
     const start = currentPage * itemsPerPage;
@@ -265,17 +267,18 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
                 setSortBy(e.target.value as typeof sortBy);
                 setCurrentPage(0);
               }}
-              className="flex-1 rounded-lg  border border-neutral-700 p-2 text-sm"
+              className="flex-1 rounded-lg border border-neutral-700 p-2 text-sm"
             >
+              <option value="default">Default Order</option>
               <option value="trust">Sort by Trust</option>
               <option value="emission">Sort by Daily Emission</option>
               <option value="stakedAmt">Sort by Stake</option>
             </select>
             <button
               onClick={() => setSortOrder((order) => (order === 'asc' ? 'desc' : 'asc'))}
-              className="rounded-lg border border-neutral-700 px-3 py-1"
+              className={`rounded-lg border border-neutral-700 px-3 py-1 ${sortBy === 'default' ? 'text-muted' : ''}`}
             >
-              {sortOrder === 'desc' ? '↓' : '↑'}
+              {sortOrder === 'desc' ? <IconChevronDown /> : <IconChevronUp />}
             </button>
           </div>
 

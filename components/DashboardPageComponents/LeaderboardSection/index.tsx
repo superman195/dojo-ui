@@ -23,7 +23,7 @@ const LeaderboardSection: React.FC<LeaderboardSectionProps> = ({ miners, validat
   };
 
   return (
-    <>
+    <div className="container mx-auto px-0 lg:px-8">
       <div className="my-5 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center sm:gap-0">
         <h2 className={`${FontSpaceMono.className} text-2xl font-bold uppercase sm:text-4xl`}>LEADERBOARD</h2>
         <label className="flex cursor-pointer items-center gap-3 text-sm sm:text-base">
@@ -41,12 +41,14 @@ const LeaderboardSection: React.FC<LeaderboardSectionProps> = ({ miners, validat
           </div>
         </label>
       </div>
-      {showValidators ? (
-        <ValidatorLeaderboard validators={validators} isLoading={loading} />
-      ) : (
-        <MinerLeaderboard miners={miners} isLoading={loading} />
-      )}
-    </>
+      <div className="overflow-x-auto">
+        {showValidators ? (
+          <ValidatorLeaderboard validators={validators} isLoading={loading} />
+        ) : (
+          <MinerLeaderboard miners={miners} isLoading={loading} />
+        )}
+      </div>
+    </div>
   );
 };
 
