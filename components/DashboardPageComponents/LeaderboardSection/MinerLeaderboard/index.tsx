@@ -1,10 +1,18 @@
+import { CustomButton } from '@/components/Common/CustomComponents/button';
 import Datatablev2 from '@/components/Common/DataTable/Datatablev2';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { NonRootNeuronObj } from '@/types/DashboardTypes';
 import { getFirstAndLastCharacters } from '@/utils/math_helpers';
 import { cn } from '@/utils/tw';
-import { FontSpaceMono } from '@/utils/typography';
-import { IconChevronDown, IconChevronsLeft, IconChevronsRight, IconChevronUp } from '@tabler/icons-react';
+import { FontManrope, FontSpaceMono } from '@/utils/typography';
+import {
+  IconBulbFilled,
+  IconChevronsLeft,
+  IconChevronsRight,
+  IconExternalLink,
+  IconSortAscending,
+  IconSortDescending,
+} from '@tabler/icons-react';
 import { createColumnHelper } from '@tanstack/react-table';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
@@ -87,7 +95,7 @@ const PerformanceChart: React.FC<{ data: number[] }> = ({ data }) => {
   return (
     <div className="flex items-center">
       <HighchartsReact highcharts={Highcharts} options={options} />
-      <div className={`ml-2 text-xs ${isPositive ? 'text-[#00C7B0]' : 'text-[#FF4D4D]'}`}>{isPositive ? '↑' : '↓'}</div>
+      <div className={`ml-2 text-xs ${isPositive ? 'text-[#00C7B0]' : 'text-[#FF4D4D]'}`}>{isPositive ? '▲' : '▼'}</div>
     </div>
   );
 };
@@ -104,7 +112,19 @@ const MinerCard: React.FC<{ miner: NonRootNeuronObj; position: number }> = ({ mi
         <div className="flex items-start gap-2 sm:items-center">
           <span className="shrink-0 text-2xl font-bold text-neutral-400">#{position}</span>
           <div className="flex flex-col">
-            <div className="text-sm font-medium">{getFirstAndLastCharacters(miner.hotkey, 5)}</div>
+            <div className="text-sm font-medium">
+              {' '}
+              <CustomButton
+                onClick={() => window.open(`/dashboard/miner/${miner.hotkey}`, '_blank')}
+                className="h-fit p-0 font-bold text-darkGreen"
+                variant={'link'}
+              >
+                <span className="mr-[3px] text-xs underline underline-offset-2">
+                  {getFirstAndLastCharacters(miner.hotkey, 5)}
+                </span>{' '}
+                <IconExternalLink className="size-4" />
+              </CustomButton>
+            </div>
             <div className="text-xs text-neutral-500">UID: {miner.uid}</div>
           </div>
         </div>
@@ -139,12 +159,87 @@ const MinerCard: React.FC<{ miner: NonRootNeuronObj; position: number }> = ({ mi
   );
 };
 
+const ExampleCard = () => {
+  const [isExampleVisible, setIsExampleVisible] = useState(false);
+  const cardStyles = 'hover:bg-primary-100 rounded-xl border border-neutral-700 p-4 transition-colors';
+  const headerStyles = 'flex cursor-pointer flex-col items-start justify-between gap-4 sm:flex-row sm:items-center';
+  const textStyles = 'text-xs text-neutral-500';
+
+  return (
+    <div className="mb-4 rounded-lg border border-yellow-300 bg-yellow-100">
+      <div
+        className="flex cursor-pointer items-center justify-between p-2 text-sm font-medium"
+        onClick={() => setIsExampleVisible(!isExampleVisible)}
+      >
+        <span className={`${FontManrope.className} flex items-center font-semibold text-gray-500`}>
+          <IconBulbFilled className="mr-2" /> Tip: Click to see an example of data structure displayed in the
+          leaderboard.
+        </span>
+        <span className="text-xs">{isExampleVisible ? '▼' : '▲'}</span>
+      </div>
+
+      {isExampleVisible && (
+        <div className="rounded-b-lg border-t border-yellow-300 bg-yellow-50 p-4">
+          <div className={cardStyles}>
+            <div className={headerStyles}>
+              {/* Left side - Rank and ID */}
+              <div className="flex items-start gap-2 sm:items-center">
+                <span className="shrink-0 text-2xl font-bold text-neutral-400">#RANK</span>
+                <div className="flex flex-col">
+                  <div className="text-sm font-medium">
+                    <CustomButton onClick={() => {}} className="h-fit p-0 font-bold text-darkGreen" variant={'link'}>
+                      <span className="mr-[3px] text-xs underline underline-offset-2">Hotkey</span>
+                      <IconExternalLink className="size-4" />
+                    </CustomButton>
+                  </div>
+                  <div className={textStyles}>Unique ID</div>
+                </div>
+              </div>
+
+              {/* Right side - Stats and Chart */}
+              <div className="flex w-full items-center justify-between gap-6 sm:w-auto sm:justify-end">
+                <div className="text-left">
+                  <div className="text-sm font-medium">mTrust</div>
+                  <div className={textStyles}>daily emission</div>
+                </div>
+                <div className="flex items-center">
+                  <div className="h-[35px] w-[120px] bg-neutral-800/50"></div>
+                  <div className="ml-2 text-xs text-[#00C7B0]">▲</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Expandable Section */}
+            <div className="mt-4 border-t border-neutral-800 pt-4">
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <div className="mb-1 text-neutral-500">Cold Key</div>
+                  <div className="font-medium">XXX...XXX</div>
+                </div>
+                <div>
+                  <div className="mb-1 text-neutral-500">Stake</div>
+                  <div className="font-medium">X.XXXXX</div>
+                </div>
+                <div>
+                  <div className="mb-1 text-neutral-500">Lifetime Emission</div>
+                  <div className="font-medium">X.XXXXX τ</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(0);
   const [sortBy, setSortBy] = useState<'default' | 'trust' | 'emission' | 'stakedAmt'>('default');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const isMobile = useMediaQuery('(max-width: 768px)');
+  const isLaptopOrLarger = useMediaQuery('(min-width: 1024px)');
 
   const paginatedMiners = useMemo(() => {
     if (!miners) return [];
@@ -178,9 +273,7 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
   }, [miners, currentPage, itemsPerPage, sortBy, sortOrder]);
 
   const columnHelper = createColumnHelper<NonRootNeuronObj>();
-  const sortingmTrust = (a: NonRootNeuronObj, b: NonRootNeuronObj) => {
-    return Number(a.trust) - Number(b.trust);
-  };
+
   const columns = useMemo(
     () => [
       columnHelper.display({
@@ -197,7 +290,18 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
       columnHelper.accessor('hotkey', {
         header: 'Hot Key',
         size: 110,
-        cell: (info) => getFirstAndLastCharacters(info.getValue(), 5),
+        cell: (info) => (
+          <CustomButton
+            onClick={() => window.open(`/dashboard/miner/${info.getValue()}`, '_blank')}
+            className="h-fit p-0 font-bold text-darkGreen"
+            variant={'link'}
+          >
+            <span className="mr-[3px] text-xs underline underline-offset-2">
+              {getFirstAndLastCharacters(info.getValue(), 5)}
+            </span>{' '}
+            <IconExternalLink className="size-4" />
+          </CustomButton>
+        ),
       }),
       columnHelper.accessor('coldkey', {
         header: 'Cold Key',
@@ -251,6 +355,7 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
 
   return (
     <div className="pb-[30px]">
+      {!isLaptopOrLarger && <ExampleCard />}
       {isMobile ? (
         <>
           {miners && miners.length > 0 && (
@@ -267,7 +372,7 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
                 setSortBy(e.target.value as typeof sortBy);
                 setCurrentPage(0);
               }}
-              className="flex-1 rounded-lg border border-neutral-700 p-2 text-sm"
+              className="flex-1 appearance-none rounded-lg border border-neutral-700 bg-[url('/chevron-down.svg')] bg-[length:16px] bg-[center_right_1rem] bg-no-repeat p-2 pr-12 text-sm"
             >
               <option value="default">Default Order</option>
               <option value="trust">Sort by Trust</option>
@@ -278,7 +383,7 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
               onClick={() => setSortOrder((order) => (order === 'asc' ? 'desc' : 'asc'))}
               className={`rounded-lg border border-neutral-700 px-3 py-1 ${sortBy === 'default' ? 'text-muted' : ''}`}
             >
-              {sortOrder === 'desc' ? <IconChevronDown /> : <IconChevronUp />}
+              {sortOrder === 'desc' ? <IconSortDescending /> : <IconSortAscending />}
             </button>
           </div>
 
