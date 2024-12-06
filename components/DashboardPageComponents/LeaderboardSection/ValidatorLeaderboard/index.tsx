@@ -10,6 +10,7 @@ import { createColumnHelper } from '@tanstack/react-table';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import React, { useMemo, useState } from 'react';
+import ExampleCard from '../ExampleCard';
 
 interface LeaderboardProps {
   validators: NonRootNeuronObj[] | null;
@@ -70,7 +71,7 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
   const [sortBy, setSortBy] = useState<'default' | 'validatorTrust' | 'emission' | 'stakedAmt'>('default');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const isMobile = useMediaQuery('(max-width: 768px)');
-
+  const isLaptopOrLarger = useMediaQuery('(min-width: 1024px)');
   const paginatedValidators = useMemo(() => {
     if (!validators) return [];
     let sortedValidators = [...validators];
@@ -169,6 +170,7 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
 
   return (
     <div className="pb-[30px]">
+      {!isLaptopOrLarger && <ExampleCard />}
       {isMobile ? (
         <>
           {validators && validators.length > 0 && (
