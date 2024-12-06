@@ -60,6 +60,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   showPagination?: boolean;
   getRowCanExpand?: (row: Row<any>) => boolean;
   onSortingChange?: (sorting: any) => void;
+  enableSortHighlight?: boolean;
 }
 
 export interface dateRangeType {
@@ -92,6 +93,7 @@ const Datatablev2 = ({
   getRowCanExpand,
   onSortingChange,
   showPagination = true,
+  enableSortHighlight = false,
   ...props
 }: Props) => {
   // Configuration
@@ -322,17 +324,6 @@ const Datatablev2 = ({
           of {table.getFilteredRowModel().rows.length}
         </span>
       )}
-      {/* <BrutCard
-        variant={isStyled ? 'default' : 'none'}
-        ref={tableContainerRef}
-        className={cn(
-          'p-0 overflow-x-auto relative',
-          !loadingState && table.getFilteredRowModel().rows.length <= 0 && 'overflow-x-hidden',
-          'sticky-table-container',
-          containerClassName,
-          'rounded-sm'
-        )}
-      > */}
       <div className="relative overflow-x-auto rounded-sm border-2 border-black">
         {/* Default col size in tanstack table is 150px  */}
         {/* Table size is page body size (800 atm) -2pixel cuz of borders */}
@@ -345,10 +336,10 @@ const Datatablev2 = ({
             no data
           </div>
         )}
-        <table className={cn('w-[1100px] relative', tableClassName)}>
-          <thead className={cn('border-b border-black/10 bg-[#F7F7F2]', headerClassName)}>
+        <table className={cn('w-full table-fixed', tableClassName)}>
+          <thead className={cn('border-b-[1px] border-muted-foreground', headerClassName)}>
             {table.getHeaderGroups().map((hg) => (
-              <tr className="" key={hg.id}>
+              <tr key={hg.id}>
                 {hg.headers.map((header, idx) => (
                   <th
                     onClick={header.column.getToggleSortingHandler()}
@@ -356,21 +347,33 @@ const Datatablev2 = ({
                     className={cn(
                       'text-start px-[12px] py-[6px] transition-colors duration-200',
                       headerCellClassName,
-                      header.column.getIsSorted() ? 'text-[#3A3A2B]' : 'text-[#838378] hover:bg-[#E3E3D2]',
-                      header.column.getCanSort() && 'cursor-pointer'
+                      idx === hg.headers.length - 1 && isLastSticky && 'sticky-column',
+                      header.column.getCanSort() && 'cursor-pointer',
+                      enableSortHighlight && [
+                        'transition-colors duration-200',
+                        header.column.getIsSorted()
+                          ? 'text-[#3A3A2B]' // Brighter text when sorted
+                          : 'text-[#838378] hover:text-[#3A3A2B]/80', // Dimmer text when not sorted
+                      ]
                     )}
-                    // style={{
-                    //   ...(header.column.columnDef.header === 'Hot Key' && { width: '150px', minWidth: '150px' }),
-                    //   ...(header.column.columnDef.header !== 'Hot Key' && {
-                    //     width: header.column.getSize(),
-                    //     minWidth: header.column.getSize(),
-                    //   }),
-                    // }}
+                    style={{
+                      boxShadow:
+                        idx === hg.headers.length - 1 && isLastSticky
+                          ? 'inset 1px 0px 1px -1px black'
+                          : 'inset 0px 0px 0px -1px black',
+                      maxWidth: header.column.getSize() == 0 ? 'auto' : `${header.column.getSize()}px`,
+                      width: header.column.getSize() == 0 ? 'auto' : `${header.column.getSize()}px`,
+                      minWidth: header.column.getSize() == 0 ? 'auto' : `${header.column.getSize()}px`,
+                    }}
                   >
                     <div
                       className={cn(
                         'flex items-center gap-[3px]',
-                        header.column.getIsSorted() ? 'text-gray-900' : 'text-gray-500'
+                        enableSortHighlight && [
+                          header.column.getIsSorted()
+                            ? 'text-[#3A3A2B]' // Brighter icon when sorted
+                            : 'text-[#838378]', // Dimmer icon when not sorted
+                        ]
                       )}
                     >
                       {flexRender(header.column.columnDef.header, header.getContext())}
@@ -379,7 +382,13 @@ const Datatablev2 = ({
                         desc: <IconSortDescending className="shrink-0" size={16} />,
                       }[header.column.getIsSorted() as string] ??
                         (header.column.getCanSort() ? (
-                          <IconArrowsSort className="shrink-0 opacity-40" size={16} />
+                          <IconArrowsSort
+                            className={cn(
+                              'shrink-0',
+                              enableSortHighlight ? 'text-[#838378]/40' : 'text-font-primary/40'
+                            )}
+                            size={16}
+                          />
                         ) : null)}
                     </div>
                   </th>
@@ -396,27 +405,37 @@ const Datatablev2 = ({
               ) : (
                 <tbody>
                   {table.getRowModel().rows.map((row, rowIdx) => (
-                    <tr key={row.id}>
-                      {row.getVisibleCells().map((cell, idx) => (
-                        <td
-                          key={cell.id}
-                          className={cn(
-                            'border-b-[1px] px-[12px] py-[6px] h-[55px]',
-                            // cell.column.columnDef.header === 'Hot Key' && 'sticky left-0 z-10 bg-white',
-                            // cell.column.columnDef.header === 'Hot Key' && 'shadow-[2px_0_4px_-2px_rgba(0,0,0,0.2)]',
-                            typeof cellsClassName === 'string' ? cellsClassName : cellsClassName && cellsClassName(row)
-                          )}
-                          // style={{
-                          //   ...(cell.column.columnDef.header === 'Hot Key' && { width: '150px', minWidth: '150px' }),
-                          //   ...(cell.column.columnDef.header !== 'Hot Key' && {
-                          //     width: cell.column.getSize(),
-                          //     minWidth: cell.column.getSize(),
-                          //   }),
-                          // }}
-                        >
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </td>
-                      ))}
+                    <tr
+                      style={row.original.bodyRowClassName ? row.original.bodyRowClassName : {}}
+                      className={cn()}
+                      key={row.id}
+                    >
+                      {row.getVisibleCells().map(
+                        (cell, idx: number) =>
+                          (!cell.row.original.info || (cell.row.original.info && idx === 0)) && (
+                            <td
+                              colSpan={cell.row.original.info ? row.getVisibleCells().length : 1}
+                              key={cell.id}
+                              style={{
+                                minHeight: '42px',
+                                boxShadow:
+                                  idx === row.getVisibleCells().length - 1 && isLastSticky
+                                    ? 'inset 1px 0px 1px -1px black'
+                                    : 'inset 0px 0px 0px -1px black',
+                              }}
+                              className={cn(
+                                'border-b-[1px] px-[12px] py-[6px] h-[55px]',
+                                typeof cellsClassName === 'string'
+                                  ? cellsClassName
+                                  : cellsClassName && cellsClassName(row),
+                                idx === row.getVisibleCells().length - 1 && isLastSticky && 'sticky-column ',
+                                cell.row.original.info && 'p-0 h-fit'
+                              )}
+                            >
+                              {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            </td>
+                          )
+                      )}
                     </tr>
                   ))}
                 </tbody>
