@@ -70,8 +70,7 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [sortBy, setSortBy] = useState<'default' | 'validatorTrust' | 'emission' | 'stakedAmt'>('default');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
-  const isMobile = useMediaQuery('(max-width: 768px)');
-  const isLaptopOrLarger = useMediaQuery('(min-width: 1024px)');
+  const isMobile = useMediaQuery('(max-width: 1023px)');
   const paginatedValidators = useMemo(() => {
     if (!validators) return [];
     let sortedValidators = [...validators];
@@ -111,47 +110,51 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
         id: 'position',
         header: 'Pos.',
         size: 50,
-        cell: (info) => `#${info.row.index + 1}`,
+        cell: (info) => <span className="whitespace-nowrap">{`#${info.row.index + 1}`}</span>,
       }),
       columnHelper.accessor('uid', {
         header: 'UID',
         size: 50,
-        cell: (info) => info.getValue(),
+        cell: (info) => <span className="whitespace-nowrap">{info.getValue()}</span>,
       }),
       columnHelper.accessor('hotkey', {
         header: 'Hot Key',
-        size: 100,
-        cell: (info) => getFirstAndLastCharacters(info.getValue(), 5),
+        size: 110,
+        cell: (info) => {
+          const hotkey = info.getValue();
+          return <span className="whitespace-nowrap">{hotkey.slice(0, 6) + '...'}</span>;
+        },
       }),
       columnHelper.accessor('coldkey', {
         header: 'Cold Key',
-        size: 100,
-        cell: (info) => getFirstAndLastCharacters(info.getValue(), 5),
+        size: 110,
+        cell: (info) => {
+          const coldkey = info.getValue();
+          return <span className="whitespace-nowrap">{coldkey.slice(0, 6) + '...'}</span>;
+        },
       }),
       columnHelper.accessor('validatorTrust', {
         header: 'vTrust',
         size: 100,
-        cell: (info) => {
-          return Number(info.getValue()).toFixed(9);
-        },
+        cell: (info) => <span className="whitespace-nowrap">{Number(info.getValue()).toFixed(6)} τ</span>,
         enableSorting: true,
       }),
       columnHelper.accessor('emission', {
         header: 'Daily Emission',
         size: 100,
-        cell: (info) => `${info.getValue().toFixed(6)} τ`,
+        cell: (info) => <span className="whitespace-nowrap">{`${info.getValue().toFixed(3)} τ`}</span>,
         enableSorting: true,
       }),
       columnHelper.accessor('totalEmission', {
         header: 'Lifetime Emission',
         size: 100,
-        cell: (info) => `${info.getValue().toFixed(6)} τ`,
+        cell: (info) => <span className="whitespace-nowrap">{`${info.getValue().toFixed(3)} τ`}</span>,
         enableSorting: true,
       }),
       columnHelper.accessor('stakedAmt', {
         header: 'Stake',
         size: 100,
-        cell: (info) => info.getValue().toFixed(6),
+        cell: (info) => <span className="whitespace-nowrap">{`${info.getValue().toFixed(3)} τ`}</span>,
         enableSorting: true,
       }),
       columnHelper.accessor('historicalEmissions', {
@@ -170,7 +173,7 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
 
   return (
     <div className="pb-[30px]">
-      {!isLaptopOrLarger && <ExampleCard />}
+      {isMobile && <ExampleCard />}
       {isMobile ? (
         <>
           {validators && validators.length > 0 && (
@@ -195,8 +198,12 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
               <option value="stakedAmt">Sort by Stake</option>
             </select>
             <button
-              onClick={() => setSortOrder((order) => (order === 'asc' ? 'desc' : 'asc'))}
-              className={`rounded-lg border border-neutral-700 px-3 py-1 ${sortBy === 'default' ? 'text-muted' : ''}`}
+              onClick={() => {
+                if (sortBy !== 'default') {
+                  setSortOrder((order) => (order === 'asc' ? 'desc' : 'asc'));
+                }
+              }}
+              className={`rounded-lg border border-neutral-700 px-3 py-1 ${sortBy === 'default' ? 'text-muted cursor-not-allowed' : ''}`}
             >
               {sortOrder === 'desc' ? <IconSortDescending /> : <IconSortAscending />}
             </button>
@@ -208,14 +215,12 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
                 key={validator.uid}
                 data={validator}
                 position={currentPage * itemsPerPage + index + 1}
-                actionPath={`/dashboard/validator/${validator.hotkey}`}
-                actionLabel={getFirstAndLastCharacters(validator.hotkey, 5)}
                 renderMainInfo={(validator) => <div className="text-xs text-neutral-500">UID: {validator.uid}</div>}
                 renderStats={(validator) => (
                   <>
                     <div className="text-right">
-                      <div className="text-sm font-medium">{Number(validator.validatorTrust).toFixed(9)} </div>
-                      <div className="text-xs text-neutral-500">{validator.emission.toFixed(6)} τ/day</div>
+                      <div className="text-sm font-medium">{Number(validator.validatorTrust).toFixed(6)} τ</div>
+                      <div className="text-xs text-neutral-500">{validator.emission.toFixed(3)} τ/day</div>
                     </div>
                     <PerformanceChart data={validator.historicalEmissions.map(({ emission }) => emission).reverse()} />
                   </>
@@ -228,11 +233,11 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
                     </div>
                     <div>
                       <div className="mb-1 text-neutral-500">Stake</div>
-                      <div className="font-medium">{validator.stakedAmt.toFixed(6)}</div>
+                      <div className="font-medium">{validator.stakedAmt.toFixed(3)} τ</div>
                     </div>
                     <div>
                       <div className="mb-1 text-neutral-500">Lifetime Emission</div>
-                      <div className="font-medium">{validator.totalEmission.toFixed(6)} τ</div>
+                      <div className="font-medium">{validator.totalEmission.toFixed(3)} τ</div>
                     </div>
                   </div>
                 )}

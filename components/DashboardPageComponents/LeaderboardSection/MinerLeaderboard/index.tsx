@@ -28,8 +28,7 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [sortBy, setSortBy] = useState<'default' | 'trust' | 'emission' | 'stakedAmt'>('default');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
-  const isMobile = useMediaQuery('(max-width: 768px)');
-  const isLaptopOrLarger = useMediaQuery('(min-width: 1024px)');
+  const isMobile = useMediaQuery('(max-width: 1023px)');
 
   const paginatedMiners = useMemo(() => {
     if (!miners) return [];
@@ -80,30 +79,45 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
       columnHelper.accessor('hotkey', {
         header: 'Hot Key',
         size: 110,
-        cell: (info) => (
-          <CustomButton
-            onClick={() => window.open(`/dashboard/miner/${info.getValue()}`, '_blank')}
-            className="h-fit p-0 font-bold text-darkGreen"
-            variant={'link'}
-          >
-            <span className="mr-[3px] text-xs underline underline-offset-2">
-              {getFirstAndLastCharacters(info.getValue(), 5)}
-            </span>{' '}
-            <IconExternalLink className="size-4" />
-          </CustomButton>
-        ),
+        cell: (info) => {
+          const hotkey = info.getValue();
+          const truncatedHotkey = hotkey.slice(0, 6) + '...';
+          return (
+            <CustomButton
+              onClick={() => window.open(`/dashboard/miner/${hotkey}`, '_blank')}
+              className="h-fit p-0 font-bold text-darkGreen"
+              variant={'link'}
+            >
+              <span className="mr-[3px] text-sm underline underline-offset-2">{truncatedHotkey}</span>{' '}
+              <IconExternalLink className="size-4" />
+            </CustomButton>
+          );
+        },
       }),
       columnHelper.accessor('coldkey', {
         header: 'Cold Key',
         size: 110,
-        cell: (info) => getFirstAndLastCharacters(info.getValue(), 5),
+        cell: (info) => {
+          const coldkey = info.getValue();
+          const truncatedColdkey = coldkey.slice(0, 6) + '...';
+          return (
+            <CustomButton
+              onClick={() => window.open(`https://taostats.io/account/${coldkey}`, '_blank')}
+              className="h-fit p-0 font-bold text-darkGreen"
+              variant={'link'}
+            >
+              <span className="mr-[3px] text-sm underline underline-offset-2">{truncatedColdkey}</span>{' '}
+              <IconExternalLink className="size-4" />
+            </CustomButton>
+          );
+        },
       }),
       columnHelper.accessor('trust', {
         header: 'mTrust',
         size: 100,
         enableSorting: true,
         cell: (info) => {
-          return Number(info.getValue()).toFixed(9);
+          return Number(info.getValue()).toFixed(6);
         },
         sortingFn: (rowA, rowB) => {
           return Number(rowA.original.trust) - Number(rowB.original.trust); // Access minerWeight from original data
@@ -112,19 +126,19 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
       columnHelper.accessor('emission', {
         header: 'Daily Emission',
         size: 100,
-        cell: (info) => `${info.getValue().toFixed(6)} τ`,
+        cell: (info) => `${info.getValue().toFixed(3)} τ`,
         enableSorting: true,
       }),
       columnHelper.accessor('totalEmission', {
         header: 'Lifetime Emission',
         size: 100,
-        cell: (info) => `${info.getValue().toFixed(6)} τ`,
+        cell: (info) => `${info.getValue().toFixed(3)} τ`,
         enableSorting: true,
       }),
       columnHelper.accessor('stakedAmt', {
         header: 'Stake',
         size: 100,
-        cell: (info) => info.getValue().toFixed(6),
+        cell: (info) => `${info.getValue().toFixed(3)} τ`,
         enableSorting: true,
         sortingFn: (rowA, rowB) => {
           return Number(rowA.original.stakedAmt) - Number(rowB.original.stakedAmt);
@@ -145,7 +159,7 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
 
   return (
     <div className="pb-[30px]">
-      {!isLaptopOrLarger && <ExampleCard />}
+      {isMobile && <ExampleCard />}
       {isMobile ? (
         <>
           {miners && miners.length > 0 && (
@@ -170,8 +184,12 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
               <option value="stakedAmt">Sort by Stake</option>
             </select>
             <button
-              onClick={() => setSortOrder((order) => (order === 'asc' ? 'desc' : 'asc'))}
-              className={`rounded-lg border border-neutral-700 px-3 py-1 ${sortBy === 'default' ? 'text-muted' : ''}`}
+              onClick={() => {
+                if (sortBy !== 'default') {
+                  setSortOrder((order) => (order === 'asc' ? 'desc' : 'asc'));
+                }
+              }}
+              className={`rounded-lg border border-neutral-700 px-3 py-1 ${sortBy === 'default' ? 'text-muted cursor-not-allowed' : ''}`}
             >
               {sortOrder === 'desc' ? <IconSortDescending /> : <IconSortAscending />}
             </button>
@@ -183,14 +201,17 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
                 key={miner.uid}
                 data={miner}
                 position={currentPage * itemsPerPage + index + 1}
-                actionPath={`/dashboard/miner/${miner.hotkey}`}
-                actionLabel={getFirstAndLastCharacters(miner.hotkey, 5)}
-                renderMainInfo={(miner) => <div className="text-xs text-neutral-500">UID: {miner.uid}</div>}
+                renderMainInfo={(miner) => (
+                  <div className="text-xs text-neutral-500">
+                    UID: {miner.uid} <br />
+                    <div className="font-medium text-black text-sm">{miner.hotkey.slice(0, 6) + '...'}</div>
+                  </div>
+                )}
                 renderStats={(miner) => (
                   <>
                     <div className="text-right">
-                      <div className="text-sm font-medium">{Number(miner.trust).toFixed(9)} </div>
-                      <div className="text-xs text-neutral-500">{miner.emission.toFixed(6)} τ/day</div>
+                      <div className="text-sm font-medium">{Number(miner.trust).toFixed(9)} τ</div>
+                      <div className="text-xs text-neutral-500">{miner.emission.toFixed(3)} τ/day</div>
                     </div>
                     <PerformanceChart data={miner.historicalEmissions.map(({ emission }) => emission).reverse()} />
                   </>
@@ -203,11 +224,11 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
                     </div>
                     <div>
                       <div className="mb-1 text-neutral-500">Stake</div>
-                      <div className="font-medium">{miner.stakedAmt.toFixed(6)}</div>
+                      <div className="font-medium">{miner.stakedAmt.toFixed(3)} τ</div>
                     </div>
                     <div>
                       <div className="mb-1 text-neutral-500">Lifetime Emission</div>
-                      <div className="font-medium">{miner.totalEmission.toFixed(6)} τ</div>
+                      <div className="font-medium">{miner.totalEmission.toFixed(3)} τ</div>
                     </div>
                   </div>
                 )}
