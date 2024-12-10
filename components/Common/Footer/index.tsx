@@ -140,6 +140,10 @@ const Footer = ({ task, className, ...props }: Props) => {
     } else if (loading.state == false) {
       closeInfoModal();
     }
+
+    return () => {
+      closeInfoModal();
+    };
   }, [loading, submissionErr]);
 
   return (
