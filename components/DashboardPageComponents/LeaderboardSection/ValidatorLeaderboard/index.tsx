@@ -203,7 +203,7 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
                   setSortOrder((order) => (order === 'asc' ? 'desc' : 'asc'));
                 }
               }}
-              className={`rounded-lg border border-neutral-700 px-3 py-1 ${sortBy === 'default' ? 'text-muted cursor-not-allowed' : ''}`}
+              className={`rounded-lg border border-neutral-700 px-3 py-1 ${sortBy === 'default' ? 'cursor-not-allowed text-muted' : ''}`}
             >
               {sortOrder === 'desc' ? <IconSortDescending /> : <IconSortAscending />}
             </button>

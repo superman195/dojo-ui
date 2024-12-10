@@ -189,7 +189,7 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
                   setSortOrder((order) => (order === 'asc' ? 'desc' : 'asc'));
                 }
               }}
-              className={`rounded-lg border border-neutral-700 px-3 py-1 ${sortBy === 'default' ? 'text-muted cursor-not-allowed' : ''}`}
+              className={`rounded-lg border border-neutral-700 px-3 py-1 ${sortBy === 'default' ? 'cursor-not-allowed text-muted' : ''}`}
             >
               {sortOrder === 'desc' ? <IconSortDescending /> : <IconSortAscending />}
             </button>
@@ -204,7 +204,7 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
                 renderMainInfo={(miner) => (
                   <div className="text-xs text-neutral-500">
                     UID: {miner.uid} <br />
-                    <div className="font-medium text-black text-sm">{miner.hotkey.slice(0, 6) + '...'}</div>
+                    <div className="text-sm font-medium text-black">{miner.hotkey.slice(0, 6) + '...'}</div>
                   </div>
                 )}
                 renderStats={(miner) => (
