@@ -31,7 +31,7 @@ const useGetNextInProgressTask = () => {
 
         // throw error if success is false
         if (!data.success && data.error) throw new Error(data.error);
-
+        console.log('RETURN TYPE FOR USEGETNEXTINPROGRESS', data);
         return data.body;
       } catch (error: any) {
         setError(error?.message);
