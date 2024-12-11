@@ -31,7 +31,6 @@ const useGetNextInProgressTask = () => {
 
         // throw error if success is false
         if (!data.success && data.error) throw new Error(data.error);
-
         return data.body;
       } catch (error: any) {
         setError(error?.message);

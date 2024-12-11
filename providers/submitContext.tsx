@@ -112,8 +112,11 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         resetSubmissionError();
         postCallback?.(true);
         const nextTaskResponse = await fetchNextInProgressTask(getTaskIdFromRouter(router));
-        if (nextTaskResponse) router.replace(`/Questions?taskId=${nextTaskResponse.nextInProgressTaskId}`);
-        else router.push('/task-list');
+        if (nextTaskResponse?.nextInProgressTaskId) {
+          router.replace(`/Questions?taskId=${nextTaskResponse.nextInProgressTaskId}`);
+        } else {
+          router.push('/task-list');
+        }
       } else {
         postCallback?.(false);
       }
