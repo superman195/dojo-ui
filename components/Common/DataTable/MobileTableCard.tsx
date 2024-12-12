@@ -26,11 +26,11 @@ const MobileTableCard = <T extends {}>({
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="hover:bg-primary-100 mb-3 rounded-xl border border-neutral-700 p-4 transition-colors">
-      <div
-        className="flex cursor-pointer flex-col items-start justify-between gap-4 sm:flex-row sm:items-center"
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
+    <div
+      onClick={() => setIsExpanded(!isExpanded)}
+      className="mb-3 cursor-pointer select-none rounded-sm border bg-white p-4 transition-colors hover:border-primary hover:bg-secondary"
+    >
+      <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div className="flex items-start gap-2 sm:items-center">
           <span className="shrink-0 text-2xl font-bold text-neutral-400">#{position}</span>
           <div className="flex flex-col">

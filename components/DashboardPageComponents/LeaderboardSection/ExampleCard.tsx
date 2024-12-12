@@ -1,29 +1,30 @@
+import { cn } from '@/utils/tw';
 import { FontManrope } from '@/utils/typography';
 import { IconBulbFilled } from '@tabler/icons-react';
 import { useState } from 'react';
 
+const cardStyles = 'hover:bg-primary-100 rounded-xl border border-neutral-700 p-4 transition-colors';
+const headerStyles = 'flex cursor-pointer flex-col items-start justify-between gap-4 sm:flex-row sm:items-center';
+const textStyles = 'text-xs text-neutral-500';
 const ExampleCard = () => {
   const [isExampleVisible, setIsExampleVisible] = useState(false);
-  const cardStyles = 'hover:bg-primary-100 rounded-xl border border-neutral-700 p-4 transition-colors';
-  const headerStyles = 'flex cursor-pointer flex-col items-start justify-between gap-4 sm:flex-row sm:items-center';
-  const textStyles = 'text-xs text-neutral-500';
 
   return (
-    <div className="mb-4 rounded-lg border border-yellow-300 bg-yellow-100">
+    <div className="mb-4 rounded-sm border border-primary/30 ">
       <div
-        className="flex cursor-pointer items-center justify-between p-2 text-sm font-medium"
+        className="flex cursor-pointer items-center justify-between bg-primary/20 p-2 text-sm font-medium"
         onClick={() => setIsExampleVisible(!isExampleVisible)}
       >
-        <span className={`${FontManrope.className} flex items-center font-semibold text-gray-500`}>
-          <IconBulbFilled className="mr-2" /> Tip: Click to see an example of data structure displayed in the
-          leaderboard.
+        <span className={`${FontManrope.className} flex items-center font-normal text-font-primary`}>
+          <IconBulbFilled size={16} className="mr-2 shrink-0" /> Tip: Click to see an example of data structure
+          displayed in the leaderboard.
         </span>
-        <span className="text-xs">{isExampleVisible ? '▼' : '▲'}</span>
+        <span className="mr-2 text-xs text-muted-foreground">{isExampleVisible ? '▼' : '▲'}</span>
       </div>
 
       {isExampleVisible && (
-        <div className="rounded-b-lg border-t border-yellow-300 bg-yellow-50 p-4">
-          <div className={cardStyles}>
+        <div className="rounded-b-sm border-t border-primary/30 bg-primary/0 p-1">
+          <div className={cn(cardStyles, 'border-none')}>
             <div className={headerStyles}>
               {/* Left side - Rank and ID */}
               <div className="flex items-start gap-2 sm:items-center">
@@ -43,8 +44,7 @@ const ExampleCard = () => {
                   <div className={textStyles}>daily emission</div>
                 </div>
                 <div className="flex items-center">
-                  <div className="h-[35px] w-[120px] bg-neutral-800/50"></div>
-                  <div className="ml-2 text-xs text-[#00C7B0]">▲</div>
+                  <div className="h-[35px] w-[120px] bg-gradient-to-r from-primary/20 to-neutral-100"></div>
                 </div>
               </div>
             </div>

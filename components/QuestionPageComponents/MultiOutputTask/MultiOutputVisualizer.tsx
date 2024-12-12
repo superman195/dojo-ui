@@ -111,16 +111,16 @@ const MultiOutputVisualizer = ({ task, className, ...props }: TaskVisualizerProp
                     >
                       {renderVisualizer(task.type, response, index)}
                       <>
-                        <div className={`px-4`}>
-                          {showLeaderboard ? (
-                            <Leaderboard miners={leaderboardData} />
-                          ) : (
-                            <>
-                              <div
-                                className={` w-full justify-between px-4 text-base ${FontSpaceMono.className} border-t-2 border-black py-2  font-bold uppercase`}
-                              >
-                                response quality
-                              </div>
+                        {showLeaderboard ? (
+                          <Leaderboard miners={leaderboardData} />
+                        ) : (
+                          <>
+                            <div
+                              className={` w-full justify-between px-4 text-base ${FontSpaceMono.className} border-t-2 border-black py-2  font-bold uppercase`}
+                            >
+                              response quality
+                            </div>
+                            <div className={`px-4`}>
                               <Slider
                                 min={1}
                                 max={10}
@@ -131,9 +131,9 @@ const MultiOutputVisualizer = ({ task, className, ...props }: TaskVisualizerProp
                                 }}
                                 showSections
                               />
-                            </>
-                          )}
-                        </div>
+                            </div>
+                          </>
+                        )}
                       </>
                     </div>
                   </div>

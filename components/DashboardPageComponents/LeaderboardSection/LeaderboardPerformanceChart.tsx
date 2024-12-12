@@ -11,7 +11,7 @@ const PerformanceChart: React.FC<PerformanceChartProps> = ({ data }) => {
     chart: {
       type: 'area',
       height: 30,
-      width: 80,
+      width: 110,
       backgroundColor: 'transparent',
       margin: [2, 0, 2, 0],
       spacing: [0, 0, 0, 0],

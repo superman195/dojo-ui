@@ -4,7 +4,7 @@ import MobileTableCard from '@/components/Common/DataTable/MobileTableCard';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { NonRootNeuronObj } from '@/types/DashboardTypes';
 import { cn } from '@/utils/tw';
-import { FontSpaceMono } from '@/utils/typography';
+import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import {
   IconChevronsLeft,
   IconChevronsRight,
@@ -157,7 +157,7 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
   );
 
   return (
-    <div className="pb-[30px]">
+    <div className={cn(FontManrope.className, 'pb-[30px]')}>
       {isMobile && <ExampleCard />}
       {isMobile ? (
         <>
@@ -175,7 +175,7 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
                 setSortBy(e.target.value as typeof sortBy);
                 setCurrentPage(0);
               }}
-              className="flex-1 appearance-none rounded-lg border border-neutral-700 bg-[url('/chevron-down.svg')] bg-[length:16px] bg-[center_right_1rem] bg-no-repeat p-2 pr-12 text-sm"
+              className="flex-1 appearance-none rounded-full border border-black/10 bg-card-background p-2 px-3 pr-12 text-sm hover:cursor-pointer hover:border-primary hover:bg-secondary"
             >
               <option value="default">Default Order</option>
               <option value="trust">Sort by Trust</option>
@@ -188,7 +188,7 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
                   setSortOrder((order) => (order === 'asc' ? 'desc' : 'asc'));
                 }
               }}
-              className={`rounded-lg border border-neutral-700 px-3 py-1 ${sortBy === 'default' ? 'cursor-not-allowed text-muted' : ''}`}
+              className={`flex aspect-square size-[38px] items-center justify-center rounded-full border border-muted bg-card-background ${sortBy === 'default' ? 'cursor-not-allowed text-muted-foreground' : 'border-black/10'}`}
             >
               {sortOrder === 'desc' ? <IconSortDescending /> : <IconSortAscending />}
             </button>
@@ -217,7 +217,7 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
                 )}
                 renderStats={(miner) => (
                   <>
-                    <div className="text-right">
+                    <div className="text-start">
                       <div className="text-sm font-medium">{Number(miner.trust).toFixed(9)} τ</div>
                       <div className="text-xs text-neutral-500">{miner.emission.toFixed(3)} τ/day</div>
                     </div>
@@ -225,31 +225,34 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
                   </>
                 )}
                 renderExpandedInfo={(miner) => (
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <div className="mb-1 text-neutral-500">Cold Key</div>
-                      <div className="font-medium">
-                        <CustomButton
-                          onClick={() => window.open(`https://taostats.io/account/${miner.coldkey}`, '_blank')}
-                          className="h-fit p-0 font-bold text-darkGreen"
-                          variant={'link'}
-                        >
-                          <span className="mr-[3px] text-sm underline underline-offset-2">
-                            {miner.coldkey.slice(0, 6) + '...'}
-                          </span>
-                          <IconExternalLink className="size-4" />{' '}
-                        </CustomButton>
+                  <>
+                    <div className="flex flex-col gap-1">
+                      <div className="flex flex-wrap items-center justify-between">
+                        <span>Cold key</span>
+                        <span>
+                          {' '}
+                          <CustomButton
+                            onClick={() => window.open(`https://taostats.io/account/${miner.coldkey}`, '_blank')}
+                            className="h-fit p-0 font-bold text-darkGreen"
+                            variant={'link'}
+                          >
+                            <span className="mr-[3px] text-sm underline underline-offset-2">
+                              {miner.coldkey.slice(0, 6) + '...'}
+                            </span>
+                            <IconExternalLink className="size-4" />{' '}
+                          </CustomButton>
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap items-center justify-between">
+                        <span>Stake</span>
+                        <span>{miner.stakedAmt.toFixed(3)} τ</span>
+                      </div>
+                      <div className="flex flex-wrap items-center justify-between">
+                        <span>Lifetime Emission</span>
+                        <span>{miner.totalEmission.toFixed(3)} τ</span>
                       </div>
                     </div>
-                    <div>
-                      <div className="mb-1 text-neutral-500">Stake</div>
-                      <div className="font-medium">{miner.stakedAmt.toFixed(3)} τ</div>
-                    </div>
-                    <div>
-                      <div className="mb-1 text-neutral-500">Lifetime Emission</div>
-                      <div className="font-medium">{miner.totalEmission.toFixed(3)} τ</div>
-                    </div>
-                  </div>
+                  </>
                 )}
               />
             ))}
