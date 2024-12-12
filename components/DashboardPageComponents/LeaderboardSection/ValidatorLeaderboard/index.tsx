@@ -215,7 +215,12 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
                 key={validator.uid}
                 data={validator}
                 position={currentPage * itemsPerPage + index + 1}
-                renderMainInfo={(validator) => <div className="text-xs text-neutral-500">UID: {validator.uid}</div>}
+                renderMainInfo={(validator) => (
+                  <div>
+                    <div className="text-xs text-neutral-500">UID: {validator.uid}</div>
+                    <div className="text-sm font-medium text-black">{validator.hotkey.slice(0, 6) + '...'}</div>
+                  </div>
+                )}
                 renderStats={(validator) => (
                   <>
                     <div className="text-right">

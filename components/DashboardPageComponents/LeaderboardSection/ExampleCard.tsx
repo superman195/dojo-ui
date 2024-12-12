@@ -1,6 +1,5 @@
-import { CustomButton } from '@/components/Common/CustomComponents/button';
 import { FontManrope } from '@/utils/typography';
-import { IconBulbFilled, IconExternalLink } from '@tabler/icons-react';
+import { IconBulbFilled } from '@tabler/icons-react';
 import { useState } from 'react';
 
 const ExampleCard = () => {
@@ -30,13 +29,10 @@ const ExampleCard = () => {
               <div className="flex items-start gap-2 sm:items-center">
                 <span className="shrink-0 text-2xl font-bold text-neutral-400">#RANK</span>
                 <div className="flex flex-col">
-                  <div className="text-sm font-medium">
-                    <CustomButton onClick={() => {}} className="h-fit p-0 font-bold text-darkGreen" variant={'link'}>
-                      <span className="mr-[3px] text-xs underline underline-offset-2">Hotkey</span>
-                      <IconExternalLink className="size-4" />
-                    </CustomButton>
-                  </div>
                   <div className={textStyles}>Unique ID</div>
+                  <div className="text-sm font-medium">
+                    <span className="mr-[3px] underline-offset-2">Hotkey</span>
+                  </div>
                 </div>
               </div>
 

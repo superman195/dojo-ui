@@ -3,7 +3,6 @@ import Datatablev2 from '@/components/Common/DataTable/Datatablev2';
 import MobileTableCard from '@/components/Common/DataTable/MobileTableCard';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { NonRootNeuronObj } from '@/types/DashboardTypes';
-import { getFirstAndLastCharacters } from '@/utils/math_helpers';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
 import {
@@ -204,7 +203,16 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
                 renderMainInfo={(miner) => (
                   <div className="text-xs text-neutral-500">
                     UID: {miner.uid} <br />
-                    <div className="text-sm font-medium text-black">{miner.hotkey.slice(0, 6) + '...'}</div>
+                    <CustomButton
+                      onClick={() => window.open(`/dashboard/miner/${miner.hotkey}`, '_blank')}
+                      className="h-fit p-0 font-bold text-darkGreen"
+                      variant={'link'}
+                    >
+                      <span className="mr-[3px] text-sm underline underline-offset-2">
+                        {miner.hotkey.slice(0, 6) + '...'}
+                      </span>{' '}
+                      <IconExternalLink className="size-4" />
+                    </CustomButton>
                   </div>
                 )}
                 renderStats={(miner) => (
@@ -220,7 +228,18 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
                       <div className="mb-1 text-neutral-500">Cold Key</div>
-                      <div className="font-medium">{getFirstAndLastCharacters(miner.coldkey, 5)}</div>
+                      <div className="font-medium">
+                        <CustomButton
+                          onClick={() => window.open(`https://taostats.io/account/${miner.coldkey}`, '_blank')}
+                          className="h-fit p-0 font-bold text-darkGreen"
+                          variant={'link'}
+                        >
+                          <span className="mr-[3px] text-sm underline underline-offset-2">
+                            {miner.coldkey.slice(0, 6) + '...'}
+                          </span>
+                          <IconExternalLink className="size-4" />{' '}
+                        </CustomButton>
+                      </div>
                     </div>
                     <div>
                       <div className="mb-1 text-neutral-500">Stake</div>
