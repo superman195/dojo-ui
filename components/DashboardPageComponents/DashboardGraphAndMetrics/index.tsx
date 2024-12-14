@@ -3,7 +3,7 @@ import { abbreviateNumber } from '@/utils/math_helpers';
 import { FontSpaceMono } from '@/utils/typography';
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts/highstock';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface SubnetData {
   id: number;
@@ -46,6 +46,8 @@ interface DashboardGraphAndMetricsProps {
 function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraphAndMetricsProps) {
   const [chartOptions, setChartOptions] = useState<Highcharts.Options>({});
   const { numCompletedTasks, loading: completedTasksLoading, error: completedTasksError } = useCompletedTasksCount();
+  const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
+
   useEffect(() => {
     if (!subnetData || subnetData.historicalSubnetEmissions.length < 2) {
       console.warn('Not enough data points for the chart');
@@ -224,19 +226,34 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
       value: completedTasksLoading ? '0' : numCompletedTasks ? abbreviateNumber(numCompletedTasks) : 'N/A',
     },
   ];
+  useEffect(() => {
+    const handleResize = () => {
+      if (chartComponentRef.current) {
+        chartComponentRef.current.chart.reflow();
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   if (error) {
     return <div>Error: {error}</div>;
   }
 
+  // Add resize handler
+
   return (
-    <div className="mb-6">
+    <div className="container mx-auto mb-6 px-0 lg:px-8">
       <div className="flex w-full flex-col justify-between gap-3 lg:flex-row">
-        <div className="flex flex-row gap-3 overflow-x-auto p-3 lg:w-1/4 lg:flex-col lg:overflow-x-visible lg:p-0">
+        <div className="flex flex-row gap-3 overflow-x-auto py-3 lg:min-w-[240px] lg:flex-col lg:overflow-x-visible lg:p-0">
           {kpiMetrics.map((metric, index) => (
             <div
               key={index}
-              className="w-full min-w-[200px] rounded-sm border-2 border-black bg-white p-3 shadow-brut-sm lg:min-w-0 lg:p-4"
+              className="w-full min-w-[200px] rounded-sm border-2 border-black bg-white p-3  lg:min-w-0 lg:p-4"
             >
               <div className={`${FontSpaceMono.className} mb-1 text-sm font-bold lg:text-lg`}>{metric.label}</div>
               {loading ? (
@@ -247,8 +264,8 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
             </div>
           ))}
         </div>
-        <div className="min-h-[300px] flex-1 rounded-sm border-2 border-black bg-white shadow-brut-sm lg:min-h-[400px] lg:w-3/4">
-          <div className="h-full p-4">
+        <div className="min-h-[300px] flex-1 rounded-sm border-2 border-black bg-white lg:min-h-[400px]">
+          <div className="size-full p-4">
             {loading ? (
               <div className="flex h-full flex-col">
                 <div className="mb-4 h-6 w-48 animate-pulse bg-gray-200"></div>
@@ -265,8 +282,13 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
                 </div>
               </div>
             ) : (
-              <HighchartsReact highcharts={Highcharts} options={chartOptions} constructorType={'stockChart'} />
-            )}{' '}
+              <HighchartsReact
+                highcharts={Highcharts}
+                options={chartOptions}
+                constructorType={'stockChart'}
+                containerProps={{ className: 'w-full' }}
+              />
+            )}
           </div>
         </div>
       </div>

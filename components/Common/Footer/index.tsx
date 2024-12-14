@@ -10,6 +10,7 @@ import { wait } from '@/utils/general_helpers';
 import { tasklistFull } from '@/utils/states';
 import { cn } from '@/utils/tw';
 import { IconLoader } from '@tabler/icons-react';
+import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { HTMLAttributes, useCallback, useEffect, useState } from 'react';
 import { Button } from '../Button';
@@ -33,6 +34,9 @@ const Footer = ({ task, className, ...props }: Props) => {
   const { saveScrollPosition, restoreScrollPosition } = useScrollRestoration();
   const { openModal: openInfoModal, closeModal: closeInfoModal } = useModal(MODAL.informational);
   const [loading, setLoading] = useState<loadingState>({ state: false, message: null } as loadingState);
+
+  const searchParams = useSearchParams();
+  const showIndividualMinerLeadersboard = searchParams.get('showIndividualMinerLeadersboard') === 'true';
 
   const startLoading = (message?: string) => {
     setLoading((prev) => ({ ...prev, state: true, message: message || 'Loading...' }));
@@ -212,42 +216,44 @@ const Footer = ({ task, className, ...props }: Props) => {
                 </div> */}
         {/* </div> */}
         {/* </div> */}
-        <div className="flex w-full items-center justify-end space-x-[11px]">
-          <Button
-            buttonText={'SKIP'}
-            className={cn('!bg-muted px-[37px] py-[15px] text-black hover:shadow-brut-sm', 'w-1/2 sm:w-auto')}
-            onClick={async () => {
-              if (!exp) handleSkip();
-              else {
-                handleDemoTasklistRotation(taskId as string, true);
-              }
-            }}
-          />
-          <Button
-            buttonText={'PROCEED'}
-            className={cn('bg-primary px-[37px] py-[15px] text-white hover:shadow-brut-sm', 'w-1/2 sm:w-auto')}
-            onClick={() => {
-              if (!exp) {
-                if (feValidationBeforeSubmit()) {
-                  handleSubmit(
-                    () => {
-                      startLoading('Submitting...');
-                    },
-                    (f) => {
-                      if (f) {
-                        startLoading('Submitted!');
-                      } else {
-                        stopLoading();
-                      }
-                    }
-                  );
+        {!showIndividualMinerLeadersboard && (
+          <div className="flex w-full items-center justify-end space-x-[11px]">
+            <Button
+              buttonText={'SKIP'}
+              className={cn('!bg-muted px-[37px] py-[15px] text-black hover:shadow-brut-sm', 'w-1/2 sm:w-auto')}
+              onClick={async () => {
+                if (!exp) handleSkip();
+                else {
+                  handleDemoTasklistRotation(taskId as string, true);
                 }
-              } else {
-                handleDemoTasklistRotation(taskId as string);
-              }
-            }}
-          />
-        </div>
+              }}
+            />
+            <Button
+              buttonText={'PROCEED'}
+              className={cn('bg-primary px-[37px] py-[15px] text-white hover:shadow-brut-sm', 'w-1/2 sm:w-auto')}
+              onClick={() => {
+                if (!exp) {
+                  if (feValidationBeforeSubmit()) {
+                    handleSubmit(
+                      () => {
+                        startLoading('Submitting...');
+                      },
+                      (f) => {
+                        if (f) {
+                          startLoading('Submitted!');
+                        } else {
+                          stopLoading();
+                        }
+                      }
+                    );
+                  }
+                } else {
+                  handleDemoTasklistRotation(taskId as string);
+                }
+              }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

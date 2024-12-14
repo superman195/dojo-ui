@@ -19,6 +19,15 @@ export const getFirstAndLastCharacters = (str: string, num: number) => {
   return `${str.slice(0, num)}...${str.slice(-num)}`;
 };
 
+export const makeDollarReadable = (value: string | number, decimalPlace?: number, locale?: string): string => {
+  if (!value) return '0';
+  if (isNaN(Number(value))) return '0';
+  return new Intl.NumberFormat(locale || navigator.language || 'en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: decimalPlace || 2,
+  }).format(Number(value));
+};
+
 /**
  * The concept is to split the number into LHS and RHS.
  * e.g. 19324.83 -> [19] [324]
