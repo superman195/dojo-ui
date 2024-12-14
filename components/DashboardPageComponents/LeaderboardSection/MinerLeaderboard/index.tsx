@@ -3,6 +3,7 @@ import Datatablev2 from '@/components/Common/DataTable/Datatablev2';
 import MobileTableCard from '@/components/Common/DataTable/MobileTableCard';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { NonRootNeuronObj } from '@/types/DashboardTypes';
+import { makeDollarReadable } from '@/utils/math_helpers';
 import { cn } from '@/utils/tw';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import {
@@ -131,13 +132,13 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
       columnHelper.accessor('totalEmission', {
         header: 'Lifetime Emission',
         size: 100,
-        cell: (info) => `${info.getValue().toFixed(3)} τ`,
+        cell: (info) => `${makeDollarReadable(info.getValue(), 3)} τ`,
         enableSorting: true,
       }),
       columnHelper.accessor('stakedAmt', {
         header: 'Stake',
         size: 100,
-        cell: (info) => `${info.getValue().toFixed(3)} τ`,
+        cell: (info) => `${makeDollarReadable(info.getValue(), 3)} τ`,
         enableSorting: true,
         sortingFn: (rowA, rowB) => {
           return Number(rowA.original.stakedAmt) - Number(rowB.original.stakedAmt);

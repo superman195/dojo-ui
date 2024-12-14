@@ -1,11 +1,18 @@
+import { CustomButton } from '@/components/Common/CustomComponents/button';
 import Datatablev2 from '@/components/Common/DataTable/Datatablev2';
 import MobileTableCard from '@/components/Common/DataTable/MobileTableCard';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { NonRootNeuronObj } from '@/types/DashboardTypes';
-import { getFirstAndLastCharacters } from '@/utils/math_helpers';
+import { getFirstAndLastCharacters, makeDollarReadable } from '@/utils/math_helpers';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
-import { IconChevronsLeft, IconChevronsRight, IconSortAscending, IconSortDescending } from '@tabler/icons-react';
+import {
+  IconChevronsLeft,
+  IconChevronsRight,
+  IconExternalLink,
+  IconSortAscending,
+  IconSortDescending,
+} from '@tabler/icons-react';
 import { createColumnHelper } from '@tanstack/react-table';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
@@ -122,7 +129,17 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
         size: 110,
         cell: (info) => {
           const hotkey = info.getValue();
-          return <span className="whitespace-nowrap">{hotkey.slice(0, 6) + '...'}</span>;
+          const truncatedHotkey = hotkey.slice(0, 6) + '...';
+          return (
+            <CustomButton
+              onClick={() => window.open(`/dashboard/miner/${hotkey}`, '_blank')}
+              className="h-fit p-0 font-bold text-darkGreen"
+              variant={'link'}
+            >
+              <span className="mr-[3px] text-sm underline underline-offset-2">{truncatedHotkey}</span>{' '}
+              <IconExternalLink className="size-4" />
+            </CustomButton>
+          );
         },
       }),
       columnHelper.accessor('coldkey', {
@@ -130,13 +147,23 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
         size: 110,
         cell: (info) => {
           const coldkey = info.getValue();
-          return <span className="whitespace-nowrap">{coldkey.slice(0, 6) + '...'}</span>;
+          const truncatedColdkey = coldkey.slice(0, 6) + '...';
+          return (
+            <CustomButton
+              onClick={() => window.open(`https://taostats.io/account/${coldkey}`, '_blank')}
+              className="h-fit p-0 font-bold text-darkGreen"
+              variant={'link'}
+            >
+              <span className="mr-[3px] text-sm underline underline-offset-2">{truncatedColdkey}</span>{' '}
+              <IconExternalLink className="size-4" />
+            </CustomButton>
+          );
         },
       }),
       columnHelper.accessor('validatorTrust', {
         header: 'vTrust',
         size: 100,
-        cell: (info) => <span className="whitespace-nowrap">{Number(info.getValue()).toFixed(6)} τ</span>,
+        cell: (info) => <span className="whitespace-nowrap">{Number(info.getValue()).toFixed(6)}</span>,
         enableSorting: true,
       }),
       columnHelper.accessor('emission', {
@@ -148,13 +175,13 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
       columnHelper.accessor('totalEmission', {
         header: 'Lifetime Emission',
         size: 100,
-        cell: (info) => <span className="whitespace-nowrap">{`${info.getValue().toFixed(3)} τ`}</span>,
+        cell: (info) => <span className="whitespace-nowrap">{`${makeDollarReadable(info.getValue(), 3)} τ`}</span>,
         enableSorting: true,
       }),
       columnHelper.accessor('stakedAmt', {
         header: 'Stake',
         size: 100,
-        cell: (info) => <span className="whitespace-nowrap">{`${info.getValue().toFixed(3)} τ`}</span>,
+        cell: (info) => <span className="whitespace-nowrap">{`${makeDollarReadable(info.getValue(), 3)} τ`}</span>,
         enableSorting: true,
       }),
       columnHelper.accessor('historicalEmissions', {
@@ -190,7 +217,7 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
                 setSortBy(e.target.value as typeof sortBy);
                 setCurrentPage(0);
               }}
-              className="flex-1 appearance-none rounded-lg border border-neutral-700 bg-[url('/chevron-down.svg')] bg-[length:16px] bg-[center_right_1rem] bg-no-repeat p-2 pr-12 text-sm"
+              className="flex-1 appearance-none rounded-full border border-black/10 bg-card-background p-2 px-3 pr-12 text-sm hover:cursor-pointer hover:border-primary hover:bg-secondary"
             >
               <option value="default">Default Order</option>
               <option value="validatorTrust">Sort by Trust</option>
@@ -203,7 +230,7 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
                   setSortOrder((order) => (order === 'asc' ? 'desc' : 'asc'));
                 }
               }}
-              className={`rounded-lg border border-neutral-700 px-3 py-1 ${sortBy === 'default' ? 'cursor-not-allowed text-muted' : ''}`}
+              className={`flex aspect-square size-[38px] items-center justify-center rounded-full border border-muted bg-card-background ${sortBy === 'default' ? 'cursor-not-allowed text-muted-foreground' : 'border-black/10'}`}
             >
               {sortOrder === 'desc' ? <IconSortDescending /> : <IconSortAscending />}
             </button>
