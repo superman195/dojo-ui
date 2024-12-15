@@ -1,3 +1,4 @@
+import { TaskPayloadNew } from '@/utils/states';
 import { CriterionWithResponses, Task } from '../QuestionPageTypes';
 
 export interface AuthContextType {
@@ -53,6 +54,7 @@ export interface SubmitContextType {
   addCriterionForResponse: (index: string, value: string) => void;
   getCriterionForResponse: () => CriterionWithResponses[];
   resetCriterionForResponse: (task: Task) => void;
+  resetCriterionForResponseNew: (task: TaskPayloadNew) => void;
 }
 
 export type RankOrder = { [key: string]: string };

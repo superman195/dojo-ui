@@ -1,6 +1,6 @@
 import { Task } from '@/types/QuestionPageTypes';
 import { getFromLocalStorage, wait } from '@/utils/general_helpers';
-import { tasklistFull } from '@/utils/states';
+import { tasklistFull, TaskPayloadNew } from '@/utils/states';
 import { useEffect, useState } from 'react';
 import useFeature from './useFeature';
 
@@ -26,7 +26,7 @@ const getCorrectS3UrlByUrl = (s3Url: string) => {
 };
 
 const useRequestTaskByTaskID = (taskId: string, isConnected?: boolean, isAuthenticated?: boolean) => {
-  const [task, setTask] = useState<Task | null>(null);
+  const [task, setTask] = useState<Task | TaskPayloadNew | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const { exp } = useFeature({ kw: 'demo' });

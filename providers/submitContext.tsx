@@ -4,6 +4,7 @@ import { useSubmitTaskNew } from '@/hooks/useSubmitTaskNew';
 import { RankOrder, SubmitContextType } from '@/types/ProvidersTypes';
 import { CriterionWithResponses, Task } from '@/types/QuestionPageTypes';
 import { getTaskIdFromRouter } from '@/utils/general_helpers';
+import { TaskPayloadNew } from '@/utils/states';
 import { useRouter } from 'next/router';
 import React, { ReactNode, createContext, useCallback, useContext, useState } from 'react';
 
@@ -99,6 +100,17 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       ...task.taskData.criteria.map((c) => ({ ...c, type: c.type as any, responses: undefined })),
     ]); //Setting up the initial state with responses
   }, []);
+  const resetCriterionForResponseNew = useCallback((task: TaskPayloadNew) => {
+    const firstResponse = task.taskData.responses[0];
+    if (firstResponse && 'criteria' in firstResponse) {
+      setCriterionForResponse([
+        ...firstResponse.criteria.map((c) => ({
+          type: c.type as any,
+          responses: undefined,
+        })),
+      ]);
+    }
+  }, []);
   const submitTaskNew = useCallback(
     async (preCallback?: (flag: boolean) => void, postCallback?: (flag: boolean) => void) => {
       if (!router) return;
@@ -177,6 +189,7 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         addCriterionForResponse,
         getCriterionForResponse,
         resetCriterionForResponse,
+        resetCriterionForResponseNew,
       }}
     >
       {children}

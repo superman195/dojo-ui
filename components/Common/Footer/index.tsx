@@ -7,15 +7,16 @@ import { useSubmit } from '@/providers/submitContext';
 import { MODAL } from '@/types/ProvidersTypes';
 import { Task } from '@/types/QuestionPageTypes';
 import { wait } from '@/utils/general_helpers';
-import { tasklistFull } from '@/utils/states';
+import { tasklistFull, TaskPayloadNew } from '@/utils/states';
 import { cn } from '@/utils/tw';
+import { isLegacyTask, isTaskPayloadNew } from '@/utils/typeGuards';
 import { IconLoader } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import { HTMLAttributes, useCallback, useEffect, useState } from 'react';
 import { Button } from '../Button';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  task: Task;
+  task: Task | TaskPayloadNew;
 }
 
 interface loadingState {
@@ -92,32 +93,63 @@ const Footer = ({ task, className, ...props }: Props) => {
   const feValidationBeforeSubmit = useCallback(() => {
     const criterionResponses = getCriterionForResponse();
     let tmpFlag = true;
-    task.taskData.criteria.forEach((criteria) => {
-      switch (criteria.type) {
-        case 'multi-score':
-          // Just check if there's same number of responses as prompt output in the response.value object
-          const respondedCriteria = criterionResponses.find((c) => c.text === criteria.text);
-          if (
-            respondedCriteria?.responses &&
-            Object.entries(respondedCriteria.responses).length == task.taskData.responses.length
-          ) {
-            //means ok
-            break;
-          } else {
-            setFeErrorAndScroll('Ensure that you attempted to rate all response(s).');
+    if (isLegacyTask(task)) {
+      task.taskData.criteria.forEach((criteria) => {
+        switch (criteria.type) {
+          case 'multi-score':
+            // Just check if there's same number of responses as prompt output in the response.value object
+            const respondedCriteria = criterionResponses.find((c) => c.text === criteria.text);
+            if (
+              respondedCriteria?.responses &&
+              Object.entries(respondedCriteria.responses).length == task.taskData.responses.length
+            ) {
+              //means ok
+              break;
+            } else {
+              setFeErrorAndScroll('Ensure that you attempted to rate all response(s).');
+              tmpFlag = false;
+              break;
+            }
+          case 'multi-select':
+          case 'single-select':
+          case 'score':
+          case 'ranking':
+          case 'rich-human-feedback':
+          default:
             tmpFlag = false;
             break;
+        }
+      });
+    } else if (isTaskPayloadNew(task)) {
+      task.taskData.responses.map((response) => {
+        response.criteria.map((criteria) => {
+          switch (criteria.type) {
+            case 'multi-score':
+              // Just check if there's same number of responses as prompt output in the response.value object
+              const respondedCriteria = criterionResponses.find((c) => c.type === criteria.type);
+              if (
+                respondedCriteria?.responses &&
+                Object.entries(respondedCriteria.responses).length == task.taskData.responses.length
+              ) {
+                //means ok
+                break;
+              } else {
+                setFeErrorAndScroll('Ensure that you attempted to rate all response(s).');
+                tmpFlag = false;
+                break;
+              }
+            case 'multi-select':
+            case 'single-select':
+            case 'score':
+            case 'ranking':
+            case 'rich-human-feedback':
+            default:
+              tmpFlag = false;
+              break;
           }
-        case 'multi-select':
-        case 'single-select':
-        case 'score':
-        case 'ranking':
-        case 'rich-human-feedback':
-        default:
-          tmpFlag = false;
-          break;
-      }
-    });
+        });
+      });
+    }
     return tmpFlag;
   }, [task, getCriterionForResponse]);
 
