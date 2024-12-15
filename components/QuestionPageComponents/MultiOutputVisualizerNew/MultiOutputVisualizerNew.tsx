@@ -68,7 +68,7 @@ const MultiOutputVisualizerNew = ({ task, className, ...props }: TaskVisualizerP
                         className={`flex h-fit w-full flex-col overflow-hidden rounded-sm border-2 border-black bg-ecru-white shadow-brut-sm`}
                       >
                         {renderVisualizer(task.type as TaskType, response, responseIdx)}
-                        <div className="w-full border-t-2 border-black py-2 px-4 text-base font-bold uppercase">
+                        <div className="w-full border-t-2 border-black px-4 py-2 text-base font-bold uppercase">
                           response quality
                         </div>
                         <div className="px-4">
