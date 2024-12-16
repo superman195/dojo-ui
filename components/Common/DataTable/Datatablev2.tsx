@@ -28,7 +28,6 @@ import {
   IconSortDescending,
 } from '@tabler/icons-react';
 import React from 'react';
-import { BrutCard } from '../CustomComponents/brut-card';
 import Shimmers from '../CustomComponents/shimmers';
 
 export interface FilterDef {
@@ -61,6 +60,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   showPagination?: boolean;
   getRowCanExpand?: (row: Row<any>) => boolean;
   onSortingChange?: (sorting: any) => void;
+  enableSortHighlight?: boolean;
 }
 
 export interface dateRangeType {
@@ -93,6 +93,7 @@ const Datatablev2 = ({
   getRowCanExpand,
   onSortingChange,
   showPagination = true,
+  enableSortHighlight = false,
   ...props
 }: Props) => {
   // Configuration
@@ -323,17 +324,7 @@ const Datatablev2 = ({
           of {table.getFilteredRowModel().rows.length}
         </span>
       )}
-      <BrutCard
-        variant={isStyled ? 'default' : 'none'}
-        ref={tableContainerRef}
-        className={cn(
-          'p-0 overflow-x-auto relative',
-          !loadingState && table.getFilteredRowModel().rows.length <= 0 && 'overflow-x-hidden',
-          'sticky-table-container',
-          containerClassName,
-          'rounded-sm'
-        )}
-      >
+      <div className="relative overflow-x-auto rounded-sm border-2 border-black">
         {/* Default col size in tanstack table is 150px  */}
         {/* Table size is page body size (800 atm) -2pixel cuz of borders */}
         {/* Have to put fixed width and table-fixed if not the widths will let the content anyhow run */}
@@ -345,19 +336,25 @@ const Datatablev2 = ({
             no data
           </div>
         )}
-        <table className={cn('table-fixed w-[1100px] relative', tableClassName)}>
+        <table className={cn('w-full table-fixed', tableClassName)}>
           <thead className={cn('border-b-[1px] border-muted-foreground', headerClassName)}>
             {table.getHeaderGroups().map((hg) => (
-              <tr className="" key={hg.id}>
+              <tr key={hg.id}>
                 {hg.headers.map((header, idx) => (
                   <th
                     onClick={header.column.getToggleSortingHandler()}
                     key={header.id}
                     className={cn(
-                      'text-start px-[12px] py-[6px]',
+                      'text-start px-[12px] py-[6px] transition-colors duration-200',
                       headerCellClassName,
                       idx === hg.headers.length - 1 && isLastSticky && 'sticky-column',
-                      header.column.getCanSort() && 'cursor-pointer'
+                      header.column.getCanSort() && 'cursor-pointer',
+                      enableSortHighlight && [
+                        'transition-colors duration-200',
+                        header.column.getIsSorted()
+                          ? 'text-[#3A3A2B]' // Brighter text when sorted
+                          : 'text-[#838378] hover:text-[#3A3A2B]/80', // Dimmer text when not sorted
+                      ]
                     )}
                     style={{
                       boxShadow:
@@ -369,14 +366,29 @@ const Datatablev2 = ({
                       minWidth: header.column.getSize() == 0 ? 'auto' : `${header.column.getSize()}px`,
                     }}
                   >
-                    <div className="flex items-center gap-[3px]">
+                    <div
+                      className={cn(
+                        'flex items-center gap-[3px]',
+                        enableSortHighlight && [
+                          header.column.getIsSorted()
+                            ? 'text-[#3A3A2B]' // Brighter icon when sorted
+                            : 'text-[#838378]', // Dimmer icon when not sorted
+                        ]
+                      )}
+                    >
                       {flexRender(header.column.columnDef.header, header.getContext())}
                       {{
                         asc: <IconSortAscending className="shrink-0" size={16} />,
                         desc: <IconSortDescending className="shrink-0" size={16} />,
                       }[header.column.getIsSorted() as string] ??
                         (header.column.getCanSort() ? (
-                          <IconArrowsSort className="shrink-0 text-font-primary/40" size={16} />
+                          <IconArrowsSort
+                            className={cn(
+                              'shrink-0',
+                              enableSortHighlight ? 'text-[#838378]/40' : 'text-font-primary/40'
+                            )}
+                            size={16}
+                          />
                         ) : null)}
                     </div>
                   </th>
@@ -431,7 +443,7 @@ const Datatablev2 = ({
             </>
           )}
         </table>
-      </BrutCard>
+      </div>
       {showPagination && table.getPageCount() > 1 && (
         //pagination section
         <div className="mt-[10px] flex items-center justify-end gap-[8px]">

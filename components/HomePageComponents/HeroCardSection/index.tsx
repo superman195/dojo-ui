@@ -83,7 +83,7 @@ const HeroCardSection = () => {
               <h3
                 className={`uppercase ${FontManrope.className} text-2xl font-extrabold sm:text-[32px] md:text-xl xl:text-3xl`}
               >
-                <CountUp start={0} end={numCompletedTasks ? numCompletedTasks : 12} duration={3} startOnMount />
+                {numCompletedTasks ? <CountUp start={0} end={numCompletedTasks} duration={3} startOnMount /> : '---'}
               </h3>
             </div>
             <div>
@@ -95,7 +95,7 @@ const HeroCardSection = () => {
               <h3
                 className={`uppercase ${FontManrope.className} text-2xl font-extrabold sm:text-[32px] md:text-xl xl:text-3xl`}
               >
-                <CountUp start={0} end={numDojoWorkers ? numDojoWorkers : 123512} duration={3} startOnMount />
+                {numDojoWorkers ? <CountUp start={0} end={numDojoWorkers} duration={3} startOnMount /> : '---'}
               </h3>
             </div>
           </div>
