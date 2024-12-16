@@ -133,37 +133,6 @@ const MultiOutputVisualizerLegacy = ({ task, className, ...props }: TaskVisualiz
       </div>
       <hr className="border-2 border-t-0 border-black"></hr>
       <div className="px-4">
-        {/* {task.taskData.responses.map((output, index) => (
-          <div key={`${task.type}_${index}`} className="flex w-full flex-col justify-center ">
-            <div
-              className={`flex h-fit w-full flex-col rounded-sm border-2 border-black bg-ecru-white shadow-brut-sm `}
-            >
-              {renderVisualizer(task.type, output, index)}
-              {out && (
-                <>
-                  <div
-                    className={` w-full justify-between px-4 text-base ${FontSpaceMono.className} border-t-2 border-black py-2  font-bold uppercase`}
-                  >
-                    response quality
-                  </div>
-                  <div className={`px-4`}>
-                    <Slider
-                      min={minValSlider}
-                      max={maxValSlider}
-                      step={1}
-                      initialValue={ratings[multiScoreOptions[index]]}
-                      onChange={(rating) => {
-                        handleRatingChange(multiScoreOptions[index], rating);
-                      }}
-                      showSections
-                    />
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        ))} */}
-
         {task.taskData.criteria.map((criteria, index) => {
           return (
             <div className="flex flex-col items-center gap-[10px]" key={`${task.type}_${criteria.type}_${index}`}>

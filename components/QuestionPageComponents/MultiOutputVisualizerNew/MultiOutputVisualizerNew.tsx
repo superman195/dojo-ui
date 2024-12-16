@@ -1,5 +1,4 @@
 import CodegenViewer from '@/components/CodegenViewer';
-import Slider from '@/components/Common/Slider';
 import Tooltip from '@/components/Common/Tooltip';
 import GaussianSplatViewer from '@/components/GaussianSplatViewer';
 import { useSubmit } from '@/providers/submitContext';
@@ -8,6 +7,7 @@ import { TaskPayloadNew, TaskType } from '@/utils/states';
 import { cn } from '@/utils/tw';
 import { IconLayoutGrid, IconLayoutList } from '@tabler/icons-react';
 import { useCallback, useState } from 'react';
+import Slider from '../Slider';
 import TaskPrompt from '../TaskPrompt';
 
 export interface TaskVisualizerPropsNew extends React.HTMLProps<HTMLDivElement> {
@@ -45,57 +45,6 @@ const MultiOutputVisualizerNew = ({ task, className, ...props }: TaskVisualizerP
     }
   }, []);
 
-  const renderCriteria = useCallback(
-    (task: TaskPayloadNew) => {
-      return task.taskData.responses.map((response, responseIdx) => {
-        return response.criteria.map((criterion, criterionIdx) => {
-          switch (criterion.type) {
-            case 'multi-score':
-              return (
-                <div key={`${responseIdx}-${criterionIdx}`}>
-                  <div className={cn('max-w-[1075px] w-full font-bold')}>
-                    Please score the below responses on the quality ({criterion.max} - highest, {criterion.min} -
-                    lowest)
-                  </div>
-                  <div
-                    className={cn(
-                      'grid w-full max-w-full gap-x-5 gap-y-10 grid-cols-1',
-                      isGrid ? 'xl:grid-cols-2' : 'xl:grid-cols-1'
-                    )}
-                  >
-                    <div className="flex w-full flex-col justify-center">
-                      <div
-                        className={`flex h-fit w-full flex-col overflow-hidden rounded-sm border-2 border-black bg-ecru-white shadow-brut-sm`}
-                      >
-                        {renderVisualizer(task.type as TaskType, response, responseIdx)}
-                        <div className="w-full border-t-2 border-black px-4 py-2 text-base font-bold uppercase">
-                          response quality
-                        </div>
-                        <div className="px-4">
-                          <Slider
-                            min={1}
-                            max={10}
-                            step={1}
-                            initialValue={criterion.min}
-                            onChange={(rating) => {
-                              addCriterionForResponse(`${criterion.type}::${response.model}`, rating.toString());
-                            }}
-                            showSections
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            default:
-              return null;
-          }
-        });
-      });
-    },
-    [isGrid, renderVisualizer, addCriterionForResponse]
-  );
   return (
     <div className={cn('flex w-full flex-col gap-[30px] items-stretch', props.containerClassName)}>
       {/* Headers */}
@@ -135,11 +84,52 @@ const MultiOutputVisualizerNew = ({ task, className, ...props }: TaskVisualizerP
       </div>
       <hr className="border-2 border-t-0 border-black"></hr>
       <div className="px-4">
-        <div
-          className="flex flex-col items-center gap-[10px]"
-          // key={`${task.type}_${criteria.type}_${index}`}
-        >
-          {renderCriteria(task)}
+        <div className="flex flex-col items-center gap-[10px]">
+          <div className={cn('max-w-[1075px] w-full font-bold')}>
+            Please score the below responses on the quality (
+            {task.taskData.responses[0].criteria.find((c) => c.type === 'multi-score')?.min ?? 1} - highest,{' '}
+            {task.taskData.responses[0].criteria.find((c) => c.type === 'multi-score')?.max ?? 10} - lowest)
+          </div>
+          <div
+            className={cn(
+              'grid w-full max-w-full gap-x-5 gap-y-10 grid-cols-1',
+              isGrid ? 'xl:grid-cols-2' : 'xl:grid-cols-1'
+            )}
+          >
+            {task.taskData.responses.map((response, responseIdx) => {
+              return (
+                <>
+                  <div className="flex w-full flex-col justify-center">
+                    <div
+                      className={`flex h-fit w-full flex-col overflow-hidden rounded-sm border-2 border-black bg-ecru-white shadow-brut-sm`}
+                    >
+                      {renderVisualizer(task.type as TaskType, response, responseIdx)}
+                      <div className="w-full border-t-2 border-black px-4 py-2 text-base font-bold uppercase">
+                        response quality
+                      </div>
+                      <div className="px-4">
+                        {response.criteria.find((c) => c.type === 'multi-score') && (
+                          <Slider
+                            min={1}
+                            max={10}
+                            step={1}
+                            initialValue={response.criteria.find((c) => c.type === 'multi-score')?.min ?? 1}
+                            onChange={(rating) => {
+                              addCriterionForResponse(
+                                `${response.criteria.find((c) => c.type === 'multi-score')?.type}::${response.model}`,
+                                rating.toString()
+                              );
+                            }}
+                            showSections
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
