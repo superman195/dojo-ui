@@ -159,7 +159,7 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
 
   return (
     <div className={cn(FontManrope.className, 'pb-[30px]')}>
-      {isMobile && <ExampleCard />}
+      {isMobile && <ExampleCard isValidator={false} />}
       {isMobile ? (
         <>
           {miners && miners.length > 0 && (

@@ -3,9 +3,9 @@ import Datatablev2 from '@/components/Common/DataTable/Datatablev2';
 import MobileTableCard from '@/components/Common/DataTable/MobileTableCard';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { NonRootNeuronObj } from '@/types/DashboardTypes';
-import { getFirstAndLastCharacters, makeDollarReadable } from '@/utils/math_helpers';
+import { makeDollarReadable } from '@/utils/math_helpers';
 import { cn } from '@/utils/tw';
-import { FontSpaceMono } from '@/utils/typography';
+import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import {
   IconChevronsLeft,
   IconChevronsRight,
@@ -132,7 +132,7 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
           const truncatedHotkey = hotkey.slice(0, 6) + '...';
           return (
             <CustomButton
-              onClick={() => window.open(`/dashboard/miner/${hotkey}`, '_blank')}
+              onClick={() => window.open(`/dashboard/miner/${hotkey}?isValidator=true`, '_blank')}
               className="h-fit p-0 font-bold text-darkGreen"
               variant={'link'}
             >
@@ -199,8 +199,8 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
   );
 
   return (
-    <div className="pb-[30px]">
-      {isMobile && <ExampleCard />}
+    <div className={cn(FontManrope.className, 'pb-[30px]')}>
+      {isMobile && <ExampleCard isValidator={true} />}
       {isMobile ? (
         <>
           {validators && validators.length > 0 && (
@@ -243,9 +243,18 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
                 data={validator}
                 position={currentPage * itemsPerPage + index + 1}
                 renderMainInfo={(validator) => (
-                  <div>
-                    <div className="text-xs text-neutral-500">UID: {validator.uid}</div>
-                    <div className="text-sm font-medium text-black">{validator.hotkey.slice(0, 6) + '...'}</div>
+                  <div className="text-xs text-neutral-500">
+                    UID: {validator.uid} <br />
+                    <CustomButton
+                      onClick={() => window.open(`/dashboard/miner/${validator.hotkey}?isValidator=true`, '_blank')}
+                      className="h-fit p-0 font-bold text-darkGreen"
+                      variant={'link'}
+                    >
+                      <span className="mr-[3px] text-sm underline underline-offset-2">
+                        {validator.hotkey.slice(0, 6) + '...'}
+                      </span>{' '}
+                      <IconExternalLink className="size-4" />
+                    </CustomButton>
                   </div>
                 )}
                 renderStats={(validator) => (
@@ -258,20 +267,34 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
                   </>
                 )}
                 renderExpandedInfo={(validator) => (
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <div className="mb-1 text-neutral-500">Cold Key</div>
-                      <div className="font-medium">{getFirstAndLastCharacters(validator.coldkey, 5)}</div>
+                  <>
+                    <div className="flex flex-col gap-1">
+                      <div className="flex flex-wrap items-center justify-between">
+                        <span>Cold key</span>
+                        <span>
+                          {' '}
+                          <CustomButton
+                            onClick={() => window.open(`https://taostats.io/account/${validator.coldkey}`, '_blank')}
+                            className="h-fit p-0 font-bold text-darkGreen"
+                            variant={'link'}
+                          >
+                            <span className="mr-[3px] text-sm underline underline-offset-2">
+                              {validator.coldkey.slice(0, 6) + '...'}
+                            </span>
+                            <IconExternalLink className="size-4" />{' '}
+                          </CustomButton>
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap items-center justify-between">
+                        <span>Stake</span>
+                        <span>{validator.stakedAmt.toFixed(3)} τ</span>
+                      </div>
+                      <div className="flex flex-wrap items-center justify-between">
+                        <span>Lifetime Emission</span>
+                        <span>{validator.totalEmission.toFixed(3)} τ</span>
+                      </div>
                     </div>
-                    <div>
-                      <div className="mb-1 text-neutral-500">Stake</div>
-                      <div className="font-medium">{validator.stakedAmt.toFixed(3)} τ</div>
-                    </div>
-                    <div>
-                      <div className="mb-1 text-neutral-500">Lifetime Emission</div>
-                      <div className="font-medium">{validator.totalEmission.toFixed(3)} τ</div>
-                    </div>
-                  </div>
+                  </>
                 )}
               />
             ))}
@@ -365,12 +388,11 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
         </>
       ) : (
         <Datatablev2
-          tableClassName="min-w-[892px]"
+          tableClassName="w-full"
           minColumnSize={20}
           columnDef={columns}
           data={validators ?? []}
           pageSize={itemsPerPage}
-          tooltipShowingXofY={false}
           enableSortHighlight={true}
         />
       )}
