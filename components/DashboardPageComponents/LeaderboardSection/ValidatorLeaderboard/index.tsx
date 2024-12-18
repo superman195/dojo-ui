@@ -169,7 +169,7 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
       columnHelper.accessor('emission', {
         header: 'Daily Emission',
         size: 100,
-        cell: (info) => <span className="whitespace-nowrap">{`${info.getValue().toFixed(3)} τ`}</span>,
+        cell: (info) => <span className="whitespace-nowrap">{`${makeDollarReadable(info.getValue(), 3)} τ`}</span>,
         enableSorting: true,
       }),
       columnHelper.accessor('totalEmission', {
@@ -261,7 +261,7 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
                   <>
                     <div className="text-right">
                       <div className="text-sm font-medium">{Number(validator.validatorTrust).toFixed(6)} τ</div>
-                      <div className="text-xs text-neutral-500">{validator.emission.toFixed(3)} τ/day</div>
+                      <div className="text-xs text-neutral-500">{makeDollarReadable(validator.emission, 3)} τ/day</div>
                     </div>
                     <PerformanceChart data={validator.historicalEmissions.map(({ emission }) => emission).reverse()} />
                   </>
@@ -287,11 +287,11 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
                       </div>
                       <div className="flex flex-wrap items-center justify-between">
                         <span>Stake</span>
-                        <span>{validator.stakedAmt.toFixed(3)} τ</span>
+                        <span>{makeDollarReadable(validator.stakedAmt, 3)} τ</span>
                       </div>
                       <div className="flex flex-wrap items-center justify-between">
                         <span>Lifetime Emission</span>
-                        <span>{validator.totalEmission.toFixed(3)} τ</span>
+                        <span>{makeDollarReadable(validator.totalEmission, 3)} τ</span>
                       </div>
                     </div>
                   </>
