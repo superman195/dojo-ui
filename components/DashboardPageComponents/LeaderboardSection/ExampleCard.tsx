@@ -6,7 +6,7 @@ import { useState } from 'react';
 const cardStyles = 'hover:bg-primary-100 rounded-xl border border-neutral-700 p-4 transition-colors';
 const headerStyles = 'flex cursor-pointer flex-col items-start justify-between gap-4 sm:flex-row sm:items-center';
 const textStyles = 'text-xs text-neutral-500';
-const ExampleCard = () => {
+const ExampleCard = ({ isValidator = false }: { isValidator: boolean }) => {
   const [isExampleVisible, setIsExampleVisible] = useState(false);
 
   return (
@@ -40,7 +40,7 @@ const ExampleCard = () => {
               {/* Right side - Stats and Chart */}
               <div className="flex w-full items-center justify-between gap-6 sm:w-auto sm:justify-end">
                 <div className="text-left">
-                  <div className="text-sm font-medium">mTrust</div>
+                  <div className="text-sm font-medium">{isValidator ? 'vTrust' : 'mTrust'}</div>
                   <div className={textStyles}>daily emission</div>
                 </div>
                 <div className="flex items-center">
@@ -51,18 +51,18 @@ const ExampleCard = () => {
 
             {/* Expandable Section */}
             <div className="mt-4 border-t border-neutral-800 pt-4">
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <div className="mb-1 text-neutral-500">Cold Key</div>
-                  <div className="font-medium">XXX...XXX</div>
+              <div className="flex flex-col gap-1">
+                <div className="flex flex-wrap items-center justify-between">
+                  <span>Cold key</span>
+                  <span>XXXXXX...</span>
                 </div>
-                <div>
-                  <div className="mb-1 text-neutral-500">Stake</div>
-                  <div className="font-medium">X.XXXXX</div>
+                <div className="flex flex-wrap items-center justify-between">
+                  <span>Stake</span>
+                  <span>X.XXXXX τ</span>
                 </div>
-                <div>
-                  <div className="mb-1 text-neutral-500">Lifetime Emission</div>
-                  <div className="font-medium">X.XXXXX τ</div>
+                <div className="flex flex-wrap items-center justify-between">
+                  <span>Lifetime Emission</span>
+                  <span>X.XXXXX τ</span>
                 </div>
               </div>
             </div>
