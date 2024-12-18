@@ -247,7 +247,7 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
   // Add resize handler
 
   return (
-    <div className="container mx-auto mb-6 px-0 lg:px-8">
+    <div className="container mx-auto mb-6 px-0">
       <div className="flex w-full flex-col justify-between gap-3 lg:flex-row">
         <div className="flex flex-row gap-3 overflow-x-auto py-3 lg:min-w-[240px] lg:flex-col lg:overflow-x-visible lg:p-0">
           {kpiMetrics.map((metric, index) => (
