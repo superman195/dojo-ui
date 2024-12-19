@@ -23,7 +23,7 @@ const LeaderboardSection: React.FC<LeaderboardSectionProps> = ({ miners, validat
   };
 
   return (
-    <div className="container mx-auto px-0 lg:px-8">
+    <div className="">
       <div className="my-5 flex flex-wrap items-center justify-between gap-4 sm:flex-row sm:gap-0">
         <h2 className={`${FontSpaceMono.className} text-2xl font-bold uppercase sm:text-4xl`}>LEADERBOARD</h2>
         <label className="flex cursor-pointer items-center gap-3 text-sm sm:text-base">

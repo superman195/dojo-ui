@@ -54,7 +54,7 @@ const DashboardPage: React.FC<Props> = ({ delegates }) => {
 
   return (
     <Layout isFullWidth headerText={'Dashboard'}>
-      <main className="mx-5 mt-5 lg:mx-auto xl:mx-auto">
+      <main className="px-4">
         <DashboardGraphAndMetrics subnetData={subnetData} loading={loading} error={error} />
         <LeaderboardSection miners={minerData} validators={validatorData} loading={loading} error={error} />
       </main>
