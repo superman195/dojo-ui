@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 
 const IndividualMinerPage = () => {
   const router = useRouter();
-  const { hotkey } = router.query;
+  const { hotkey, isValidator } = router.query;
   const { data: subnetData, loading, error } = useSubnetMetagraph(52); // Using subnet 52 as seen in your codebase
   const [minerData, setMinerData] = useState<NonRootNeuronObj | null>(null);
 
@@ -183,7 +183,7 @@ const IndividualMinerPage = () => {
 
   if (loading) {
     return (
-      <Layout headerText="Individual Miner Dashboard">
+      <Layout headerText={`Individual ${isValidator ? 'Validator' : 'Miner'} Dashboard`}>
         <div className="min-h-screen">
           <main className="mx-auto max-w-4xl px-4 py-8">
             {/* Miner Info Skeleton */}
@@ -197,7 +197,7 @@ const IndividualMinerPage = () => {
             {/* Stats Grid Skeleton */}
             <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
               {[1, 2, 3, 4].map((index) => (
-                <div key={index} className="border-2 border-black bg-white p-4 shadow-brut-sm">
+                <div key={index} className="border-2 border-black bg-white p-4">
                   <div className={`${FontSpaceMono.className} mb-2 h-4 w-32 animate-pulse rounded bg-gray-200`}></div>
                   <div className="h-8 w-24 animate-pulse rounded bg-gray-200"></div>
                 </div>
@@ -207,7 +207,7 @@ const IndividualMinerPage = () => {
             {/* Secondary Stats Grid Skeleton */}
             <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">
               {[1, 2, 3].map((index) => (
-                <div key={index} className="border-2 border-black bg-white p-4 shadow-brut-sm">
+                <div key={index} className="border-2 border-black bg-white p-4">
                   <div className={`${FontSpaceMono.className} mb-2 h-4 w-32 animate-pulse rounded bg-gray-200`}></div>
                   <div className="h-8 w-24 animate-pulse rounded bg-gray-200"></div>
                 </div>
@@ -215,13 +215,13 @@ const IndividualMinerPage = () => {
             </div>
 
             {/* Chart Skeleton */}
-            <div className="border-2 border-black bg-white p-4 shadow-brut-sm">
+            <div className="border-2 border-black bg-white p-4">
               <div className={`${FontSpaceMono.className} mb-4 h-6 w-48 animate-pulse rounded bg-gray-200`}></div>
               <div className="h-[300px] w-full animate-pulse rounded bg-gray-200"></div>
             </div>
 
             {/* Additional Info Skeleton */}
-            <div className="mt-8 border-2 border-black bg-white p-4 shadow-brut-sm">
+            <div className="mt-8 border-2 border-black bg-white p-4">
               <div className={`${FontSpaceMono.className} mb-4 h-6 w-48 animate-pulse rounded bg-gray-200`}></div>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
@@ -289,7 +289,7 @@ const IndividualMinerPage = () => {
   }
 
   return (
-    <Layout headerText="Individual Miner Dashboard">
+    <Layout headerText={`Individual ${isValidator ? 'Validator' : 'Miner'} Dashboard`}>
       <div className="flex w-full flex-col px-4 py-8">
         <div className="mb-8">
           <div className="flex items-center gap-4">
@@ -303,19 +303,16 @@ const IndividualMinerPage = () => {
           </div>
         </div>
 
-        <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           {[
             { label: 'DAILY EMISSION', value: `${makeDollarReadable(minerData.emission, 3)} τ` },
             { label: 'LIFETIME EMISSION', value: `${makeDollarReadable(minerData.totalEmission, 3)} τ` },
             { label: 'TRUST SCORE', value: minerData.trust.toFixed(6) },
-            { label: 'STAKE', value: `${makeDollarReadable(minerData.stakedAmt, 3)} τ` },
+            { label: 'STAKE', value: `${makeDollarReadable(minerData.stakedAmt, 3)}` },
           ].map((stat, index) => (
-            <div
-              key={index}
-              className="rounded-sm border-2 border-black bg-white p-4 shadow-brut-sm transition-shadow hover:shadow-brut-md"
-            >
+            <div key={index} className="rounded-sm border-2 border-black bg-white p-4 transition-shadow ">
               <div className={`${FontSpaceMono.className} mb-1 text-sm font-bold`}>{stat.label}</div>
-              <div className={`${FontSpaceMono.className} text-2xl font-bold`}>{stat.value || 'N/A'}</div>
+              <div className={` text-2xl font-bold`}>{stat.value || 'N/A'}</div>
             </div>
           ))}
         </div>
@@ -326,17 +323,14 @@ const IndividualMinerPage = () => {
             { label: 'CONSENSUS', value: minerData.consensus.toFixed(6) },
             { label: 'INCENTIVE', value: minerData.incentive.toFixed(6) },
           ].map((stat, index) => (
-            <div
-              key={index}
-              className="rounded-sm border-2 border-black bg-white p-4 shadow-brut-sm transition-shadow hover:shadow-brut-md"
-            >
+            <div key={index} className="rounded-sm border-2 border-black bg-white p-4 transition-shadow">
               <div className={`${FontSpaceMono.className} mb-1 text-sm font-bold`}>{stat.label}</div>
-              <div className={`${FontSpaceMono.className} text-xl font-bold`}>{stat.value || 'N/A'}</div>
+              <div className={` text-xl font-bold`}>{stat.value || 'N/A'}</div>
             </div>
           ))}
         </div>
 
-        <div className="w-full rounded-sm border-2 border-black bg-white p-4 shadow-brut-sm">
+        <div className="w-full rounded-sm border-2 border-black bg-white p-4">
           <h2 className={`${FontSpaceMono.className} mb-4 text-xl font-bold`}>EMISSION HISTORY</h2>
           <HighchartsReact highcharts={Highcharts} options={chartOptions} />{' '}
         </div>

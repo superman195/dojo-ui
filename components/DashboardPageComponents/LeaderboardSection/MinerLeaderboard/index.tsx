@@ -126,7 +126,7 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
       columnHelper.accessor('emission', {
         header: 'Daily Emission',
         size: 100,
-        cell: (info) => `${info.getValue().toFixed(3)} τ`,
+        cell: (info) => `${makeDollarReadable(info.getValue(), 3)} τ`,
         enableSorting: true,
       }),
       columnHelper.accessor('totalEmission', {
@@ -159,7 +159,7 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
 
   return (
     <div className={cn(FontManrope.className, 'pb-[30px]')}>
-      {isMobile && <ExampleCard />}
+      {isMobile && <ExampleCard isValidator={false} />}
       {isMobile ? (
         <>
           {miners && miners.length > 0 && (
@@ -220,7 +220,7 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
                   <>
                     <div className="text-start">
                       <div className="text-sm font-medium">{Number(miner.trust).toFixed(9)} τ</div>
-                      <div className="text-xs text-neutral-500">{miner.emission.toFixed(3)} τ/day</div>
+                      <div className="text-xs text-neutral-500">{makeDollarReadable(miner.emission, 3)} τ/day</div>
                     </div>
                     <PerformanceChart data={miner.historicalEmissions.map(({ emission }) => emission).reverse()} />
                   </>
@@ -246,11 +246,11 @@ const MinerLeaderboard = ({ miners, isLoading }: LeaderboardProps) => {
                       </div>
                       <div className="flex flex-wrap items-center justify-between">
                         <span>Stake</span>
-                        <span>{miner.stakedAmt.toFixed(3)} τ</span>
+                        <span>{makeDollarReadable(miner.stakedAmt, 3)} τ</span>
                       </div>
                       <div className="flex flex-wrap items-center justify-between">
                         <span>Lifetime Emission</span>
-                        <span>{miner.totalEmission.toFixed(3)} τ</span>
+                        <span>{makeDollarReadable(miner.totalEmission, 3)} τ</span>
                       </div>
                     </div>
                   </>
