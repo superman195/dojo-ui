@@ -35,7 +35,7 @@ const NavigationBar = ({ openModal, isHomePage, className }: NavigationBarProps)
                 <img className="h-[20px] w-[220px] md:h-[30px]" src="/logo.svg" alt="logo" />
               </Link>
             </div>
-            <div className="hidden items-center gap-[10px] md:flex">
+            <div className="hidden items-center gap-[10px] whitespace-nowrap md:flex">
               {headerItems.map((item, index) => (
                 <Link
                   key={index}
