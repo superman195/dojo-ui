@@ -91,7 +91,7 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidt
           </div>
         )}
       </div>
-      <main className={cn(!isFullWidth ? 'max-w-[1075px]' : 'w-full', `mx-auto grow flex flex-col`)}>{children}</main>
+      <main className={cn(!isFullWidth && 'max-w-[1075px]', `w-full mx-auto grow flex flex-col`)}>{children}</main>
       {showFooter && <hr className=" border-black" />}
       {showUserCard && (
         <UserCard closeModal={setShowUserCard}>
