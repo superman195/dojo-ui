@@ -14,7 +14,7 @@ const WalletNetworkCard = ({ logo, Description, className, disabled, selected, .
   return (
     <BrutCard
       className={cn(
-        'py-[10px] w-full h-full',
+        'py-[10px] w-full sm:w-1/3',
         disabled ? '' : 'hover:cursor-pointer hover:border-primary hover:bg-secondary hover:shadow-brut-sm-primary',
         selected && !disabled && 'border-primary shadow-brut-sm-primary',
         className,
@@ -22,7 +22,7 @@ const WalletNetworkCard = ({ logo, Description, className, disabled, selected, .
       )}
       {...props}
     >
-      <div className="flex size-full flex-col items-center justify-center gap-[3px]">
+      <div className="flex size-full flex-col items-center justify-center gap-[3px] text-xs">
         <img className="aspect-square w-[25px]" src={logo ?? ''} alt="L"></img>
         <span>{Description}</span>
       </div>

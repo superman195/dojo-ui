@@ -33,7 +33,7 @@ const WalletConnectedCard = ({ connector, address }: Props) => {
   };
 
   return (
-    <div className="p-2">
+    <div className="p-2 text-xs sm:text-base">
       <span className={cn(FontSpaceMono.className, 'text-xs font-bold')}>CONNECTED WALLET</span>
       <BrutCard className={cn(FontSpaceMono.className, 'p-3')}>
         <div className="flex flex-col gap-[5px]">
@@ -57,7 +57,7 @@ const WalletConnectedCard = ({ connector, address }: Props) => {
             <Web3Icon size={20} address={address ?? ''}></Web3Icon>
             <span className={FontManrope.className}>{getFirstFourLastFour(address ?? '')}</span>
           </div>
-          <div className="flex items-center justify-start gap-[20px]">
+          <div className="flex flex-wrap items-center justify-start gap-[8px]">
             <CustomButton onClick={handleCopy} className="h-fit p-0 font-bold text-darkGreen" variant={'link'}>
               <span className=" mr-[3px] text-xs underline underline-offset-2">COPY ADDRESS</span>{' '}
               <IconCopy className="size-4" />
