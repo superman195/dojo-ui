@@ -37,7 +37,7 @@
     "react-hook-form": "^7.51.3",
     "siwe": "^2.3.2",
     "tailwind-merge": "^2.3.0",
-    "wagmi": "^2.9.3",
+    "wagmi": "^2.14.6",
     "zod": "^3.23.8"
   },
   "devDependencies": {
