@@ -18,14 +18,14 @@ export default function App({ Component, pageProps }: AppProps) {
         <AuthProvider>
           <SubmitProvider>
             <TaskPageProvider>
-              <WagmiProvider config={config}>
-                <QueryClientProvider client={queryClient}>
-                  <ModalProvider>
-                    <Analytics />
-                    <Component {...pageProps} />
-                  </ModalProvider>
-                </QueryClientProvider>
-              </WagmiProvider>
+              {/* <WagmiProvider config={config}> */}
+              <QueryClientProvider client={queryClient}>
+                <ModalProvider>
+                  <Analytics />
+                  <Component {...pageProps} />
+                </ModalProvider>
+              </QueryClientProvider>
+              {/* </WagmiProvider> */}
             </TaskPageProvider>
           </SubmitProvider>
         </AuthProvider>

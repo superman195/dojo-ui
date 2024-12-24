@@ -21,7 +21,7 @@ const getConnectorById = (connectors: readonly Connector[], connectorId: string)
 const allowedNetwork: number[] = [1, 42161, 10, 8453];
 
 const ManageWalletConnectModal = ({ open, onSave, onClose, ...props }: Props) => {
-  const { connectors, connectAsync } = useConnect();
+  const { connectors, connectAsync, connect } = useConnect();
   const { connector, address, status, isConnected } = useAccount();
   const { signInWithEthereum } = useSIWE(() => {});
   const { isAuthenticated } = useAuth();
