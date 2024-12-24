@@ -69,7 +69,7 @@ const ManageWalletConnectModal = ({ open, onSave, onClose, ...props }: Props) =>
         )}
         <div className="flex w-full flex-col p-2 pb-[31px]">
           <span className={cn(FontSpaceMono.className, 'font-bold text-xs')}>CHOOSE WALLET</span>
-          <div className="flex min-w-fit flex-wrap items-stretch gap-[10px] overflow-x-auto p-[3px] sm:flex-nowrap">
+          <div className="flex min-w-fit flex-wrap items-stretch gap-[10px] pt-[3px] sm:flex-nowrap">
             <WalletNetworkCard
               // disabled={!getConnectorById(connectors, 'io.metamask') || status === 'connected' }
               onClick={() => {
