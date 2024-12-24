@@ -61,14 +61,15 @@ const ManageWalletConnectModal = ({ open, onSave, onClose, ...props }: Props) =>
         onClose?.();
       }}
       bodyClassName="p-0"
+      className="w-[90%] sm:max-w-[420px]"
     >
-      <div className="flex w-[400px] flex-col">
+      <div className="flex min-w-full max-w-[410px] flex-col">
         {status === 'connected' && connector && isAuthenticated && (
           <WalletConnectedCard connector={connector} address={address}></WalletConnectedCard>
         )}
-        <div className="flex flex-col p-2 pb-[31px]">
+        <div className="flex w-full flex-col p-2 pb-[31px]">
           <span className={cn(FontSpaceMono.className, 'font-bold text-xs')}>CHOOSE WALLET</span>
-          <div className="grid grid-cols-3 gap-[10px] pt-[3px]">
+          <div className="flex min-w-fit flex-wrap items-stretch gap-[10px] pt-[3px] sm:flex-nowrap">
             <WalletNetworkCard
               // disabled={!getConnectorById(connectors, 'io.metamask') || status === 'connected' }
               onClick={() => {
