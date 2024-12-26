@@ -7,17 +7,18 @@ export const DropdownContainer: React.FC<DropdownContainerProps> = ({
   buttonText,
   imgSrc,
   children,
-  className,
+  containerClassName,
+  dropdownClassName,
   count,
   isOpen,
   onToggle,
 }) => {
   return (
-    <div className="relative">
+    <div className={cn(containerClassName, 'relative')}>
       <DropDownButton
-        className={cn(isOpen && 'bg-secondary border-primary')}
+        className={cn(isOpen && 'bg-secondary border-primary', dropdownClassName)}
         buttonText={buttonText}
-        imgSrc={imgSrc}
+        imgSrc={imgSrc ? imgSrc : ''}
         onClick={onToggle}
         count={count}
       />

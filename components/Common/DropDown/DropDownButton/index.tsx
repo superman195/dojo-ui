@@ -13,7 +13,7 @@ export const DropDownButton: React.FC<DropdownButtonProps> = ({ buttonText, imgS
       )}
     >
       <p>{buttonText}</p>
-      <img src={imgSrc} className="inline-block size-6" />
+      {imgSrc && <img src={imgSrc} className="inline-block size-6" />}
       {count && <div className="bg-primary pl-0.5 pr-1 text-white">{count}</div>}
     </button>
   );

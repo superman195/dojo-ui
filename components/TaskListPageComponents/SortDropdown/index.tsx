@@ -46,7 +46,7 @@ export default function SortDropdown() {
     <DropdownContainer
       buttonText={`Sort By ${sort === 'createdAt' ? 'Most Recent' : sort === 'numCriteria' ? 'Least Difficult' : 'Most Attempted'}`}
       imgSrc="/top-down-arrow.svg"
-      className="w-[193.89px]"
+      dropdownClassName="w-[193.89px]"
       isOpen={false}
       onToggle={function (): void {
         throw new Error('Function not implemented.');

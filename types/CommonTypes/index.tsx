@@ -24,7 +24,8 @@ export interface DropdownContainerProps {
   buttonText: string;
   imgSrc: string;
   children?: ReactNode;
-  className?: string;
+  containerClassName?: string;
+  dropdownClassName?: string;
   count?: string;
   isOpen: boolean;
   onToggle: () => void;

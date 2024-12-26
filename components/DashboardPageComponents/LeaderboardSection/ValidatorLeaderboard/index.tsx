@@ -1,6 +1,7 @@
 import { CustomButton } from '@/components/Common/CustomComponents/button';
 import Datatablev2 from '@/components/Common/DataTable/Datatablev2';
 import MobileTableCard from '@/components/Common/DataTable/MobileTableCard';
+import { DropdownContainer } from '@/components/Common/DropDown';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { NonRootNeuronObj } from '@/types/DashboardTypes';
 import { makeDollarReadable } from '@/utils/math_helpers';
@@ -78,6 +79,7 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
   const [sortBy, setSortBy] = useState<'default' | 'validatorTrust' | 'emission' | 'stakedAmt'>('default');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const isMobile = useMediaQuery('(max-width: 1023px)');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const paginatedValidators = useMemo(() => {
     if (!validators) return [];
     let sortedValidators = [...validators];
@@ -210,27 +212,57 @@ const ValidatorLeaderboard = ({ validators, isLoading }: LeaderboardProps) => {
             </span>
           )}
 
-          <div className="mb-4 flex gap-2">
-            <select
-              value={sortBy}
-              onChange={(e) => {
-                setSortBy(e.target.value as typeof sortBy);
-                setCurrentPage(0);
-              }}
-              className="flex-1 appearance-none rounded-full border border-black/10 bg-card-background p-2 px-3 pr-12 text-sm hover:cursor-pointer hover:border-primary hover:bg-secondary"
+          <div className="mb-4 flex w-full gap-2">
+            <DropdownContainer
+              buttonText={
+                sortBy === 'default'
+                  ? 'Default Order'
+                  : sortBy === 'validatorTrust'
+                    ? 'Sort by Trust'
+                    : sortBy === 'emission'
+                      ? 'Sort by Daily Emission'
+                      : 'Sort by Stake'
+              }
+              containerClassName="w-full"
+              dropdownClassName="w-full justify-start"
+              imgSrc={sortOrder === 'desc' ? '' : ''}
+              isOpen={isDropdownOpen}
+              onToggle={() => setIsDropdownOpen(!isDropdownOpen)}
             >
-              <option value="default">Default Order</option>
-              <option value="validatorTrust">Sort by Trust</option>
-              <option value="emission">Sort by Daily Emission</option>
-              <option value="stakedAmt">Sort by Stake</option>
-            </select>
+              <div className="absolute left-0 top-full z-10 mt-1 w-full rounded-lg border border-black/10 bg-card-background p-2 shadow-lg">
+                {['default', 'validatorTrust', 'emission', 'stakedAmt'].map((option) => (
+                  <button
+                    key={option}
+                    className={`w-full rounded-md px-3 py-2 text-left hover:bg-secondary ${
+                      sortBy === option ? 'bg-secondary' : ''
+                    }`}
+                    onClick={() => {
+                      setSortBy(option as typeof sortBy);
+                      setCurrentPage(0);
+                      setIsDropdownOpen(false);
+                    }}
+                  >
+                    {option === 'default'
+                      ? 'Default Order'
+                      : option === 'validatorTrust'
+                        ? 'Sort by Trust'
+                        : option === 'emission'
+                          ? 'Sort by Daily Emission'
+                          : 'Sort by Stake'}
+                  </button>
+                ))}
+              </div>
+            </DropdownContainer>
+
             <button
               onClick={() => {
                 if (sortBy !== 'default') {
                   setSortOrder((order) => (order === 'asc' ? 'desc' : 'asc'));
                 }
               }}
-              className={`flex aspect-square size-[38px] items-center justify-center rounded-full border border-muted bg-card-background ${sortBy === 'default' ? 'cursor-not-allowed text-muted-foreground' : 'border-black/10'}`}
+              className={`flex aspect-square size-[38px] items-center justify-center rounded-full border border-muted bg-card-background ${
+                sortBy === 'default' ? 'cursor-not-allowed text-muted-foreground' : 'border-black/10'
+              }`}
             >
               {sortOrder === 'desc' ? <IconSortDescending /> : <IconSortAscending />}
             </button>
