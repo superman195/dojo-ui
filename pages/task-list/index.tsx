@@ -102,12 +102,14 @@ const RenderPill = ({ type, ...task }: Task) => {
       <TasktypePill tasktype={type} />
 
       <Tooltip
-        tooltipContent={`${task.taskData.responses.length} AI output${task.taskData.responses.length > 1 ? 's' : ''}, ${task.taskData.criteria.length} Question${task.taskData.criteria.length > 1 ? 's' : ''}`}
+        tooltipContent={`${task.taskData.responses.length} AI output${task.taskData.responses.length > 1 ? 's' : ''}, ${task.taskData.responses.reduce((acc, curr) => acc + curr.criteria.length, 0)} Question${task.taskData.responses.reduce((acc, curr) => acc + curr.criteria.length, 0) > 1 ? 's' : ''}`}
       >
         <div className="flex w-fit items-center gap-px rounded-full border border-font-primary/30 px-2 text-xs font-bold text-font-primary/70 ">
           {RenderTaskLengthBadge(task.taskData.responses.length)}
           <IconArrowsDoubleSwNe className="size-4" />
-          <div className={cn(FontManrope.className, 'font-bold text-sm')}>{task.taskData.criteria.length}</div>
+          <div className={cn(FontManrope.className, 'font-bold text-sm')}>
+            {task.taskData.responses.reduce((acc, curr) => acc + curr.criteria.length, 0)}
+          </div>
         </div>
       </Tooltip>
     </div>
@@ -223,7 +225,7 @@ export default function Index() {
             const randomHours = Math.floor(Math.random() * 28) + 1;
             return `${randomHours}h`;
           }
-          if (new Date(row.expireAt) < new Date()) return 'Expired';
+          if (new Date(row.expireAt) < new Date() || row.status === taskStatus.EXPIRED) return 'Expired';
           const expiryDate = new Date(row.expireAt);
           const now = new Date();
           const diffMs = expiryDate.getTime() - now.getTime();

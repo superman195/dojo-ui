@@ -96,34 +96,19 @@ const Footer = ({ task, className, ...props }: Props) => {
   const feValidationBeforeSubmit = useCallback(() => {
     const criterionResponses = getCriterionForResponse();
     let tmpFlag = true;
-    task.taskData.criteria.forEach((criteria) => {
-      switch (criteria.type) {
-        case 'multi-score':
-          // Just check if there's same number of responses as prompt output in the response.value object
-          const respondedCriteria = criterionResponses.find((c) => c.text === criteria.text);
-          if (
-            respondedCriteria?.responses &&
-            Object.entries(respondedCriteria.responses).length == task.taskData.responses.length
-          ) {
-            //means ok
-            break;
-          } else {
-            setFeErrorAndScroll('Ensure that you attempted to rate all response(s).');
-            tmpFlag = false;
-            break;
-          }
-        case 'multi-select':
-        case 'single-select':
-        case 'score':
-        case 'ranking':
-        case 'rich-human-feedback':
-        default:
+    console.log('validating fe response before submitting', criterionResponses);
+    // Need the check for all responses whether its filled up
+
+    criterionResponses.forEach((response) => {
+      response.criteria.forEach((criteria) => {
+        if (criteria.value === undefined) {
+          setFeErrorAndScroll('Ensure that you attempted to rate all response(s).');
           tmpFlag = false;
-          break;
-      }
+        }
+      });
     });
     return tmpFlag;
-  }, [task, getCriterionForResponse]);
+  }, [getCriterionForResponse, setFeErrorAndScroll]);
 
   useEffect(() => {
     if (!loading) return;

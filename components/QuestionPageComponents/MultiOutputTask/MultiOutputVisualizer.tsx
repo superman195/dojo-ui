@@ -8,7 +8,7 @@ import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
 import { IconLayoutGrid, IconLayoutList } from '@tabler/icons-react';
 import { useSearchParams } from 'next/navigation';
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { TaskVisualizerProps } from '../SingleOutputTask/SingleOutputTaskVisualizer';
 import Slider from '../Slider';
 import TaskPrompt from '../TaskPrompt';
@@ -90,8 +90,8 @@ const MultiOutputVisualizer = ({ task, className, ...props }: TaskVisualizerProp
 
   const renderCriteria = useCallback(
     (task: Task, criteria: Criterion, index: number) => {
-      switch (criteria.type) {
-        case 'multi-score':
+      switch (criteria.type.toLowerCase()) {
+        case 'score':
           return (
             <>
               <div className={cn('max-w-[1075px] w-full', FontSpaceMono.className, 'font-bold')}>
@@ -127,7 +127,7 @@ const MultiOutputVisualizer = ({ task, className, ...props }: TaskVisualizerProp
                                 step={1}
                                 initialValue={1}
                                 onChange={(rating) => {
-                                  addCriterionForResponse(`${criteria.text}::${response.model}`, rating.toString());
+                                  // addCriterionForResponse(`${criteria.text}::${response.model}`, rating.toString());
                                 }}
                                 showSections
                               />
@@ -146,6 +146,52 @@ const MultiOutputVisualizer = ({ task, className, ...props }: TaskVisualizerProp
       }
     },
     [isGrid]
+  );
+
+  const renderNewCriteria = useCallback((response: TaskResponses, criteria: Criterion, index: number) => {
+    switch (criteria.type.toLowerCase()) {
+      case 'score':
+        return (
+          <React.Fragment key={`${response.model}_${criteria.type}_${index}`}>
+            <div
+              className={` w-full justify-between px-4 text-base ${FontSpaceMono.className} border-t-2 border-black py-2  font-bold uppercase`}
+            >
+              response quality
+            </div>
+            <div className={`px-4`}>
+              <Slider
+                min={1}
+                max={10}
+                step={1}
+                initialValue={1}
+                onChange={(rating) => {
+                  addCriterionForResponse(response.model, criteria, rating.toString());
+                }}
+                showSections
+              />
+            </div>
+          </React.Fragment>
+        );
+      default:
+        return <>{criteria.type}</>;
+    }
+  }, []);
+
+  const renderResponses = useCallback(
+    (response: TaskResponses, index: number) => {
+      return (
+        <>
+          <div className={cn('max-w-[1075px] w-full', FontSpaceMono.className, 'font-bold')}>
+            {index + 1}. {response.model}
+          </div>
+          <div className="flex w-full flex-col rounded-sm border-2 border-black">
+            {renderVisualizer(task.type, response, index)}
+            {response.criteria.map((criteria, index2) => renderNewCriteria(response, criteria, index2))}
+          </div>
+        </>
+      );
+    },
+    [task, renderVisualizer, renderNewCriteria]
   );
   return (
     <div className={cn('flex w-full flex-col gap-[30px] items-stretch', props.containerClassName)}>
@@ -185,42 +231,16 @@ const MultiOutputVisualizer = ({ task, className, ...props }: TaskVisualizerProp
         </div>
       </div>
       <hr className="border-2 border-t-0 border-black"></hr>
-      <div className="px-4">
-        {/* {task.taskData.responses.map((output, index) => (
-          <div key={`${task.type}_${index}`} className="flex w-full flex-col justify-center ">
-            <div
-              className={`flex h-fit w-full flex-col rounded-sm border-2 border-black bg-ecru-white shadow-brut-sm `}
-            >
-              {renderVisualizer(task.type, output, index)}
-              {out && (
-                <>
-                  <div
-                    className={` w-full justify-between px-4 text-base ${FontSpaceMono.className} border-t-2 border-black py-2  font-bold uppercase`}
-                  >
-                    response quality
-                  </div>
-                  <div className={`px-4`}>
-                    <Slider
-                      min={minValSlider}
-                      max={maxValSlider}
-                      step={1}
-                      initialValue={ratings[multiScoreOptions[index]]}
-                      onChange={(rating) => {
-                        handleRatingChange(multiScoreOptions[index], rating);
-                      }}
-                      showSections
-                    />
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        ))} */}
-
-        {task.taskData.criteria.map((criteria, index) => {
+      <div
+        className={cn(
+          'px-4 grid w-full max-w-full gap-x-5 gap-y-10 grid-cols-1',
+          isGrid ? 'xl:grid-cols-2' : 'xl:grid-cols-1'
+        )}
+      >
+        {task.taskData.responses.map((response, index) => {
           return (
-            <div className="flex flex-col items-center gap-[10px]" key={`${task.type}_${criteria.type}_${index}`}>
-              {renderCriteria(task, criteria, index)}
+            <div className="flex flex-col items-center gap-[10px]" key={`${task.type}_${response.model}_${index}`}>
+              {renderResponses(response, index)}
             </div>
           );
         })}
