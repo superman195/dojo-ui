@@ -165,7 +165,7 @@ const MultiOutputVisualizer = ({ task, className, ...props }: TaskVisualizerProp
                 step={1}
                 initialValue={1}
                 onChange={(rating) => {
-                  addCriterionForResponse(response.model, criteria, rating.toString());
+                  addCriterionForResponse(response.model, criteria, rating);
                 }}
                 showSections
               />

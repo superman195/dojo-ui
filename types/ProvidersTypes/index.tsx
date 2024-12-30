@@ -50,7 +50,7 @@ export interface SubmitContextType {
   minMultiScore: number;
   handleMaxMultiScore: (value: number) => void;
   handleMinMultiScore: (value: number) => void;
-  addCriterionForResponse: (modelId: string, criteria: Criterion, value: string) => void;
+  addCriterionForResponse: (modelId: string, criteria: Criterion, value: any) => void;
   getCriterionForResponse: () => ResponseWithResponseCriterion[];
   resetCriterionForResponse: (task: Task) => void;
 }
