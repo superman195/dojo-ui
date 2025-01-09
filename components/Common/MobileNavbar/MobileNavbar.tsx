@@ -83,7 +83,8 @@ const MobileNavbar = ({ className, ...props }: Props) => {
               key={`mobile_navbar_${index}`}
               href={item.url}
               className={cn(
-                'p-6 hover:bg-primary flex gap-[10px] items-stretch uppercase justify-center text-3xl font-extrabold hover:text-font-secondary text-font-primary hover:cursor-pointer visited:text-font-primary '
+                'p-6 hover:bg-primary flex gap-[10px] items-stretch uppercase justify-center text-3xl font-extrabold hover:text-font-secondary text-font-primary hover:cursor-pointer visited:text-font-primary ',
+                item.disabled && 'cursor-not-allowed text-muted-foreground'
               )}
             >
               <div className="flex items-center">{item.title}</div>{' '}
