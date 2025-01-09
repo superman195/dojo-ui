@@ -88,22 +88,24 @@ export const Tooltip: React.FC<TooltipProps> = ({
       <div className={cn('flex', className)} ref={targetRef} onMouseEnter={showTooltip} onMouseLeave={hideTooltip}>
         {children}
       </div>
-      <div
-        ref={tooltipRef}
-        style={{
-          top: `${position.top}px`,
-          left: `${position.left}px`,
-          opacity: isVisible ? 1 : 0,
-          pointerEvents: isVisible ? 'auto' : 'none',
-          transition: 'opacity 0.2s ease-in-out',
-        }}
-        className={cn(
-          'fixed z-50 rounded font-semibold bg-gray-800 p-2 text-xs text-font-secondary shadow-lg',
-          tooltipContentClassname
-        )}
-      >
-        {tooltipContent}
-      </div>
+      {tooltipContent && (
+        <div
+          ref={tooltipRef}
+          style={{
+            top: `${position.top}px`,
+            left: `${position.left}px`,
+            opacity: isVisible ? 1 : 0,
+            pointerEvents: isVisible ? 'auto' : 'none',
+            transition: 'opacity 0.2s ease-in-out',
+          }}
+          className={cn(
+            'fixed z-50 rounded font-semibold bg-gray-800 p-2 text-xs text-font-secondary shadow-lg',
+            tooltipContentClassname
+          )}
+        >
+          {tooltipContent}
+        </div>
+      )}
     </>
   );
 };
