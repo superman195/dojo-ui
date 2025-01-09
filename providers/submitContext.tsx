@@ -2,7 +2,7 @@ import useFeature from '@/hooks/useFeature';
 import useGetNextInProgressTask from '@/hooks/useGetNextTask';
 import { useSubmitTaskNew } from '@/hooks/useSubmitTaskNew';
 import { RankOrder, SubmitContextType } from '@/types/ProvidersTypes';
-import { CriterionWithResponses, Task } from '@/types/QuestionPageTypes';
+import { Criterion, ResponseWithResponseCriterion, Task } from '@/types/QuestionPageTypes';
 import { getTaskIdFromRouter } from '@/utils/general_helpers';
 import { useRouter } from 'next/router';
 import React, { ReactNode, createContext, useCallback, useContext, useState } from 'react';
@@ -18,7 +18,7 @@ export const useSubmit = () => {
 };
 
 export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [criterionForResponse, setCriterionForResponse] = useState<CriterionWithResponses[]>([]);
+  const [allResponses, setAllResponses] = useState<ResponseWithResponseCriterion[]>([]);
   const { submitTask, error, resetError: resetSubmissionError, response } = useSubmitTaskNew();
   const [multiSelectData, setMultiSelectData] = useState<string[]>([]);
   const { fetchNextInProgressTask } = useGetNextInProgressTask();
@@ -64,50 +64,75 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     setScoreData(score);
   };
 
-  // Current impl: index is just the criterion label since each label has to be unique.
-  const addCriterionForResponse = useCallback((index: string, value: string) => {
-    setCriterionForResponse((prev) => {
-      const updated = prev.map((c) => {
-        const criterionTextId = index.split('::')[0];
-        // if (c.text !== criterionTextId) return c; //IMPORTANT TODO: REINSTATE THIS BACK WHEN MORE CRITERION IS ADDED
+  // Versioned 27 dec 2024 feedbackloop act-1
+  const addCriterionForResponse = useCallback((modelId: string, criteriaObject: Criterion, value: string) => {
+    // List of reponses
+    setAllResponses((prev) => {
+      //       {
+      //   "resultData": [
+      //     {
+      //       "model": "anthropic/claude-3.5-sonnet_0_0",
+      //       "criteria": [
+      //         {
+      //           "value": 10,
+      //           "type": "score"
+      //         }
+      //       ],
 
-        // For multi select, we need check if the value was selected before
-        if (c.type === 'multi-select') {
-          c.responses = c.responses || []; //init incase empty
-          if (c.responses.includes(value)) {
-            return { ...c, responses: c.responses.filter((r) => r !== value) };
-          }
-          return { ...c, responses: [...c.responses, value] };
-        } else if (c.type === 'multi-score') {
-          //multi-score index will be in this format (id::score)
-          const tmpResponses = c.responses || {}; //init incase empty
-          const tmpArr = index.split('::');
-          const modelId = tmpArr.length > 1 ? tmpArr[1] : '';
-          tmpResponses[modelId] = value as any; //backend will check so frontend its important to be string or number
-          return { ...c, responses: { ...tmpResponses } };
-        } else {
-          // Single Scoring, Single Select wise we only nede 1 value
-          return { ...c, responses: value as any };
+      //     },
+      //     {
+      //       "model": "anthropic/claude-3.5-sonnet_0_0",
+      //       "criteria": [
+      //         {
+      //           "value": 100,
+      //           "type": "score"
+      //         }
+      //       ],
+
+      //     }
+      //   ]
+      // }
+
+      const tmpFiltered = prev.find((c) => c.model === modelId); //This will get the one with the modelId, if empty means not initialised
+      if (!tmpFiltered) {
+        console.error('No model found for', modelId);
+        return prev;
+      }
+      const updatedObj = { ...tmpFiltered, criteria: [{ ...tmpFiltered.criteria[0], value: value as any }] };
+      const updated = prev.map((c) => {
+        if (c.model === modelId) {
+          // Current version as of 27 dec 2024 just have to replace all criteria with the new value
+          // This is because it is guaranteed to only have 1 criteria, and criteria have no id to differentiate yet
+          return updatedObj;
         }
+        return c;
       });
+      console.log('updated', updated);
       return updated;
     });
   }, []);
-  const getCriterionForResponse = useCallback(() => criterionForResponse, [criterionForResponse]);
+  const getCriterionForResponse = useCallback(() => allResponses, [allResponses]);
   const resetCriterionForResponse = useCallback((task: Task) => {
-    setCriterionForResponse([
-      ...task.taskData.criteria.map((c) => ({ ...c, type: c.type as any, responses: undefined })),
-    ]); //Setting up the initial state with responses
+    // Setting up so that it takes the initial response and remove "completion" key
+    // inside responses, and giving all criteria a value of undefined
+    setAllResponses([
+      ...task.taskData.responses.map((r) => ({
+        model: r.model,
+        criteria: [...r.criteria.map((c) => ({ ...c, value: undefined }))],
+      })),
+    ]);
+    // setCriterionForResponse([
+    //   ...task.taskData.criteria.map((c) => ({ ...c, type: c.type as any, responses: undefined })),
+    // ]); //Setting up the initial state with responses
   }, []);
+
+  // Versioned 27 dec 2024 feedbackloop act-1
   const submitTaskNew = useCallback(
     async (preCallback?: (flag: boolean) => void, postCallback?: (flag: boolean) => void) => {
       if (!router) return;
       //Prepare the results data first
-      const resultData = criterionForResponse.map((c) => {
-        return { type: c.type, value: c.responses };
-      });
       preCallback?.(true);
-      const submitTaskRes = await submitTask(resultData as any);
+      const submitTaskRes = await submitTask(allResponses as any);
       if (submitTaskRes?.success) {
         resetSubmissionError();
         postCallback?.(true);
@@ -122,7 +147,7 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       }
       //Then call the submit api
     },
-    [criterionForResponse]
+    [allResponses]
   );
 
   const handleSetIsMultiSelectQuestion = (value: boolean) => {

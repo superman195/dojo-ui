@@ -22,7 +22,7 @@ export const fetchNonce = async (address: string) => {
     console.log(`Nonce fetched successfully: ${_nonce}`);
     return _nonce;
   } catch (error) {
-    console.error('There was a problem with your fetch operation:', error);
+    console.error('There was a problem with your fetch operation:', url, error);
     throw error;
   }
 };
