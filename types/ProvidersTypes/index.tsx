@@ -1,4 +1,4 @@
-import { CriterionWithResponses, Task } from '../QuestionPageTypes';
+import { Criterion, ResponseWithResponseCriterion, Task } from '../QuestionPageTypes';
 
 export interface AuthContextType {
   isAuthenticated: boolean;
@@ -50,8 +50,8 @@ export interface SubmitContextType {
   minMultiScore: number;
   handleMaxMultiScore: (value: number) => void;
   handleMinMultiScore: (value: number) => void;
-  addCriterionForResponse: (index: string, value: string) => void;
-  getCriterionForResponse: () => CriterionWithResponses[];
+  addCriterionForResponse: (modelId: string, criteria: Criterion, value: any) => void;
+  getCriterionForResponse: () => ResponseWithResponseCriterion[];
   resetCriterionForResponse: (task: Task) => void;
 }
 

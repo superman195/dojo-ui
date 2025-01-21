@@ -155,7 +155,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
                 ref={rhfImageRef}
                 draggable={false}
                 onClick={(e) => {
-                  if (task.taskData.criteria.find((c) => c.type === 'rich-human-feedback')) {
+                  if (task.taskData.responses.find((c) => c.criteria.find((c) => c.type === 'rich-human-feedback'))) {
                     handleRHFImageClick(e);
                   }
                 }}
@@ -248,7 +248,8 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
               singleSelect={true}
               options={crit.options ?? []}
               selectedValues={
-                criterionForResponse()?.find((c) => c.text === crit.text && c.type === 'single-select')?.responses ?? ''
+                // criterionForResponse()?.find((c) => c.text === crit.text && c.type === 'single-select')?.responses ?? ''
+                ''
               }
               onSelectionChange={(e) => {
                 onchangeHandler(crit.text ?? '', e);
@@ -260,7 +261,10 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
             <MultiSelectV2
               singleSelect={false}
               options={crit.options ?? []}
-              selectedValues={criterionForResponse()?.find((c) => c.text === crit.text)?.responses ?? []}
+              selectedValues={
+                // criterionForResponse()?.find((c) => c.text === crit.text)?.responses ?? []
+                ['']
+              }
               onSelectionChange={(e) => {
                 onchangeHandler(crit.text ?? '', e);
               }}
@@ -364,8 +368,8 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
   // Change handlers
   // Current impl: index is just the criterion label since each label has to be unique.
   // Everything will be added into response field as list of string
-  const handleChange = useCallback((index: string, value: string) => {
-    addCriterionForResponse(index, value);
+  const handleChange = useCallback((modelId: string, criteria: Criterion, value: string) => {
+    addCriterionForResponse(modelId, criteria, value);
   }, []);
   useEffect(() => {
     setAnnotations([]); //Reset if go next TTI or task
@@ -438,11 +442,11 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
         <VisualizerContentBox className="flex flex-col items-stretch gap-[10px]">
           <>
             <div className="w-full">Response:</div>
-            {task.taskData.criteria[0].type === 'rich-human-feedback' && (
+            {/* {task.taskData.responses[0].type === 'rich-human-feedback' && (
               <span className="mt-[-10px] text-xs text-font-primary/60 md:hidden">
                 Click anywhere to annotate flaws or inaccuracies.
               </span>
-            )}
+            )} */}
             <BrutCard className={cn('relative p-0 flex aspect-auto w-full rounded-sm', props.visualizerClassName)}>
               {renderVisualizer(task)}
             </BrutCard>
@@ -452,16 +456,18 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
 
       {/* RIGHT SIDE QUESTIONS BOX */}
       <div className={cn('flex flex-col items-stretch w-full md:w-1/2 gap-[24px] p-0', props.labelsClassName)}>
-        {task.taskData.criteria.map((criterion, index) => (
-          <CriterionContentBox key={`sotv_visualizer_${index}`} className={cn('flex w-full flex-col bg-transparent')}>
-            <span className={cn(FontSpaceMono.className, 'font-bold')}>
-              {index + 1}. {criterion.text}
-            </span>
-            {renderLabelQuestion(criterion, (idx: string, value: string) => {
-              handleChange(idx, value);
-            })}
-          </CriterionContentBox>
-        ))}
+        {task.taskData.responses.map((response, index) =>
+          response.criteria.map((criteria, cIndex) => (
+            <CriterionContentBox key={`sotv_visualizer_${index}`} className={cn('flex w-full flex-col bg-transparent')}>
+              <span className={cn(FontSpaceMono.className, 'font-bold')}>
+                {index + 1}. {response.criteria[0].text}
+              </span>
+              {renderLabelQuestion(response.criteria[0], (idx: string, value: string) => {
+                handleChange(response.model, criteria, value);
+              })}
+            </CriterionContentBox>
+          ))
+        )}
       </div>
     </div>
   );

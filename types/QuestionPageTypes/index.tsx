@@ -131,7 +131,6 @@ export type Task = {
   taskData: {
     task: string;
     prompt: string;
-    criteria: Array<Criterion>;
     responses: Array<TaskResponses>;
   };
   status: string;
@@ -157,6 +156,13 @@ export type Criterion = {
   min?: number;
 };
 
+export type ResponseCriterion = Criterion & { value: any };
+export type ResponseWithResponseCriterion = {
+  model: string;
+  criteria: Array<ResponseCriterion>;
+};
+
+// This is used by the oldest version pre 27 dec 2024.
 export type CriterionWithResponses =
   | (Criterion & {
       type: 'multi-score';
@@ -171,4 +177,5 @@ export type CriterionWithResponses =
 export type TaskResponses = {
   model: string;
   completion: Record<string, any>;
+  criteria: Array<Criterion>;
 };
