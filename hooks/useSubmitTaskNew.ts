@@ -12,9 +12,10 @@ export const useSubmitTaskNew = () => {
 
   // This function returns the body if success and null if unsucceessful.
   // You can also use the error response and loading states if you like.
-  const submitTask = async (submitPayload: { type: any; value: any }) => {
+  const submitTask = async (submitPayload: any) => {
     try {
       setLoading(true);
+      console.log('Payload just before submitting', submitPayload);
       const taskId = String(router.query.taskId || '');
       const jwtToken = localStorage.getItem(tokenType);
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/submit-result/${taskId}`, {

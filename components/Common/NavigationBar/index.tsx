@@ -3,6 +3,7 @@ import { cn } from '@/utils/tw';
 import Link from 'next/link';
 import GetStartedButton from '../Button/GetStarted';
 import MobileNavbar from '../MobileNavbar/MobileNavbar';
+import Tooltip from '../Tooltip';
 import { WalletButton } from '../Wallet/WalletButton';
 
 type NavigationBarProps = {
@@ -15,7 +16,7 @@ export const headerItems = [
   { title: 'Dashboard', url: '/dashboard' },
   { title: 'Task List', url: '/task-list?sort=numCriteria&order=desc' },
   { title: 'FAQ', url: '/faq' },
-  { title: 'Demo', url: '/task-list?exp=demo&?sort=numCriteria&order=desc' },
+  { title: 'Demo', url: '/task-list?exp=demo&?sort=numCriteria&order=desc', disabled: true },
   { title: 'Docs', url: 'https://docs.tensorplex.ai/tensorplex-docs' },
 ];
 
@@ -39,12 +40,16 @@ const NavigationBar = ({ openModal, isHomePage, className }: NavigationBarProps)
               {headerItems.map((item, index) => (
                 <Link
                   key={index}
-                  href={item.url}
+                  href={item.disabled ? '#' : item.url}
                   className={cn(
-                    'text-font-primary hover:cursor-pointer visited:text-font-primary hover:underline hover:text-primary'
+                    'text-font-primary hover:cursor-pointer hover:underline hover:text-primary',
+                    item.disabled &&
+                      'text-muted-foreground hover:cursor-not-allowed hover:text-muted-foreground hover:no-underline'
                   )}
                 >
-                  {item.title}
+                  <Tooltip tooltipContent={item.disabled && 'Coming soon'}>
+                    <span>{item.title}</span>
+                  </Tooltip>
                 </Link>
               ))}
             </div>

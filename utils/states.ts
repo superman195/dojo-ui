@@ -1,4 +1,3 @@
-import { Task } from '@/types/QuestionPageTypes';
 
 export type TaskType = 'CODE_GENERATION' | '3D_MODEL' | 'TEXT_TO_IMAGE' | 'TEXT_TO_THREE_D';
 export const TaskTypeMappingDisplay: Record<TaskType, string> = {
@@ -18,7 +17,7 @@ export const TASKTYPE_COLOR_MAP: Record<string, string> = {
 
 export const RHF_MAX_CHAR = 70;
 
-export const taskTTI: Task[] = [
+export const taskTTI: any[] = [
   {
     taskId: 'demo6',
     summary: 'Realistic Woman with 6 Mechanical Arm',
@@ -88,7 +87,7 @@ export const taskTTI: Task[] = [
   },
 ];
 
-// export const taskTTIBackup: Task[] = [
+// export const taskTTIBackup: any[] = [
 //   {
 //     taskId: 'demo6',
 //     title: 'Text to Image Task',
@@ -304,7 +303,7 @@ export const taskTTI: Task[] = [
 // ];
 
 // Demo data for codes
-export const task3d: Task[] = [
+export const task3d: any[] = [
   {
     taskId: 'demo8-3d',
     summary: '3D crisp lettuce bowl model',
@@ -530,7 +529,7 @@ export const task3d: Task[] = [
   },
 ];
 
-export const tasklistCodegen: Task[] = [
+export const tasklistCodegen: any[] = [
   {
     taskId: '76dc2a9a-0e3f-41b4-9bb5-2c83e3854c19',
     title: 'LLM Code Generation Task',
@@ -3613,7 +3612,7 @@ export const tasklistCodegen: Task[] = [
   },
 ];
 
-export const taskListImgEvaluation: Task[] = [
+export const taskListImgEvaluation: any[] = [
   {
     taskId: 'a4e72fb1-3bf0-4904-9254-b5e5e95e427a',
     summary: 'Dog Riding horse with Chopsticks',
@@ -3682,7 +3681,7 @@ export const taskListImgEvaluation: Task[] = [
   },
 ];
 
-export const supplementalTaskList: Task[] = [
+export const supplementalTaskList: any[] = [
   {
     taskId: '6bede419-e9f0-465c-9787-ad958b18d35d',
     summary: "Interactive visualization of a Newton's cradle",
@@ -3782,7 +3781,7 @@ export const supplementalTaskList: Task[] = [
   },
 ];
 
-export const tasklistFull: Task[] = tasklistCodegen
+export const tasklistFull: any[] = tasklistCodegen
   .concat(task3d)
   .concat(taskTTI)
   .concat(taskListImgEvaluation)
