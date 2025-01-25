@@ -1,7 +1,6 @@
 'use client';
 
 import Datatablev2 from '@/components/Common/DataTable/Datatablev2';
-import { Tooltip } from '@/components/Common/Tooltip';
 import { cn } from '@/utils/tw';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { ColumnDef } from '@tanstack/react-table';
@@ -77,21 +76,19 @@ const columnDef: ColumnDef<Task, any>[] = [
     size: 120,
     cell: (info) => {
       return (
-        <Tooltip className="w-fit" tooltipContent="Coming soon">
-          <button
-            disabled
-            onClick={
-              () => {}
-              // (window.location.href = `/Questions?taskId=${info.row.original.id}&exp=demo&showIndividualMinerLeadersboard=true`)
-            }
-            className={cn(
-              'uppercase h-[40px] font-bold border-[2px] rounded-sm border-black w-[113px] bg-muted-foreground text-white disabled:cursor-not-allowed',
-              FontSpaceMono.className
-            )}
-          >
-            <span className="flex size-full items-center justify-center">View</span>
-          </button>
-        </Tooltip>
+        <button
+          disabled
+          onClick={
+            () => {}
+            // (window.location.href = `/Questions?taskId=${info.row.original.id}&exp=demo&showIndividualMinerLeadersboard=true`)
+          }
+          className={cn(
+            'uppercase h-[40px] font-bold border-[2px] rounded-sm border-black w-[113px] bg-muted-foreground text-white disabled:cursor-not-allowed',
+            FontSpaceMono.className
+          )}
+        >
+          <span className="flex size-full items-center justify-center">View</span>
+        </button>
       );
     },
   },

@@ -3,7 +3,6 @@ import { cn } from '@/utils/tw';
 import Link from 'next/link';
 import GetStartedButton from '../Button/GetStarted';
 import MobileNavbar from '../MobileNavbar/MobileNavbar';
-import Tooltip from '../Tooltip';
 import { WalletButton } from '../Wallet/WalletButton';
 
 type NavigationBarProps = {
@@ -16,7 +15,7 @@ export const headerItems = [
   { title: 'Dashboard', url: '/dashboard' },
   { title: 'Task List', url: '/task-list?sort=numCriteria&order=desc' },
   { title: 'FAQ', url: '/faq' },
-  { title: 'Demo', url: '/task-list?exp=demo&?sort=numCriteria&order=desc', disabled: true },
+  { title: 'Demo', url: '/task-list?exp=demo&?sort=numCriteria&order=desc', disabled: false },
   { title: 'Docs', url: 'https://docs.tensorplex.ai/tensorplex-docs' },
 ];
 
@@ -47,9 +46,7 @@ const NavigationBar = ({ openModal, isHomePage, className }: NavigationBarProps)
                       'text-muted-foreground hover:cursor-not-allowed hover:text-muted-foreground hover:no-underline'
                   )}
                 >
-                  <Tooltip tooltipContent={item.disabled && 'Coming soon'}>
-                    <span>{item.title}</span>
-                  </Tooltip>
+                  <span>{item.title}</span>
                 </Link>
               ))}
             </div>
