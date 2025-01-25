@@ -1,4 +1,3 @@
-
 export type TaskType = 'CODE_GENERATION' | '3D_MODEL' | 'TEXT_TO_IMAGE' | 'TEXT_TO_THREE_D';
 export const TaskTypeMappingDisplay: Record<TaskType, string> = {
   CODE_GENERATION: 'Code Generation',
@@ -114,7 +113,7 @@ export const taskTTI: any[] = [
 //         {
 //           max: 10,
 //           min: 1,
-//           type: 'multi-score',
+//           type: 'score',
 //           options: ['Image 1', 'Image 2'],
 //         },
 //       ],
@@ -167,7 +166,7 @@ export const taskTTI: any[] = [
 //         {
 //           max: 10,
 //           min: 1,
-//           type: 'multi-score',
+//           type: 'score',
 //           options: ['Image 1', 'Image 2'],
 //         },
 //       ],
@@ -220,7 +219,7 @@ export const taskTTI: any[] = [
 //         {
 //           max: 10,
 //           min: 1,
-//           type: 'multi-score',
+//           type: 'score',
 //           options: ['Image 1', 'Image 2'],
 //         },
 //       ],
@@ -273,7 +272,7 @@ export const taskTTI: any[] = [
 //         {
 //           max: 10,
 //           min: 1,
-//           type: 'multi-score',
+//           type: 'score',
 //           options: ['Image 1', 'Image 2'],
 //         },
 //       ],
@@ -319,7 +318,7 @@ export const task3d: any[] = [
           max: 10,
           min: 1,
           text: 'MULTI SCORE',
-          type: 'multi-score',
+          type: 'score',
           options: ['3D object 1', '3D object 2'],
         },
       ],
@@ -370,7 +369,7 @@ export const task3d: any[] = [
         {
           max: 10,
           min: 1,
-          type: 'multi-score',
+          type: 'score',
           text: 'Multi Score',
           options: [
             'stabilityai/stable-diffusion-xl-base-1.0',
@@ -427,7 +426,7 @@ export const task3d: any[] = [
         {
           max: 10,
           min: 1,
-          type: 'multi-score',
+          type: 'score',
           text: 'Multi Score',
           options: [
             'stabilityai/stable-diffusion-xl-base-1.0',
@@ -484,7 +483,7 @@ export const task3d: any[] = [
         {
           max: 10,
           min: 1,
-          type: 'multi-score',
+          type: 'score',
           text: 'Multi Score',
           options: [
             'stabilityai/stable-diffusion-xl-base-1.0',
@@ -545,7 +544,7 @@ export const tasklistCodegen: any[] = [
         {
           max: 100,
           min: 1,
-          type: 'multi-score',
+          type: 'score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -557,6 +556,14 @@ export const tasklistCodegen: any[] = [
       responses: [
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -596,6 +603,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -635,6 +650,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -674,6 +697,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -730,22 +761,17 @@ export const tasklistCodegen: any[] = [
       task: 'CODE_GENERATION',
       prompt:
         'Create an interactive visualization of a musical staff for analyzing song lyrics and melodies. The program should have the following visual features:\n\n- A musical staff with 5 horizontal lines spanning the width of the screen\n- Clickable note positions on the staff represented by small circles\n- A text input area below the staff for entering lyrics\n- A play button to hear the created melody\n\nRequirements:\n\n1. When a user clicks on the staff, a musical note should appear at that position. The vertical position determines the pitch, while the horizontal position determines the timing in the melody.\n\n2. As the user types lyrics in the text input area, the words should automatically appear below the corresponding notes on the staff. If there are more words than notes, they should be evenly distributed.\n\n3. When the play button is clicked, the melody should be played using Web Audio API, with each note sounding for a duration proportional to its horizontal spacing. The corresponding lyrics should be highlighted in sync with the melody.\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
-      criteria: [
-        {
-          max: 100,
-          min: 1,
-          type: 'multi-score',
-          options: [
-            'anthropic/claude-3.5-sonnet',
-            'anthropic/claude-3.5-sonnet',
-            'anthropic/claude-3.5-sonnet',
-            'anthropic/claude-3.5-sonnet',
-          ],
-        },
-      ],
+
       responses: [
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 100,
+              min: 1,
+              type: 'score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -785,6 +811,13 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 100,
+              min: 1,
+              type: 'score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -824,6 +857,13 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 100,
+              min: 1,
+              type: 'score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -863,6 +903,13 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 100,
+              min: 1,
+              type: 'score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -923,19 +970,21 @@ export const tasklistCodegen: any[] = [
         {
           max: 10,
           min: 1,
-          type: 'multi-score',
+          type: 'score',
           text: 'Multi Score',
-          options: [
-            'anthropic/claude-3-haiku-20240307',
-            'openai/gpt-4-turbo-2024-04-09',
-            'anthropic/claude-3-opus-20240229',
-            'openai/gpt-4o',
-          ],
         },
       ],
       responses: [
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -975,6 +1024,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -1014,6 +1071,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -1057,6 +1122,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -1117,19 +1190,21 @@ export const tasklistCodegen: any[] = [
         {
           max: 10,
           min: 1,
-          type: 'multi-score',
+          type: 'score',
           text: 'Multi Score',
-          options: [
-            'anthropic/claude-3-sonnet-20240229',
-            'anthropic/claude-3-haiku-20240307',
-            'openai/gpt-4-turbo-2024-04-09',
-            'anthropic/claude-3-opus-20240229',
-          ],
         },
       ],
       responses: [
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -1168,6 +1243,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -1207,6 +1290,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -1250,6 +1341,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -1310,19 +1409,21 @@ export const tasklistCodegen: any[] = [
         {
           max: 10,
           min: 1,
-          type: 'multi-score',
+          type: 'score',
           text: 'Multi Score',
-          options: [
-            'anthropic/claude-3.5-sonnet',
-            'anthropic/claude-3.5-sonnet',
-            'anthropic/claude-3.5-sonnet',
-            'anthropic/claude-3.5-sonnet',
-          ],
         },
       ],
       responses: [
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -1362,6 +1463,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -1401,6 +1510,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -1440,6 +1557,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -1485,382 +1610,6 @@ export const tasklistCodegen: any[] = [
     numCriteria: 1,
     isCompletedByWorker: false,
   },
-  // {
-  //   taskId: 'demo3',
-  //   title: 'LLM Code Generation Task',
-  //   body: "Create a Brownian Motion Visualizer using JavaScript, HTML, and CSS. The visualization should display a single particle moving randomly on a 2D canvas. Requirements:\n\n1. The particle's movement should be controlled by the user's mouse position. As the user moves their mouse closer to the edges of the canvas, the particle's random movement should become more erratic and faster.\n\n2. Implement a slider that allows the user to adjust the 'temperature' of the system. Higher temperatures should result in more energetic and rapid particle movement, while lower temperatures should slow down the particle's motion.\n\nEnsure the visualization is smooth and responsive to user interactions. Use only built-in JavaScript libraries and features.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
-  //   expireAt: '2099-09-03T07:50:56Z',
-  //   type: 'CODE_GENERATION',
-  //   taskData: {
-  //     task: 'CODE_GENERATION',
-  //     prompt:
-  //       "Create a Brownian Motion Visualizer using JavaScript, HTML, and CSS. The visualization should display a single particle moving randomly on a 2D canvas. Requirements:\n\n1. The particle's movement should be controlled by the user's mouse position. As the user moves their mouse closer to the edges of the canvas, the particle's random movement should become more erratic and faster.\n\n2. Implement a slider that allows the user to adjust the 'temperature' of the system. Higher temperatures should result in more energetic and rapid particle movement, while lower temperatures should slow down the particle's motion.\n\nEnsure the visualization is smooth and responsive to user interactions. Use only built-in JavaScript libraries and features.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
-  //     criteria: [
-  //       {
-  //         max: 10,
-  //         min: 1,
-  //         type: 'multi-score',
-  //         options: [
-  //           'anthropic/claude-3.5-sonnet',
-  //           'anthropic/claude-3.5-sonnet',
-  //           'anthropic/claude-3.5-sonnet',
-  //           'anthropic/claude-3.5-sonnet',
-  //         ],
-  //       },
-  //     ],
-  //     responses: [
-  //       {
-  //         model: 'anthropic/claude-3.5-sonnet',
-  //         completion: {
-  //           files: {
-  //             'index.js': {
-  //               content:
-  //                 "const canvas = document.getElementById('canvas');\nconst ctx = canvas.getContext('2d');\nconst temperatureSlider = document.getElementById('temperatureSlider');\nconst temperatureValue = document.getElementById('temperatureValue');\n\ncanvas.width = 800;\ncanvas.height = 600;\n\nlet particle = {\n    x: canvas.width / 2,\n    y: canvas.height / 2,\n    radius: 5,\n    color: '#16a085'\n};\n\nlet mouseX = 0;\nlet mouseY = 0;\nlet temperature = 50;\n\nfunction drawParticle() {\n    ctx.beginPath();\n    ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);\n    ctx.fillStyle = particle.color;\n    ctx.fill();\n    ctx.closePath();\n}\n\nfunction drawBackground() {\n    ctx.fillStyle = 'rgba(26, 26, 46, 0.2)';\n    ctx.fillRect(0, 0, canvas.width, canvas.height);\n\n    // Draw stars\n    for (let i = 0; i \u003c 50; i++) {\n        ctx.beginPath();\n        ctx.arc(\n            Math.random() * canvas.width,\n            Math.random() * canvas.height,\n            Math.random() * 2,\n            0,\n            Math.PI * 2\n        );\n        ctx.fillStyle = 'rgba(255, 255, 255, ' + Math.random() + ')';\n        ctx.fill();\n    }\n}\n\nfunction updateParticle() {\n    const dx = (mouseX - particle.x) / canvas.width;\n    const dy = (mouseY - particle.y) / canvas.height;\n    const distanceFactor = Math.sqrt(dx * dx + dy * dy);\n    const velocityFactor = (1 - distanceFactor) * (temperature / 50);\n\n    particle.x += (Math.random() - 0.5) * velocityFactor * 10;\n    particle.y += (Math.random() - 0.5) * velocityFactor * 10;\n\n    // Keep particle within canvas bounds\n    particle.x = Math.max(particle.radius, Math.min(canvas.width - particle.radius, particle.x));\n    particle.y = Math.max(particle.radius, Math.min(canvas.height - particle.radius, particle.y));\n}\n\nfunction animate() {\n    drawBackground();\n    updateParticle();\n    drawParticle();\n    requestAnimationFrame(animate);\n}\n\ncanvas.addEventListener('mousemove', (event) =\u003e {\n    const rect = canvas.getBoundingClientRect();\n    mouseX = event.clientX - rect.left;\n    mouseY = event.clientY - rect.top;\n});\n\ntemperatureSlider.addEventListener('input', (event) =\u003e {\n    temperature = event.target.value;\n    temperatureValue.textContent = temperature;\n});\n\nanimate();",
-  //             },
-  //             'index.html': {
-  //               content:
-  //                 '\u003c!DOCTYPE html\u003e\n\u003chtml lang="en"\u003e\n\u003chead\u003e\n    \u003cmeta charset="UTF-8"\u003e\n    \u003cmeta name="viewport" content="width=device-width, initial-scale=1.0"\u003e\n    \u003ctitle\u003eBrownian Motion Visualizer\u003c/title\u003e\n    \u003cstyle\u003e\n        body {\n            margin: 0;\n            padding: 0;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            background-color: #1a1a2e;\n            font-family: Arial, sans-serif;\n        }\n        #canvas {\n            border: 2px solid #e94560;\n        }\n        #controls {\n            position: absolute;\n            bottom: 20px;\n            display: flex;\n            align-items: center;\n            color: #ffffff;\n        }\n        #temperatureSlider {\n            margin: 0 10px;\n        }\n    \u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n    \u003ccanvas id="canvas"\u003e\u003c/canvas\u003e\n    \u003cdiv id="controls"\u003e\n        \u003clabel for="temperatureSlider"\u003eTemperature:\u003c/label\u003e\n        \u003cinput type="range" id="temperatureSlider" min="1" max="100" value="50"\u003e\n        \u003cspan id="temperatureValue"\u003e50\u003c/span\u003e\n    \u003c/div\u003e\n    \u003cscript src="index.js"\u003e\u003c/script\u003e\n\u003c/body\u003e\n\u003c/html\u003e',
-  //             },
-  //             'package.json': {
-  //               content: {
-  //                 name: 'javascript',
-  //                 scripts: {
-  //                   build: 'parcel build ./index.html',
-  //                   start: 'parcel ./index.html',
-  //                 },
-  //                 version: '1.0.0',
-  //                 keywords: ['css', 'javascript'],
-  //                 description: 'The JavaScript template',
-  //                 devDependencies: {
-  //                   eslint: '^7.2.0',
-  //                   parcel: '^2.0.0',
-  //                   'babel-eslint': '^10.1.0',
-  //                 },
-  //               },
-  //             },
-  //           },
-  //           environment: 'server',
-  //           sandbox_url: 'https://3mqzrk.csb.app/',
-  //           combined_html:
-  //             '\u003c!DOCTYPE html\u003e\n\u003chtml lang="en"\u003e\n\u003chead\u003e\n    \u003cmeta charset="UTF-8"\u003e\n    \u003cmeta name="viewport" content="width=device-width, initial-scale=1.0"\u003e\n    \u003ctitle\u003eBrownian Motion Visualizer\u003c/title\u003e\n    \u003cstyle\u003e\n        body {\n            margin: 0;\n            padding: 0;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            background-color: #1a1a2e;\n            font-family: Arial, sans-serif;\n        }\n        #canvas {\n            border: 2px solid #e94560;\n        }\n        #controls {\n            position: absolute;\n            bottom: 20px;\n            display: flex;\n            align-items: center;\n            color: #ffffff;\n        }\n        #temperatureSlider {\n            margin: 0 10px;\n        }\n    \u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n    \u003ccanvas id="canvas"\u003e\u003c/canvas\u003e\n    \u003cdiv id="controls"\u003e\n        \u003clabel for="temperatureSlider"\u003eTemperature:\u003c/label\u003e\n        \u003cinput type="range" id="temperatureSlider" min="1" max="100" value="50"\u003e\n        \u003cspan id="temperatureValue"\u003e50\u003c/span\u003e\n    \u003c/div\u003e\n    \u003cscript src="index.js"\u003e\u003c/script\u003e\n\u003cscript\u003econst canvas = document.getElementById(\'canvas\');\nconst ctx = canvas.getContext(\'2d\');\nconst temperatureSlider = document.getElementById(\'temperatureSlider\');\nconst temperatureValue = document.getElementById(\'temperatureValue\');\n\ncanvas.width = 800;\ncanvas.height = 600;\n\nlet particle = {\n    x: canvas.width / 2,\n    y: canvas.height / 2,\n    radius: 5,\n    color: \'#16a085\'\n};\n\nlet mouseX = 0;\nlet mouseY = 0;\nlet temperature = 50;\n\nfunction drawParticle() {\n    ctx.beginPath();\n    ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);\n    ctx.fillStyle = particle.color;\n    ctx.fill();\n    ctx.closePath();\n}\n\nfunction drawBackground() {\n    ctx.fillStyle = \'rgba(26, 26, 46, 0.2)\';\n    ctx.fillRect(0, 0, canvas.width, canvas.height);\n\n    // Draw stars\n    for (let i = 0; i \u003c 50; i++) {\n        ctx.beginPath();\n        ctx.arc(\n            Math.random() * canvas.width,\n            Math.random() * canvas.height,\n            Math.random() * 2,\n            0,\n            Math.PI * 2\n        );\n        ctx.fillStyle = \'rgba(255, 255, 255, \' + Math.random() + \')\';\n        ctx.fill();\n    }\n}\n\nfunction updateParticle() {\n    const dx = (mouseX - particle.x) / canvas.width;\n    const dy = (mouseY - particle.y) / canvas.height;\n    const distanceFactor = Math.sqrt(dx * dx + dy * dy);\n    const velocityFactor = (1 - distanceFactor) * (temperature / 50);\n\n    particle.x += (Math.random() - 0.5) * velocityFactor * 10;\n    particle.y += (Math.random() - 0.5) * velocityFactor * 10;\n\n    // Keep particle within canvas bounds\n    particle.x = Math.max(particle.radius, Math.min(canvas.width - particle.radius, particle.x));\n    particle.y = Math.max(particle.radius, Math.min(canvas.height - particle.radius, particle.y));\n}\n\nfunction animate() {\n    drawBackground();\n    updateParticle();\n    drawParticle();\n    requestAnimationFrame(animate);\n}\n\ncanvas.addEventListener(\'mousemove\', (event) =\u003e {\n    const rect = canvas.getBoundingClientRect();\n    mouseX = event.clientX - rect.left;\n    mouseY = event.clientY - rect.top;\n});\n\ntemperatureSlider.addEventListener(\'input\', (event) =\u003e {\n    temperature = event.target.value;\n    temperatureValue.textContent = temperature;\n});\n\nanimate();\u003c/script\u003e\u003c/body\u003e\n\u003c/html\u003e',
-  //           additional_notes:
-  //             "This solution implements a Brownian Motion Visualizer using HTML5 Canvas and JavaScript. The particle's movement is influenced by the mouse position and a temperature slider. The background includes a starry night effect for improved aesthetics. No additional installation is required as it uses only built-in browser features.",
-  //           installation_commands: '',
-  //         },
-  //       },
-  //       {
-  //         model: 'anthropic/claude-3.5-sonnet',
-  //         completion: {
-  //           files: {
-  //             'index.js': {
-  //               content:
-  //                 "const canvas = document.getElementById('brownianCanvas');\nconst ctx = canvas.getContext('2d');\n\ncanvas.width = 800;\ncanvas.height = 600;\n\nlet particle = {\n    x: canvas.width / 2,\n    y: canvas.height / 2,\n    radius: 5,\n    color: '#16213e'\n};\n\nlet mouse = {\n    x: 0,\n    y: 0\n};\n\nfunction drawParticle() {\n    ctx.beginPath();\n    ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);\n    ctx.fillStyle = particle.color;\n    ctx.fill();\n    ctx.closePath();\n}\n\nfunction drawBackground() {\n    ctx.fillStyle = '#0f3460';\n    ctx.fillRect(0, 0, canvas.width, canvas.height);\n\n    // Draw stars\n    for (let i = 0; i \u003c 100; i++) {\n        ctx.beginPath();\n        ctx.arc(\n            Math.random() * canvas.width,\n            Math.random() * canvas.height,\n            Math.random() * 2,\n            0,\n            Math.PI * 2\n        );\n        ctx.fillStyle = 'rgba(255, 255, 255, ' + Math.random() + ')';\n        ctx.fill();\n    }\n\n    // Draw moon\n    ctx.beginPath();\n    ctx.arc(50, 50, 30, 0, Math.PI * 2);\n    ctx.fillStyle = '#e0e0e0';\n    ctx.fill();\n    ctx.closePath();\n}\n\nfunction updateParticle() {\n    const dx = mouse.x - particle.x;\n    const dy = mouse.y - particle.y;\n    const distance = Math.sqrt(dx * dx + dy * dy);\n\n    const maxDistance = Math.sqrt(canvas.width * canvas.width + canvas.height * canvas.height) / 2;\n    const speed = 5 * (1 - distance / maxDistance);\n\n    particle.x += (Math.random() - 0.5) * speed;\n    particle.y += (Math.random() - 0.5) * speed;\n\n    // Keep particle within canvas bounds\n    particle.x = Math.max(particle.radius, Math.min(canvas.width - particle.radius, particle.x));\n    particle.y = Math.max(particle.radius, Math.min(canvas.height - particle.radius, particle.y));\n}\n\nfunction animate() {\n    ctx.clearRect(0, 0, canvas.width, canvas.height);\n    drawBackground();\n    updateParticle();\n    drawParticle();\n    requestAnimationFrame(animate);\n}\n\ncanvas.addEventListener('mousemove', (event) =\u003e {\n    const rect = canvas.getBoundingClientRect();\n    mouse.x = event.clientX - rect.left;\n    mouse.y = event.clientY - rect.top;\n});\n\nanimate();",
-  //             },
-  //             'index.html': {
-  //               content:
-  //                 '\u003c!DOCTYPE html\u003e\n\u003chtml lang="en"\u003e\n\u003chead\u003e\n    \u003cmeta charset="UTF-8"\u003e\n    \u003cmeta name="viewport" content="width=device-width, initial-scale=1.0"\u003e\n    \u003ctitle\u003eBrownian Motion Visualizer\u003c/title\u003e\n    \u003cstyle\u003e\n        body {\n            margin: 0;\n            padding: 0;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            background-color: #1a1a2e;\n        }\n        canvas {\n            border: 2px solid #e94560;\n        }\n    \u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n    \u003ccanvas id="brownianCanvas"\u003e\u003c/canvas\u003e\n    \u003cscript src="index.js"\u003e\u003c/script\u003e\n\u003c/body\u003e\n\u003c/html\u003e',
-  //             },
-  //             'package.json': {
-  //               content: {
-  //                 name: 'javascript',
-  //                 scripts: {
-  //                   build: 'parcel build ./index.html',
-  //                   start: 'parcel ./index.html',
-  //                 },
-  //                 version: '1.0.0',
-  //                 keywords: ['css', 'javascript'],
-  //                 description: 'The JavaScript template',
-  //                 devDependencies: {
-  //                   eslint: '^7.2.0',
-  //                   parcel: '^2.0.0',
-  //                   'babel-eslint': '^10.1.0',
-  //                 },
-  //               },
-  //             },
-  //           },
-  //           environment: 'server',
-  //           sandbox_url: 'https://ln3c47.csb.app/',
-  //           combined_html:
-  //             "\u003c!DOCTYPE html\u003e\n\u003chtml lang=\"en\"\u003e\n\u003chead\u003e\n    \u003cmeta charset=\"UTF-8\"\u003e\n    \u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"\u003e\n    \u003ctitle\u003eBrownian Motion Visualizer\u003c/title\u003e\n    \u003cstyle\u003e\n        body {\n            margin: 0;\n            padding: 0;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            background-color: #1a1a2e;\n        }\n        canvas {\n            border: 2px solid #e94560;\n        }\n    \u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n    \u003ccanvas id=\"brownianCanvas\"\u003e\u003c/canvas\u003e\n    \u003cscript src=\"index.js\"\u003e\u003c/script\u003e\n\u003cscript\u003econst canvas = document.getElementById('brownianCanvas');\nconst ctx = canvas.getContext('2d');\n\ncanvas.width = 800;\ncanvas.height = 600;\n\nlet particle = {\n    x: canvas.width / 2,\n    y: canvas.height / 2,\n    radius: 5,\n    color: '#16213e'\n};\n\nlet mouse = {\n    x: 0,\n    y: 0\n};\n\nfunction drawParticle() {\n    ctx.beginPath();\n    ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);\n    ctx.fillStyle = particle.color;\n    ctx.fill();\n    ctx.closePath();\n}\n\nfunction drawBackground() {\n    ctx.fillStyle = '#0f3460';\n    ctx.fillRect(0, 0, canvas.width, canvas.height);\n\n    // Draw stars\n    for (let i = 0; i \u003c 100; i++) {\n        ctx.beginPath();\n        ctx.arc(\n            Math.random() * canvas.width,\n            Math.random() * canvas.height,\n            Math.random() * 2,\n            0,\n            Math.PI * 2\n        );\n        ctx.fillStyle = 'rgba(255, 255, 255, ' + Math.random() + ')';\n        ctx.fill();\n    }\n\n    // Draw moon\n    ctx.beginPath();\n    ctx.arc(50, 50, 30, 0, Math.PI * 2);\n    ctx.fillStyle = '#e0e0e0';\n    ctx.fill();\n    ctx.closePath();\n}\n\nfunction updateParticle() {\n    const dx = mouse.x - particle.x;\n    const dy = mouse.y - particle.y;\n    const distance = Math.sqrt(dx * dx + dy * dy);\n\n    const maxDistance = Math.sqrt(canvas.width * canvas.width + canvas.height * canvas.height) / 2;\n    const speed = 5 * (1 - distance / maxDistance);\n\n    particle.x += (Math.random() - 0.5) * speed;\n    particle.y += (Math.random() - 0.5) * speed;\n\n    // Keep particle within canvas bounds\n    particle.x = Math.max(particle.radius, Math.min(canvas.width - particle.radius, particle.x));\n    particle.y = Math.max(particle.radius, Math.min(canvas.height - particle.radius, particle.y));\n}\n\nfunction animate() {\n    ctx.clearRect(0, 0, canvas.width, canvas.height);\n    drawBackground();\n    updateParticle();\n    drawParticle();\n    requestAnimationFrame(animate);\n}\n\ncanvas.addEventListener('mousemove', (event) =\u003e {\n    const rect = canvas.getBoundingClientRect();\n    mouse.x = event.clientX - rect.left;\n    mouse.y = event.clientY - rect.top;\n});\n\nanimate();\u003c/script\u003e\u003c/body\u003e\n\u003c/html\u003e",
-  //           additional_notes:
-  //             "This solution creates a Brownian Motion Visualizer using HTML5 Canvas and JavaScript. The particle's movement is influenced by the user's mouse position, becoming more erratic as the mouse approaches the canvas edges. The visualization includes a night sky background with stars and a moon for aesthetic appeal.",
-  //           installation_commands: '',
-  //         },
-  //       },
-  //       {
-  //         model: 'anthropic/claude-3.5-sonnet',
-  //         completion: {
-  //           files: {
-  //             'index.js': {
-  //               content:
-  //                 "const canvas = document.getElementById('brownianCanvas');\nconst ctx = canvas.getContext('2d');\n\ncanvas.width = 800;\ncanvas.height = 600;\n\nconst centerX = canvas.width / 2;\nconst centerY = canvas.height / 2;\n\nclass Particle {\n    constructor() {\n        this.x = centerX;\n        this.y = centerY;\n        this.radius = 5;\n        this.vx = 0;\n        this.vy = 0;\n        this.color = 'hsl(180, 100%, 50%)';\n    }\n\n    update() {\n        // Brownian motion\n        this.vx += (Math.random() - 0.5) * 0.5;\n        this.vy += (Math.random() - 0.5) * 0.5;\n\n        // Gravitational force\n        const dx = centerX - this.x;\n        const dy = centerY - this.y;\n        const distance = Math.sqrt(dx * dx + dy * dy);\n        const force = distance * 0.0001;\n        this.vx += dx * force;\n        this.vy += dy * force;\n\n        // Update position\n        this.x += this.vx;\n        this.y += this.vy;\n\n        // Apply friction\n        this.vx *= 0.99;\n        this.vy *= 0.99;\n\n        // Update color based on velocity\n        const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);\n        const hue = Math.min(360, Math.max(180, 180 + speed * 300));\n        this.color = `hsl(${hue}, 100%, 50%)`;\n    }\n\n    draw() {\n        ctx.beginPath();\n        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);\n        ctx.fillStyle = this.color;\n        ctx.fill();\n        ctx.closePath();\n    }\n}\n\nconst particle = new Particle();\n\nfunction drawBackground() {\n    ctx.fillStyle = 'rgba(26, 26, 26, 0.1)';\n    ctx.fillRect(0, 0, canvas.width, canvas.height);\n\n    // Draw stars\n    for (let i = 0; i \u003c 50; i++) {\n        ctx.beginPath();\n        ctx.arc(\n            Math.random() * canvas.width,\n            Math.random() * canvas.height,\n            Math.random() * 1.5,\n            0,\n            Math.PI * 2\n        );\n        ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';\n        ctx.fill();\n        ctx.closePath();\n    }\n\n    // Draw moon\n    ctx.beginPath();\n    ctx.arc(50, 50, 30, 0, Math.PI * 2);\n    ctx.fillStyle = 'rgba(200, 200, 200, 0.5)';\n    ctx.fill();\n    ctx.closePath();\n}\n\nfunction animate() {\n    drawBackground();\n    particle.update();\n    particle.draw();\n    requestAnimationFrame(animate);\n}\n\nanimate();",
-  //             },
-  //             'index.html': {
-  //               content:
-  //                 '\u003c!DOCTYPE html\u003e\n\u003chtml lang="en"\u003e\n\u003chead\u003e\n    \u003cmeta charset="UTF-8"\u003e\n    \u003cmeta name="viewport" content="width=device-width, initial-scale=1.0"\u003e\n    \u003ctitle\u003eBrownian Motion Visualizer\u003c/title\u003e\n    \u003cstyle\u003e\n        body {\n            margin: 0;\n            padding: 0;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            background-color: #1a1a1a;\n        }\n        canvas {\n            border: 1px solid #333;\n        }\n    \u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n    \u003ccanvas id="brownianCanvas"\u003e\u003c/canvas\u003e\n    \u003cscript src="index.js"\u003e\u003c/script\u003e\n\u003c/body\u003e\n\u003c/html\u003e',
-  //             },
-  //             'package.json': {
-  //               content: {
-  //                 name: 'javascript',
-  //                 scripts: {
-  //                   build: 'parcel build ./index.html',
-  //                   start: 'parcel ./index.html',
-  //                 },
-  //                 version: '1.0.0',
-  //                 keywords: ['css', 'javascript'],
-  //                 description: 'The JavaScript template',
-  //                 devDependencies: {
-  //                   eslint: '^7.2.0',
-  //                   parcel: '^2.0.0',
-  //                   'babel-eslint': '^10.1.0',
-  //                 },
-  //               },
-  //             },
-  //           },
-  //           environment: 'server',
-  //           sandbox_url: 'https://msssts.csb.app/',
-  //           combined_html:
-  //             '\u003c!DOCTYPE html\u003e\n\u003chtml lang="en"\u003e\n\u003chead\u003e\n    \u003cmeta charset="UTF-8"\u003e\n    \u003cmeta name="viewport" content="width=device-width, initial-scale=1.0"\u003e\n    \u003ctitle\u003eBrownian Motion Visualizer\u003c/title\u003e\n    \u003cstyle\u003e\n        body {\n            margin: 0;\n            padding: 0;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            background-color: #1a1a1a;\n        }\n        canvas {\n            border: 1px solid #333;\n        }\n    \u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n    \u003ccanvas id="brownianCanvas"\u003e\u003c/canvas\u003e\n    \u003cscript src="index.js"\u003e\u003c/script\u003e\n\u003cscript\u003econst canvas = document.getElementById(\'brownianCanvas\');\nconst ctx = canvas.getContext(\'2d\');\n\ncanvas.width = 800;\ncanvas.height = 600;\n\nconst centerX = canvas.width / 2;\nconst centerY = canvas.height / 2;\n\nclass Particle {\n    constructor() {\n        this.x = centerX;\n        this.y = centerY;\n        this.radius = 5;\n        this.vx = 0;\n        this.vy = 0;\n        this.color = \'hsl(180, 100%, 50%)\';\n    }\n\n    update() {\n        // Brownian motion\n        this.vx += (Math.random() - 0.5) * 0.5;\n        this.vy += (Math.random() - 0.5) * 0.5;\n\n        // Gravitational force\n        const dx = centerX - this.x;\n        const dy = centerY - this.y;\n        const distance = Math.sqrt(dx * dx + dy * dy);\n        const force = distance * 0.0001;\n        this.vx += dx * force;\n        this.vy += dy * force;\n\n        // Update position\n        this.x += this.vx;\n        this.y += this.vy;\n\n        // Apply friction\n        this.vx *= 0.99;\n        this.vy *= 0.99;\n\n        // Update color based on velocity\n        const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);\n        const hue = Math.min(360, Math.max(180, 180 + speed * 300));\n        this.color = `hsl(${hue}, 100%, 50%)`;\n    }\n\n    draw() {\n        ctx.beginPath();\n        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);\n        ctx.fillStyle = this.color;\n        ctx.fill();\n        ctx.closePath();\n    }\n}\n\nconst particle = new Particle();\n\nfunction drawBackground() {\n    ctx.fillStyle = \'rgba(26, 26, 26, 0.1)\';\n    ctx.fillRect(0, 0, canvas.width, canvas.height);\n\n    // Draw stars\n    for (let i = 0; i \u003c 50; i++) {\n        ctx.beginPath();\n        ctx.arc(\n            Math.random() * canvas.width,\n            Math.random() * canvas.height,\n            Math.random() * 1.5,\n            0,\n            Math.PI * 2\n        );\n        ctx.fillStyle = \'rgba(255, 255, 255, 0.5)\';\n        ctx.fill();\n        ctx.closePath();\n    }\n\n    // Draw moon\n    ctx.beginPath();\n    ctx.arc(50, 50, 30, 0, Math.PI * 2);\n    ctx.fillStyle = \'rgba(200, 200, 200, 0.5)\';\n    ctx.fill();\n    ctx.closePath();\n}\n\nfunction animate() {\n    drawBackground();\n    particle.update();\n    particle.draw();\n    requestAnimationFrame(animate);\n}\n\nanimate();\u003c/script\u003e\u003c/body\u003e\n\u003c/html\u003e',
-  //           additional_notes:
-  //             'This solution creates a Brownian Motion Visualizer using HTML5 Canvas and JavaScript. The particle moves randomly with a gravitational pull towards the center. Its color changes based on velocity, shifting from cool to warm colors as speed increases. The background includes a night sky effect with stars and a moon for improved aesthetics.',
-  //           installation_commands: '',
-  //         },
-  //       },
-  //       {
-  //         model: 'anthropic/claude-3.5-sonnet',
-  //         completion: {
-  //           files: {
-  //             'index.js': {
-  //               content:
-  //                 "const canvas = document.getElementById('canvas');\nconst ctx = canvas.getContext('2d');\nconst temperatureSlider = document.getElementById('temperatureSlider');\nconst temperatureValue = document.getElementById('temperatureValue');\n\ncanvas.width = 800;\ncanvas.height = 600;\n\nlet molecule = {\n    x: canvas.width / 2,\n    y: canvas.height / 2,\n    radius: 5,\n    color: '#16a085'\n};\n\nlet mouseX = 0;\nlet mouseY = 0;\n\nfunction drawMolecule() {\n    ctx.beginPath();\n    ctx.arc(molecule.x, molecule.y, molecule.radius, 0, Math.PI * 2);\n    ctx.fillStyle = molecule.color;\n    ctx.fill();\n    ctx.closePath();\n}\n\nfunction drawBackground() {\n    ctx.fillStyle = '#0a192f';\n    ctx.fillRect(0, 0, canvas.width, canvas.height);\n\n    // Draw stars\n    for (let i = 0; i \u003c 100; i++) {\n        ctx.beginPath();\n        ctx.arc(\n            Math.random() * canvas.width,\n            Math.random() * canvas.height,\n            Math.random() * 1.5,\n            0,\n            Math.PI * 2\n        );\n        ctx.fillStyle = 'rgba(255, 255, 255, ' + Math.random() + ')';\n        ctx.fill();\n    }\n}\n\nfunction updateMoleculePosition() {\n    const temperature = parseInt(temperatureSlider.value);\n    const maxSpeed = temperature / 10;\n\n    const distanceFromCenter = Math.sqrt(\n        Math.pow(mouseX - canvas.width / 2, 2) + Math.pow(mouseY - canvas.height / 2, 2)\n    );\n    const maxDistance = Math.sqrt(Math.pow(canvas.width / 2, 2) + Math.pow(canvas.height / 2, 2));\n    const erraticFactor = distanceFromCenter / maxDistance;\n\n    const dx = (Math.random() - 0.5) * maxSpeed * (1 + erraticFactor);\n    const dy = (Math.random() - 0.5) * maxSpeed * (1 + erraticFactor);\n\n    molecule.x += dx;\n    molecule.y += dy;\n\n    // Keep the molecule within the canvas\n    molecule.x = Math.max(molecule.radius, Math.min(canvas.width - molecule.radius, molecule.x));\n    molecule.y = Math.max(molecule.radius, Math.min(canvas.height - molecule.radius, molecule.y));\n}\n\nfunction animate() {\n    ctx.clearRect(0, 0, canvas.width, canvas.height);\n    drawBackground();\n    updateMoleculePosition();\n    drawMolecule();\n    requestAnimationFrame(animate);\n}\n\ncanvas.addEventListener('mousemove', (event) =\u003e {\n    const rect = canvas.getBoundingClientRect();\n    mouseX = event.clientX - rect.left;\n    mouseY = event.clientY - rect.top;\n});\n\ntemperatureSlider.addEventListener('input', () =\u003e {\n    temperatureValue.textContent = temperatureSlider.value;\n});\n\nanimate();",
-  //             },
-  //             'index.html': {
-  //               content:
-  //                 '\u003c!DOCTYPE html\u003e\n\u003chtml lang="en"\u003e\n\u003chead\u003e\n    \u003cmeta charset="UTF-8"\u003e\n    \u003cmeta name="viewport" content="width=device-width, initial-scale=1.0"\u003e\n    \u003ctitle\u003eBrownian Motion Visualizer\u003c/title\u003e\n    \u003cstyle\u003e\n        body {\n            margin: 0;\n            padding: 0;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            background-color: #1a1a2e;\n            font-family: Arial, sans-serif;\n        }\n        #canvas {\n            border: 2px solid #e94560;\n        }\n        #controls {\n            position: absolute;\n            bottom: 20px;\n            display: flex;\n            align-items: center;\n            color: #ffffff;\n        }\n        #temperatureSlider {\n            width: 200px;\n            margin: 0 10px;\n        }\n    \u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n    \u003ccanvas id="canvas"\u003e\u003c/canvas\u003e\n    \u003cdiv id="controls"\u003e\n        \u003clabel for="temperatureSlider"\u003eTemperature:\u003c/label\u003e\n        \u003cinput type="range" id="temperatureSlider" min="1" max="100" value="50"\u003e\n        \u003cspan id="temperatureValue"\u003e50\u003c/span\u003e\n    \u003c/div\u003e\n    \u003cscript src="index.js"\u003e\u003c/script\u003e\n\u003c/body\u003e\n\u003c/html\u003e',
-  //             },
-  //             'package.json': {
-  //               content: {
-  //                 name: 'javascript',
-  //                 scripts: {
-  //                   build: 'parcel build ./index.html',
-  //                   start: 'parcel ./index.html',
-  //                 },
-  //                 version: '1.0.0',
-  //                 keywords: ['css', 'javascript'],
-  //                 description: 'The JavaScript template',
-  //                 devDependencies: {
-  //                   eslint: '^7.2.0',
-  //                   parcel: '^2.0.0',
-  //                   'babel-eslint': '^10.1.0',
-  //                 },
-  //               },
-  //             },
-  //           },
-  //           environment: 'server',
-  //           sandbox_url: 'https://ltqcj8.csb.app/',
-  //           combined_html:
-  //             '\u003c!DOCTYPE html\u003e\n\u003chtml lang="en"\u003e\n\u003chead\u003e\n    \u003cmeta charset="UTF-8"\u003e\n    \u003cmeta name="viewport" content="width=device-width, initial-scale=1.0"\u003e\n    \u003ctitle\u003eBrownian Motion Visualizer\u003c/title\u003e\n    \u003cstyle\u003e\n        body {\n            margin: 0;\n            padding: 0;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            background-color: #1a1a2e;\n            font-family: Arial, sans-serif;\n        }\n        #canvas {\n            border: 2px solid #e94560;\n        }\n        #controls {\n            position: absolute;\n            bottom: 20px;\n            display: flex;\n            align-items: center;\n            color: #ffffff;\n        }\n        #temperatureSlider {\n            width: 200px;\n            margin: 0 10px;\n        }\n    \u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n    \u003ccanvas id="canvas"\u003e\u003c/canvas\u003e\n    \u003cdiv id="controls"\u003e\n        \u003clabel for="temperatureSlider"\u003eTemperature:\u003c/label\u003e\n        \u003cinput type="range" id="temperatureSlider" min="1" max="100" value="50"\u003e\n        \u003cspan id="temperatureValue"\u003e50\u003c/span\u003e\n    \u003c/div\u003e\n    \u003cscript src="index.js"\u003e\u003c/script\u003e\n\u003cscript\u003econst canvas = document.getElementById(\'canvas\');\nconst ctx = canvas.getContext(\'2d\');\nconst temperatureSlider = document.getElementById(\'temperatureSlider\');\nconst temperatureValue = document.getElementById(\'temperatureValue\');\n\ncanvas.width = 800;\ncanvas.height = 600;\n\nlet molecule = {\n    x: canvas.width / 2,\n    y: canvas.height / 2,\n    radius: 5,\n    color: \'#16a085\'\n};\n\nlet mouseX = 0;\nlet mouseY = 0;\n\nfunction drawMolecule() {\n    ctx.beginPath();\n    ctx.arc(molecule.x, molecule.y, molecule.radius, 0, Math.PI * 2);\n    ctx.fillStyle = molecule.color;\n    ctx.fill();\n    ctx.closePath();\n}\n\nfunction drawBackground() {\n    ctx.fillStyle = \'#0a192f\';\n    ctx.fillRect(0, 0, canvas.width, canvas.height);\n\n    // Draw stars\n    for (let i = 0; i \u003c 100; i++) {\n        ctx.beginPath();\n        ctx.arc(\n            Math.random() * canvas.width,\n            Math.random() * canvas.height,\n            Math.random() * 1.5,\n            0,\n            Math.PI * 2\n        );\n        ctx.fillStyle = \'rgba(255, 255, 255, \' + Math.random() + \')\';\n        ctx.fill();\n    }\n}\n\nfunction updateMoleculePosition() {\n    const temperature = parseInt(temperatureSlider.value);\n    const maxSpeed = temperature / 10;\n\n    const distanceFromCenter = Math.sqrt(\n        Math.pow(mouseX - canvas.width / 2, 2) + Math.pow(mouseY - canvas.height / 2, 2)\n    );\n    const maxDistance = Math.sqrt(Math.pow(canvas.width / 2, 2) + Math.pow(canvas.height / 2, 2));\n    const erraticFactor = distanceFromCenter / maxDistance;\n\n    const dx = (Math.random() - 0.5) * maxSpeed * (1 + erraticFactor);\n    const dy = (Math.random() - 0.5) * maxSpeed * (1 + erraticFactor);\n\n    molecule.x += dx;\n    molecule.y += dy;\n\n    // Keep the molecule within the canvas\n    molecule.x = Math.max(molecule.radius, Math.min(canvas.width - molecule.radius, molecule.x));\n    molecule.y = Math.max(molecule.radius, Math.min(canvas.height - molecule.radius, molecule.y));\n}\n\nfunction animate() {\n    ctx.clearRect(0, 0, canvas.width, canvas.height);\n    drawBackground();\n    updateMoleculePosition();\n    drawMolecule();\n    requestAnimationFrame(animate);\n}\n\ncanvas.addEventListener(\'mousemove\', (event) =\u003e {\n    const rect = canvas.getBoundingClientRect();\n    mouseX = event.clientX - rect.left;\n    mouseY = event.clientY - rect.top;\n});\n\ntemperatureSlider.addEventListener(\'input\', () =\u003e {\n    temperatureValue.textContent = temperatureSlider.value;\n});\n\nanimate();\u003c/script\u003e\u003c/body\u003e\n\u003c/html\u003e',
-  //           additional_notes:
-  //             "This solution creates a Brownian Motion Visualizer using HTML5 Canvas and JavaScript. The visualization includes a single molecule moving randomly on a 2D canvas, with its movement affected by the user's mouse position and a temperature slider. The background simulates a night sky with stars for added visual appeal. No additional installation is required as it uses only built-in browser features.",
-  //           installation_commands: '',
-  //         },
-  //       },
-  //     ],
-  //   },
-  //   status: 'IN_PROGRESS',
-  //   numResults: 1,
-  //   maxResults: 4,
-  //   numCriteria: 1,
-  //   isCompletedByWorker: false,
-  // },
-  // {
-  //   taskId: 'demo5',
-  //   title: 'LLM Code Generation Task (Demo)',
-  //   body: 'Create a web application using only HTML, CSS, and JavaScript that showcases threejs or plotly graph visualization library.',
-  //   expireAt: '2099-08-30T14:09:13Z',
-  //   type: 'CODE_GENERATION',
-  //   taskData: {
-  //     task: 'CODE_GENERATION',
-  //     prompt:
-  //       'Create a web application using only HTML, CSS, and JavaScript that showcases threejs or plotly graph visualization library.Create a web application using only HTML, CSS, and JavaScript that showcases threejs or plotly graph visualization library.Create a web application using only HTML, CSS, and JavaScript that showcases threejs or plotly graph visualization library.',
-  //     criteria: [
-  //       {
-  //         max: 10,
-  //         min: 1,
-  //         type: 'multi-score',
-  //         options: [
-  //           'anthropic/claude-3-haiku-20240307',
-  //           'openai/gpt-4-turbo-2024-04-09',
-  //           'anthropic/claude-3-opus-20240229',
-  //           'openai/gpt-4o',
-  //         ],
-  //       },
-  //     ],
-  //     responses: [
-  //       {
-  //         model: 'anthropic/claude-3-haiku-20240307',
-  //         completion: {
-  //           files: {
-  //             'index.js': {
-  //               content:
-  //                 "const hourHand = document.getElementById('hour-hand');\nconst minuteHand = document.getElementById('minute-hand');\nconst secondHand = document.getElementById('second-hand');\nconst startStopBtn = document.getElementById('start-stop');\nconst formatToggleBtn = document.getElementById('format-toggle');\nconst colorChangeBtn = document.getElementById('color-change');\nconst secondToggleBtn = document.getElementById('second-toggle');\n\nlet isRunning = true;\nlet is24Hour = false;\nlet handColor = '#333';\nlet showSecondHand = true;\n\nfunction updateClock() {\n    const now = new Date();\n    let hours = now.getHours();\n    const minutes = now.getMinutes();\n    const seconds = now.getSeconds();\n\n    if (!is24Hour) {\n        hours = hours % 12 || 12;\n    }\n\n    const hourDegrees = (hours * 30) + (minutes * 0.5);\n    const minuteDegrees = (minutes * 6) + (seconds * 0.1);\n    const secondDegrees = seconds * 6;\n\n    hourHand.style.transform = `rotate(${hourDegrees}deg)`;\n    minuteHand.style.transform = `rotate(${minuteDegrees}deg)`;\n    secondHand.style.transform = `rotate(${secondDegrees}deg)`;\n\n    secondHand.style.display = showSecondHand ? 'block' : 'none';\n    hourHand.style.backgroundColor = minuteHand.style.backgroundColor = secondHand.style.backgroundColor = handColor;\n}\n\nfunction startStopClock() {\n    isRunning = !isRunning;\n    startStopBtn.textContent = isRunning ? 'Stop' : 'Start';\n    if (isRunning) {\n        updateClock();\n        setInterval(updateClock, 1000);\n    }\n}\n\nfunction toggleFormat() {\n    is24Hour = !is24Hour;\n    formatToggleBtn.textContent = is24Hour ? '24 Hour' : '12 Hour';\n}\n\nfunction changeColor() {\n    handColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;\n}\n\nfunction toggleSecondHand() {\n    showSecondHand = !showSecondHand;\n    secondToggleBtn.textContent = showSecondHand ? 'Hide Second Hand' : 'Show Second Hand';\n}\n\nstartStopBtn.addEventListener('click', startStopClock);\nformatToggleBtn.addEventListener('click', toggleFormat);\ncolorChangeBtn.addEventListener('click', changeColor);\nsecondToggleBtn.addEventListener('click', toggleSecondHand);\n\nupdateClock();\nsetInterval(updateClock, 1000);",
-  //             },
-  //             'index.html': {
-  //               content:
-  //                 '\u003c!DOCTYPE html\u003e\n\u003chtml lang="en"\u003e\n\u003chead\u003e\n    \u003cmeta charset="UTF-8"\u003e\n    \u003cmeta name="viewport" content="width=device-width, initial-scale=1.0"\u003e\n    \u003ctitle\u003eClock Visualization\u003c/title\u003e\n    \u003cstyle\u003e\n        body {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            margin: 0;\n            background-color: #f0f0f0;\n        }\n\n        #clock {\n            width: 300px;\n            height: 300px;\n            border: 2px solid #333;\n            border-radius: 50%;\n            position: relative;\n        }\n\n        #clock-face {\n            width: 100%;\n            height: 100%;\n            position: relative;\n        }\n\n        .hand {\n            position: absolute;\n            left: 50%;\n            bottom: 50%;\n            background-color: #333;\n            transform-origin: bottom center;\n            transition: transform 0.5s ease-in-out;\n        }\n\n        .hour-hand {\n            width: 8px;\n            height: 80px;\n            margin-left: -4px;\n        }\n\n        .minute-hand {\n            width: 6px;\n            height: 100px;\n            margin-left: -3px;\n        }\n\n        .second-hand {\n            width: 4px;\n            height: 120px;\n            margin-left: -2px;\n            background-color: #f00;\n        }\n\n        .controls {\n            margin-top: 20px;\n            text-align: center;\n        }\n\n        .controls button {\n            margin: 0 10px;\n        }\n    \u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n    \u003cdiv id="clock"\u003e\n        \u003cdiv id="clock-face"\u003e\n            \u003cdiv class="hand hour-hand" id="hour-hand"\u003e\u003c/div\u003e\n            \u003cdiv class="hand minute-hand" id="minute-hand"\u003e\u003c/div\u003e\n            \u003cdiv class="hand second-hand" id="second-hand"\u003e\u003c/div\u003e\n        \u003c/div\u003e\n    \u003c/div\u003e\n    \u003cdiv class="controls"\u003e\n        \u003cbutton id="start-stop"\u003eStart/Stop\u003c/button\u003e\n        \u003cbutton id="format-toggle"\u003e12/24 Hour\u003c/button\u003e\n        \u003cbutton id="color-change"\u003eChange Color\u003c/button\u003e\n        \u003cbutton id="second-toggle"\u003eToggle Second Hand\u003c/button\u003e\n    \u003c/div\u003e\n    \u003cscript src="index.js"\u003e\u003c/script\u003e\n\u003c/body\u003e\n\u003c/html\u003e',
-  //             },
-  //             'package.json': {
-  //               content: {
-  //                 name: 'javascript',
-  //                 scripts: {
-  //                   build: 'parcel build ./index.html',
-  //                   start: 'parcel ./index.html',
-  //                 },
-  //                 version: '1.0.0',
-  //                 keywords: ['css', 'javascript'],
-  //                 description: 'The JavaScript template',
-  //                 devDependencies: {
-  //                   eslint: '^7.2.0',
-  //                   parcel: '^2.0.0',
-  //                   'babel-eslint': '^10.1.0',
-  //                 },
-  //               },
-  //             },
-  //           },
-  //           environment: 'server',
-  //           sandbox_url: 'https://pmsd2c.csb.app/',
-  //           combined_html:
-  //             '\u003c!DOCTYPE html\u003e\n\u003chtml\u003e\n\u003chead\u003e\n\u003ctitle\u003eThree.js Interactive Cubes\u003c/title\u003e\n\u003cstyle\u003e\nbody { margin: 0; overflow: hidden; font-family: Arial, sans-serif; }\ncanvas { display: block; }\n#controls { position: absolute; top: 10px; left: 10px; color: white; z-index: 10; }\nlabel { margin-right: 10px; }\n\u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n\u003cdiv id=\u0022controls\u0022\u003e\n  \u003clabel\u003eCubes: \u003c/label\u003e\u003cinput id=\u0022cubeCountSlider\u0022 type=\u0022range\u0022 min=\u00221\u0022 max=\u0022100\u0022 value=\u002250\u0022\u003e\n  \u003clabel\u003eCamera Angle: \u003c/label\u003e\u003cinput id=\u0022cameraAngleSlider\u0022 type=\u0022range\u0022 min=\u00220\u0022 max=\u0022360\u0022 value=\u002275\u0022\u003e\n\u003c/div\u003e\n\u003cscript src=\u0022https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js\u0022\u003e\u003c/script\u003e\n\u003cscript\u003e\nlet scene, camera, renderer, cubes = [], cubeCount = 50;\nconst init = () => {\n  scene = new THREE.Scene();\n  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);\n  camera.position.z = 10;\n  renderer = new THREE.WebGLRenderer({ antialias: true });\n  renderer.setSize(window.innerWidth, window.innerHeight);\n  document.body.appendChild(renderer.domElement);\n  addCubes(cubeCount);\n  const ambientLight = new THREE.AmbientLight(0x404040, 2);\n  scene.add(ambientLight);\n  const pointLight = new THREE.PointLight(0xffffff, 1, 100);\n  pointLight.position.set(0, 0, 10);\n  scene.add(pointLight);\n  document.getElementById(\u0022cubeCountSlider\u0022).addEventListener(\u0022input\u0022, updateCubeCount);\n  document.getElementById(\u0022cameraAngleSlider\u0022).addEventListener(\u0022input\u0022, updateCameraAngle);\n  animate();\n}\nconst addCubes = (count) => {\n  removeCubes();\n  for (let i = 0; i \u003c count; i++) {\n    const geometry = new THREE.BoxGeometry(1, 1, 1);\n    const material = new THREE.MeshStandardMaterial({ color: Math.random() * 0xffffff });\n    const cube = new THREE.Mesh(geometry, material);\n    cube.position.x = (Math.random() - 0.5) * 20;\n    cube.position.y = (Math.random() - 0.5) * 20;\n    cube.position.z = Math.random() * -50 - 5;\n    cube.rotationSpeedX = (Math.random() - 0.5) * 0.02;\n    cube.rotationSpeedY = (Math.random() - 0.5) * 0.02;\n    cube.movementSpeedZ = Math.random() * 0.2 + 0.1;\n    scene.add(cube);\n    cubes.push(cube);\n  }\n}\nconst removeCubes = () => {\n  cubes.forEach(cube => scene.remove(cube));\n  cubes = [];\n}\nconst updateCubeCount = (event) => {\n  cubeCount = parseInt(event.target.value);\n  addCubes(cubeCount);\n}\nconst updateCameraAngle = (event) => {\n  const angle = parseInt(event.target.value);\n  camera.position.x = 10 * Math.sin(THREE.MathUtils.degToRad(angle));\n  camera.position.z = 10 * Math.cos(THREE.MathUtils.degToRad(angle));\n  camera.lookAt(0, 0, 0);\n}\nconst animate = () => {\n  requestAnimationFrame(animate);\n  cubes.forEach(cube => {\n    cube.rotation.x += cube.rotationSpeedX;\n    cube.rotation.y += cube.rotationSpeedY;\n    cube.position.z += cube.movementSpeedZ;\n    if (cube.position.z > 10) cube.position.z = -50;\n  });\n  renderer.render(scene, camera);\n}\ninit();\n\u003c/script\u003e\n\u003c/body\u003e\n\u003c/html\u003e',
-  //           additional_notes:
-  //             'This solution uses only built-in JavaScript functions and does not require any external libraries. The HTML and CSS provide the structure and styling for the clock visualization, while the JavaScript handles the clock logic, user interactions, and updates the clock display accordingly.',
-  //           installation_commands: 'null',
-  //         },
-  //       },
-  //       {
-  //         model: 'openai/gpt-4-turbo-2024-04-09',
-  //         completion: {
-  //           files: {
-  //             'index.js': {
-  //               content:
-  //                 "const clockContainer = document.getElementById('clock');\nconst toggleButton = document.getElementById('toggleButton');\nconst formatButton = document.getElementById('formatButton');\nconst colorPicker = document.getElementById('colorPicker');\nconst secondHandCheckbox = document.getElementById('secondHandCheckbox');\n\nlet isRunning = true;\nlet use24HourFormat = false;\nlet interval = null;\n\nfunction updateClock() {\n  const now = new Date();\n  const hours = use24HourFormat ? now.getHours() : now.getHours() % 12 || 12;\n  const minutes = now.getMinutes();\n  const seconds = now.getSeconds();\n  clockContainer.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;\n}\n\nfunction toggleClock() {\n  if (isRunning) {\n    clearInterval(interval);\n    interval = null;\n  } else {\n    interval = setInterval(updateClock, 1000);\n  }\n  isRunning = !isRunning;\n}\n\ntoggleButton.addEventListener('click', toggleClock);\nformatButton.addEventListener('click', () =\u003e {\n  use24HourFormat = !use24HourFormat;\n  updateClock();\n});\ncolorPicker.addEventListener('change', (event) =\u003e {\n  clockContainer.style.color = event.target.value;\n});\nsecondHandCheckbox.addEventListener('change', (event) =\u003e {\n  clockContainer.style.display = event.target.checked ? 'block' : 'none';\n});\n\nupdateClock();\ninterval = setInterval(updateClock, 1000);",
-  //             },
-  //             'index.html': {
-  //               content:
-  //                 "\u003c!DOCTYPE html\u003e\n\u003chtml lang='en'\u003e\n\u003chead\u003e\n    \u003cmeta charset='UTF-8'\u003e\n    \u003cmeta name='viewport' content='width=device-width, initial-scale=1.0'\u003e\n    \u003ctitle\u003eClock Visualization\u003c/title\u003e\n    \u003cstyle\u003e\n        #clock {\n            font-size: 48px;\n            color: black;\n            font-family: 'Arial', sans-serif;\n            text-align: center;\n            margin-top: 20px;\n        }\n        #controls {\n            text-align: center;\n            margin-top: 20px;\n        }\n    \u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n    \u003cdiv id='clock'\u003e\u003c/div\u003e\n    \u003cdiv id='controls'\u003e\n        \u003cbutton id='toggleButton'\u003eToggle Clock\u003c/button\u003e\n        \u003cbutton id='formatButton'\u003eToggle Format\u003c/button\u003e\n        \u003cinput type='color' id='colorPicker'\u003e\n        \u003clabel\u003e\n            \u003cinput type='checkbox' id='secondHandCheckbox' checked\u003eShow Seconds\n        \u003c/label\u003e\n    \u003c/div\u003e\n    \u003cscript src='index.js'\u003e\u003c/script\u003e\n\u003c/body\u003e\n\u003c/html\u003e",
-  //             },
-  //             'package.json': {
-  //               content: {
-  //                 name: 'javascript',
-  //                 scripts: {
-  //                   build: 'parcel build ./index.html',
-  //                   start: 'parcel ./index.html',
-  //                 },
-  //                 version: '1.0.0',
-  //                 keywords: ['css', 'javascript'],
-  //                 description: 'The JavaScript template',
-  //                 devDependencies: {
-  //                   eslint: '^7.2.0',
-  //                   parcel: '^2.0.0',
-  //                   'babel-eslint': '^10.1.0',
-  //                 },
-  //               },
-  //             },
-  //           },
-  //           environment: 'server',
-  //           sandbox_url: 'https://g3xn6h.csb.app/',
-  //           combined_html:
-  //             "\u003C!DOCTYPE html\u003E\u003Chtml lang=\"en\"\u003E\u003Chead\u003E\u003Cmeta charset=\"UTF-8\"\u003E\u003Cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"\u003E\u003Ctitle\u003EPlotly.js 3D Scatter Plot Demo\u003C/title\u003E\u003Cscript src=\"https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.24.2/plotly.min.js\"\u003E\u003C/script\u003E\u003C/head\u003E\u003Cbody\u003E\u003Cdiv id=\"myPlot\" style=\"width:100%;height:600px;\"\u003E\u003C/div\u003E\u003Cscript\u003Efunction generateData(n){const x=[],y=[],z=[];for(let i=0;i\u003Cn;i++){x.push(Math.random()*100);y.push(Math.random()*100);z.push(Math.random()*100);}return{x,y,z};}const data=generateData(100);const trace={x:data.x,y:data.y,z:data.z,mode:'markers',marker:{size:5,color:data.z,colorscale:'Viridis',opacity:0.8},type:'scatter3d'};const layout={title:'3D Scatter Plot',scene:{xaxis:{title:'X Axis'},yaxis:{title:'Y Axis'},zaxis:{title:'Z Axis'}},margin:{l:0,r:0,b:0,t:40}};Plotly.newPlot('myPlot',[trace],layout);\u003C/script\u003E\u003C/body\u003E\u003C/html\u003E",
-  //           additional_notes:
-  //             'The code uses built-in browser functionalities and does not require any external libraries or installation commands.',
-  //           installation_commands: 'null',
-  //         },
-  //       },
-  //       {
-  //         model: 'anthropic/claude-3-opus-20240229',
-  //         completion: {
-  //           files: {
-  //             'index.js': {
-  //               content:
-  //                 "const hourHand = document.querySelector('.hour-hand');\nconst minuteHand = document.querySelector('.minute-hand');\nconst secondHand = document.querySelector('.second-hand');\nconst timeElement = document.querySelector('.time');\n\nconst startStopBtn = document.getElementById('startStopBtn');\nconst formatBtn = document.getElementById('formatBtn');\nconst colorPicker = document.getElementById('colorPicker');\nconst secondHandBtn = document.getElementById('secondHandBtn');\n\nlet running = true;\nlet format = '12';\n\nfunction setTime() {\n  const now = new Date();\n  \n  const hours = now.getHours();\n  const minutes = now.getMinutes();\n  const seconds = now.getSeconds();\n  \n  const hoursDegrees = (hours / 12) * 360 + (minutes / 60) * 30 + 90;\n  const minutesDegrees = (minutes / 60) * 360 + (seconds / 60) * 6 + 90;\n  const secondsDegrees = (seconds / 60) * 360 + 90;\n  \n  hourHand.style.transform = `rotate(${hoursDegrees}deg)`;\n  minuteHand.style.transform = `rotate(${minutesDegrees}deg)`;\n  secondHand.style.transform = `rotate(${secondsDegrees}deg)`;\n  \n  let displayHours = hours;\n  let ampm = '';\n  \n  if (format === '12') {\n    displayHours = hours % 12 || 12;\n    ampm = hours \u003c 12 ? 'AM' : 'PM';\n  }\n  \n  const formattedTime = `${displayHours}:${minutes \u003c 10 ? '0' : ''}${minutes}:${seconds \u003c 10 ? '0' : ''}${seconds} ${ampm}`;\n  timeElement.textContent = formattedTime;\n}\n\nfunction toggleClock() {\n  running = !running;\n}\n\nfunction toggleFormat() {\n  format = format === '12' ? '24' : '12';\n}\n\nfunction changeColor(color) {\n  hourHand.style.backgroundColor = color;\n  minuteHand.style.backgroundColor = color;\n}\n\nfunction toggleSecondHand() {\n  secondHand.style.display = secondHand.style.display === 'none' ? 'block' : 'none';\n}\n\nstartStopBtn.addEventListener('click', toggleClock);\nformatBtn.addEventListener('click', toggleFormat);\ncolorPicker.addEventListener('input', (event) =\u003e changeColor(event.target.value));\nsecondHandBtn.addEventListener('click', toggleSecondHand);\n\nsetInterval(() =\u003e {\n  if (running) {\n    setTime();\n  }\n}, 1000);\n\nsetTime();",
-  //             },
-  //             'index.html': {
-  //               content:
-  //                 '\u003c!DOCTYPE html\u003e\n\u003chtml lang="en"\u003e\n\u003chead\u003e\n  \u003cmeta charset="UTF-8"\u003e\n  \u003cmeta name="viewport" content="width=device-width, initial-scale=1.0"\u003e\n  \u003ctitle\u003eClock Visualization\u003c/title\u003e\n  \u003cstyle\u003e\n    body {\n      font-family: Arial, sans-serif;\n      text-align: center;\n    }\n    \n    .clock {\n      width: 300px;\n      height: 300px;\n      border-radius: 50%;\n      border: 2px solid black;\n      margin: 50px auto;\n      position: relative;\n    }\n    \n    .hand {\n      position: absolute;\n      left: 50%;\n      width: 50%;\n      height: 6px;\n      transform-origin: 100%;\n      transform: rotate(90deg);\n      transition: all 0.05s;\n      transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);\n    }\n    \n    .hour-hand {\n      background-color: black;\n      height: 8px;\n    }\n    \n    .minute-hand {\n      background-color: black;\n    }\n    \n    .second-hand {\n      background-color: red;\n      height: 4px;\n    }\n    \n    .center-circle {\n      background-color: black;\n      width: 10px;\n      height: 10px;\n      position: absolute;\n      top: 50%;\n      left: 50%;\n      margin-top: -5px;\n      margin-left: -5px;\n      border-radius: 50%;\n    }\n    \n    .time {\n      font-size: 24px;\n      margin-top: 20px;\n    }\n    \n    .controls {\n      margin-top: 20px;\n    }\n  \u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n  \u003cdiv class="clock"\u003e\n    \u003cdiv class="hand hour-hand"\u003e\u003c/div\u003e\n    \u003cdiv class="hand minute-hand"\u003e\u003c/div\u003e\n    \u003cdiv class="hand second-hand"\u003e\u003c/div\u003e\n    \u003cdiv class="center-circle"\u003e\u003c/div\u003e\n  \u003c/div\u003e\n  \n  \u003cdiv class="time"\u003e\u003c/div\u003e\n  \n  \u003cdiv class="controls"\u003e\n    \u003cbutton id="startStopBtn"\u003eStart/Stop\u003c/button\u003e\n    \u003cbutton id="formatBtn"\u003e12/24 Hour\u003c/button\u003e\n    \u003cinput type="color" id="colorPicker"\u003e\n    \u003cbutton id="secondHandBtn"\u003eToggle Second Hand\u003c/button\u003e\n  \u003c/div\u003e\n  \n  \u003cscript src="index.js"\u003e\u003c/script\u003e\n\u003c/body\u003e\n\u003c/html\u003e',
-  //             },
-  //             'package.json': {
-  //               content: {
-  //                 name: 'javascript',
-  //                 scripts: {
-  //                   build: 'parcel build ./index.html',
-  //                   start: 'parcel ./index.html',
-  //                 },
-  //                 version: '1.0.0',
-  //                 keywords: ['css', 'javascript'],
-  //                 description: 'The JavaScript template',
-  //                 devDependencies: {
-  //                   eslint: '^7.2.0',
-  //                   parcel: '^2.0.0',
-  //                   'babel-eslint': '^10.1.0',
-  //                 },
-  //               },
-  //             },
-  //           },
-  //           environment: 'server',
-  //           sandbox_url: 'https://6hztv8.csb.app/',
-  //           combined_html:
-  //             '\u003C!DOCTYPE html\u003E\u003Chtml lang="en"\u003E\u003Chead\u003E\u003Cmeta charset="UTF-8"\u003E\u003Cmeta name="viewport" content="width=device-width, initial-scale=1.0"\u003E\u003Ctitle\u003EThree.js Cube Catcher Game\u003C/title\u003E\u003Cstyle\u003Ebody { margin: 0; overflow: hidden; } #score { position: absolute; top: 10px; left: 10px; color: white; font-family: Arial, sans-serif; font-size: 18px; }\u003C/style\u003E\u003C/head\u003E\u003Cbody\u003E\u003Cdiv id="score"\u003EScore: 0\u003C/div\u003E\u003Cscript src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"\u003E\u003C/script\u003E\u003Cscript\u003Elet scene,camera,renderer,platform,cube;let cubes=[];let score=0;let scoreElement;function init(){scoreElement=document.getElementById(\'score\');scene=new THREE.Scene();camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);renderer=new THREE.WebGLRenderer();renderer.setSize(window.innerWidth,window.innerHeight);document.body.appendChild(renderer.domElement);const platformGeometry=new THREE.BoxGeometry(2,0.2,2);const platformMaterial=new THREE.MeshBasicMaterial({color:0x00ff00});platform=new THREE.Mesh(platformGeometry,platformMaterial);platform.position.y=-5;scene.add(platform);camera.position.z=10;document.addEventListener(\'mousemove\',onMouseMove,false);spawnCube()}function spawnCube(){const geometry=new THREE.BoxGeometry(0.5,0.5,0.5);const material=new THREE.MeshBasicMaterial({color:Math.random()*0xffffff});cube=new THREE.Mesh(geometry,material);cube.position.x=Math.random()*8-4;cube.position.y=7;scene.add(cube);cubes.push(cube)}function onMouseMove(event){const mouseX=(event.clientX/window.innerWidth)*2-1;platform.position.x=mouseX*4}function updateScore(){scoreElement.textContent=`Score: ${score}`}function animate(){requestAnimationFrame(animate);cubes.forEach((cube,index)=\u003E{cube.position.y-=0.05;if(cube.position.y\u003C-6){scene.remove(cube);cubes.splice(index,1)}if(cube.position.y\u003C=platform.position.y+0.2&&Math.abs(cube.position.x-platform.position.x)\u003C1){scene.remove(cube);cubes.splice(index,1);score++;updateScore()}});if(Math.random()\u003C0.02){spawnCube()}renderer.render(scene,camera)}init();animate()\u003C/script\u003E\u003C/body\u003E\u003C/html\u003E',
-  //           additional_notes:
-  //             "This web application visualizes a clock using HTML, CSS, and JavaScript. It displays the current time and updates every second. The user can start/stop the clock, switch between 12-hour and 24-hour formats, change the color of the clock hands, and toggle the visibility of the second hand. The clock is implemented using JavaScript's built-in Date object and CSS transforms for the clock hands. No external libraries are used.",
-  //           installation_commands: '',
-  //         },
-  //       },
-  //       {
-  //         model: 'openai/gpt-4o',
-  //         completion: {
-  //           files: {
-  //             'index.js': {
-  //               content:
-  //                 "let isRunning = false;\nlet is24HourFormat = false;\nlet showSecondHand = true;\nlet intervalId;\nconst hourHand = document.getElementById('hour-hand');\nconst minuteHand = document.getElementById('minute-hand');\nconst secondHand = document.getElementById('second-hand');\nconst startStopButton = document.getElementById('start-stop');\nconst toggleFormatButton = document.getElementById('toggle-format');\nconst changeColorButton = document.getElementById('change-color');\nconst toggleSecondHandButton = document.getElementById('toggle-second-hand');\n\nfunction updateClock() {\n    const now = new Date();\n    let hours = now.getHours();\n    const minutes = now.getMinutes();\n    const seconds = now.getSeconds();\n    if (!is24HourFormat) {\n        hours = hours % 12 || 12;\n    }\n    const hourDeg = (hours % 12) * 30 + minutes * 0.5;\n    const minuteDeg = minutes * 6;\n    const secondDeg = seconds * 6;\n    hourHand.style.transform = `rotate(${hourDeg}deg)`;\n    minuteHand.style.transform = `rotate(${minuteDeg}deg)`;\n    secondHand.style.transform = `rotate(${secondDeg}deg)`;\n}\n\nfunction startClock() {\n    if (!isRunning) {\n        intervalId = setInterval(updateClock, 1000);\n        isRunning = true;\n        startStopButton.textContent = 'Stop';\n    }\n}\n\nfunction stopClock() {\n    if (isRunning) {\n        clearInterval(intervalId);\n        isRunning = false;\n        startStopButton.textContent = 'Start';\n    }\n}\n\nfunction toggleClock() {\n    if (isRunning) {\n        stopClock();\n    } else {\n        startClock();\n    }\n}\n\nfunction toggleFormat() {\n    is24HourFormat = !is24HourFormat;\n    toggleFormatButton.textContent = is24HourFormat ? 'Switch to 12-hour' : 'Switch to 24-hour';\n    updateClock();\n}\n\nfunction changeColor() {\n    const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;\n    hourHand.style.background = randomColor;\n    minuteHand.style.background = randomColor;\n    if (showSecondHand) {\n        secondHand.style.background = randomColor;\n    }\n}\n\nfunction toggleSecondHand() {\n    showSecondHand = !showSecondHand;\n    secondHand.style.display = showSecondHand ? 'block' : 'none';\n    toggleSecondHandButton.textContent = showSecondHand ? 'Hide Second Hand' : 'Show Second Hand';\n}\n\nstartStopButton.addEventListener('click', toggleClock);\ntoggleFormatButton.addEventListener('click', toggleFormat);\nchangeColorButton.addEventListener('click', changeColor);\ntoggleSecondHandButton.addEventListener('click', toggleSecondHand);\n\nupdateClock();\nstartClock();",
-  //             },
-  //             'index.html': {
-  //               content:
-  //                 '\u003c!DOCTYPE html\u003e\n\u003chtml lang="en"\u003e\n\u003chead\u003e\n    \u003cmeta charset="UTF-8"\u003e\n    \u003cmeta name="viewport" content="width=device-width, initial-scale=1.0"\u003e\n    \u003ctitle\u003eClock Visualization\u003c/title\u003e\n    \u003cstyle\u003e\n        body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f0f0f0; }\n        #clock { position: relative; width: 200px; height: 200px; border: 5px solid #333; border-radius: 50%; background: white; }\n        .hand { position: absolute; width: 50%; height: 2px; background: black; top: 50%; transform-origin: 100%; transform: rotate(90deg); }\n        #second-hand { background: red; }\n        #controls { margin-top: 20px; text-align: center; }\n        button { margin: 5px; }\n    \u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n    \u003cdiv id="clock"\u003e\n        \u003cdiv id="hour-hand" class="hand"\u003e\u003c/div\u003e\n        \u003cdiv id="minute-hand" class="hand"\u003e\u003c/div\u003e\n        \u003cdiv id="second-hand" class="hand"\u003e\u003c/div\u003e\n    \u003c/div\u003e\n    \u003cdiv id="controls"\u003e\n        \u003cbutton id="start-stop"\u003eStart\u003c/button\u003e\n        \u003cbutton id="toggle-format"\u003eSwitch to 24-hour\u003c/button\u003e\n        \u003cbutton id="change-color"\u003eChange Color\u003c/button\u003e\n        \u003cbutton id="toggle-second-hand"\u003eHide Second Hand\u003c/button\u003e\n    \u003c/div\u003e\n    \u003cscript src="index.js"\u003e\u003c/script\u003e\n\u003c/body\u003e\n\u003c/html\u003e',
-  //             },
-  //             'package.json': {
-  //               content: {
-  //                 name: 'javascript',
-  //                 scripts: {
-  //                   build: 'parcel build ./index.html',
-  //                   start: 'parcel ./index.html',
-  //                 },
-  //                 version: '1.0.0',
-  //                 keywords: ['css', 'javascript'],
-  //                 description: 'The JavaScript template',
-  //                 devDependencies: {
-  //                   eslint: '^7.2.0',
-  //                   parcel: '^2.0.0',
-  //                   'babel-eslint': '^10.1.0',
-  //                 },
-  //               },
-  //             },
-  //           },
-  //           environment: 'server',
-  //           sandbox_url: 'https://3jgm9v.csb.app/',
-  //           combined_html:
-  //             '\u003C!DOCTYPE html\u003E\n\u003Chtml lang="en"\u003E\n\u003Chead\u003E\n    \u003Cmeta charset="UTF-8"\u003E\n    \u003Cmeta name="viewport" content="width=device-width, initial-scale=1.0"\u003E\n    \u003Ctitle\u003EHangman\u003C/title\u003E\n    \u003Cscript src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"\u003E\u003C/script\u003E\n    \u003Cstyle\u003E\n        body {\n            font-family: Arial, sans-serif;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100vh;\n            margin: 0;\n            background-color: #f0f0f0;\n        }\n        #game-container {\n            text-align: center;\n        }\n        #word-display {\n            font-size: 2em;\n            margin-bottom: 20px;\n            letter-spacing: 0.5em;\n        }\n        #hangman-drawing {\n            width: 200px;\n            height: 250px;\n            margin: 0 auto;\n        }\n        #guesses {\n            margin-top: 20px;\n        }\n        button {\n            margin: 5px;\n            padding: 5px 10px;\n            font-size: 1em;\n        }\n    \u003C/style\u003E\n\u003C/head\u003E\n\u003Cbody\u003E\n    \u003Cdiv id="game-container"\u003E\n        \u003Ch1\u003EHangman\u003C/h1\u003E\n        \u003Cdiv id="word-display"\u003E\u003C/div\u003E\n        \u003Csvg id="hangman-drawing" viewBox="0 0 200 250"\u003E\n            \u003Cline x1="20" y1="230" x2="180" y2="230" stroke="black" stroke-width="4"/\u003E\n            \u003Cline x1="40" y1="230" x2="40" y2="20" stroke="black" stroke-width="4"/\u003E\n            \u003Cline x1="40" y1="20" x2="140" y2="20" stroke="black" stroke-width="4"/\u003E\n            \u003Cline x1="140" y1="20" x2="140" y2="50" stroke="black" stroke-width="4"/\u003E\n            \u003Ccircle cx="140" cy="80" r="30" stroke="black" stroke-width="4" fill="none"/\u003E\n            \u003Cline x1="140" y1="110" x2="140" y2="180" stroke="black" stroke-width="4"/\u003E\n            \u003Cline x1="140" y1="130" x2="110" y2="160" stroke="black" stroke-width="4"/\u003E\n            \u003Cline x1="140" y1="130" x2="170" y2="160" stroke="black" stroke-width="4"/\u003E\n            \u003Cline x1="140" y1="180" x2="110" y2="210" stroke="black" stroke-width="4"/\u003E\n            \u003Cline x1="140" y1="180" x2="170" y2="210" stroke="black" stroke-width="4"/\u003E\n        \u003C/svg\u003E\n        \u003Cdiv id="guesses"\u003E\u003C/div\u003E\n        \u003Cp id="message"\u003E\u003C/p\u003E\n        \u003Cbutton id="new-game"\u003ENew Game\u003C/button\u003E\n    \u003C/div\u003E\n    \u003Cscript\u003E\n        const words = ["javascript", "hangman", "game", "programming", "computer", "animation"];\n        let word, guessedLetters, remainingGuesses;\n        const maxGuesses = 6;\n\n        const wordDisplay = document.getElementById("word-display");\n        const guessesElement = document.getElementById("guesses");\n        const messageElement = document.getElementById("message");\n        const newGameButton = document.getElementById("new-game");\n\n        const hangmanParts = [\n            "circle", "line:nth-of-type(5)", "line:nth-of-type(6)", "line:nth-of-type(7)",\n            "line:nth-of-type(8)", "line:nth-of-type(9)", "line:nth-of-type(10)"\n        ];\n\n        function initGame() {\n            word = words[Math.floor(Math.random() * words.length)];\n            guessedLetters = [];\n            remainingGuesses = maxGuesses;\n            updateWordDisplay();\n            updateGuesses();\n            messageElement.textContent = "";\n            hangmanParts.forEach(part =\u003E {\n                document.querySelector(`#hangman-drawing ${part}`).style.opacity = "0";\n            });\n        }\n\n        function updateWordDisplay() {\n            wordDisplay.textContent = word\n                .split("")\n                .map(letter =\u003E guessedLetters.includes(letter.toLowerCase()) ? letter : "_")\n                .join("");\n        }\n\n        function updateGuesses() {\n            guessesElement.innerHTML = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"\n                .split("")\n                .map(letter =\u003E `\u003Cbutton ${guessedLetters.includes(letter.toLowerCase()) ? "disabled" : ""} onclick="guess(\'${letter}\')"\u003E${letter}\u003C/button\u003E`)\n                .join("");\n        }\n\n        function guess(letter) {\n            letter = letter.toLowerCase();\n            if (!guessedLetters.includes(letter)) {\n                guessedLetters.push(letter);\n                if (!word.toLowerCase().includes(letter)) {\n                    remainingGuesses--;\n                    animateHangman();\n                }\n                updateWordDisplay();\n                updateGuesses();\n                checkGameEnd();\n            }\n        }\n\n        function animateHangman() {\n            const part = document.querySelector(`#hangman-drawing ${hangmanParts[maxGuesses - remainingGuesses - 1]}`);\n            anime({\n                targets: part,\n                opacity: 1,\n                duration: 500,\n                easing: "easeInOutQuad"\n            });\n        }\n\n        function checkGameEnd() {\n            if (word.toLowerCase() === wordDisplay.textContent.toLowerCase()) {\n                messageElement.textContent = "Congratulations! You won!";\n                disableAllButtons();\n            } else if (remainingGuesses === 0) {\n                messageElement.textContent = `Game over! The word was "${word}".`;\n                disableAllButtons();\n            }\n        }\n\n        function disableAllButtons() {\n            document.querySelectorAll("#guesses button").forEach(button =\u003E button.disabled = true);\n        }\n\n        newGameButton.addEventListener("click", initGame);\n\n        initGame();\n    \u003C/script\u003E\n\u003C/body\u003E\n\u003C/html\u003E',
-  //           additional_notes:
-  //             'No external libraries are used. The clock is implemented using only HTML, CSS, and JavaScript.',
-  //           installation_commands: 'null',
-  //         },
-  //       },
-  //     ],
-  //   },
-  //   status: 'IN_PROGRESS',
-  //   numResults: 0,
-  //   maxResults: 1,
-  //   numCriteria: 1,
-  //   isCompletedByWorker: false,
-  // },
   {
     taskId: '6bede419-e9f0-465c-9787-ad958b18d35d',
     summary: "Interactive visualization of a Newton's cradle",
@@ -1876,19 +1625,21 @@ export const tasklistCodegen: any[] = [
         {
           max: 10,
           min: 1,
-          type: 'multi-score',
+          type: 'score',
           text: 'Multi Score',
-          options: [
-            'anthropic/claude-3.5-sonnet',
-            'anthropic/claude-3.5-sonnet',
-            'anthropic/claude-3.5-sonnet',
-            'anthropic/claude-3.5-sonnet',
-          ],
         },
       ],
       responses: [
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -1928,6 +1679,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -1967,6 +1726,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -2006,6 +1773,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -2066,14 +1841,21 @@ export const tasklistCodegen: any[] = [
         {
           max: 10,
           min: 1,
-          type: 'multi-score',
+          type: 'score',
           text: 'Multi Score',
-          options: ['anthropic/claude-3.5-sonnet', 'anthropic/claude-3.5-sonnet'],
         },
       ],
       responses: [
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -2113,6 +1895,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -2173,7 +1963,7 @@ export const tasklistCodegen: any[] = [
         {
           max: 10,
           min: 1,
-          type: 'multi-score',
+          type: 'score',
           text: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
@@ -2186,6 +1976,14 @@ export const tasklistCodegen: any[] = [
       responses: [
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -2230,6 +2028,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -2274,6 +2080,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -2318,6 +2132,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -2383,7 +2205,7 @@ export const tasklistCodegen: any[] = [
         {
           max: 10,
           min: 1,
-          type: 'multi-score',
+          type: 'score',
           text: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
@@ -2396,6 +2218,14 @@ export const tasklistCodegen: any[] = [
       responses: [
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -2435,6 +2265,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -2478,6 +2316,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -2517,6 +2363,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -2577,7 +2431,7 @@ export const tasklistCodegen: any[] = [
         {
           max: 10,
           min: 1,
-          type: 'multi-score',
+          type: 'score',
           text: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
@@ -2590,6 +2444,14 @@ export const tasklistCodegen: any[] = [
       responses: [
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -2629,6 +2491,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -2668,6 +2538,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -2708,6 +2586,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -2768,7 +2654,7 @@ export const tasklistCodegen: any[] = [
         {
           max: 10,
           min: 1,
-          type: 'multi-score',
+          type: 'score',
           text: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
@@ -2781,6 +2667,14 @@ export const tasklistCodegen: any[] = [
       responses: [
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -2820,6 +2714,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -2859,6 +2761,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -2898,6 +2808,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -2958,7 +2876,7 @@ export const tasklistCodegen: any[] = [
         {
           max: 10,
           min: 1,
-          type: 'multi-score',
+          type: 'score',
           text: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
@@ -2971,6 +2889,14 @@ export const tasklistCodegen: any[] = [
       responses: [
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -3010,6 +2936,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -3049,6 +2983,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -3088,6 +3030,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -3148,7 +3098,7 @@ export const tasklistCodegen: any[] = [
         {
           max: 10,
           min: 1,
-          type: 'multi-score',
+          type: 'score',
           text: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
@@ -3161,6 +3111,14 @@ export const tasklistCodegen: any[] = [
       responses: [
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -3200,6 +3158,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -3239,6 +3205,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -3278,6 +3252,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -3338,7 +3320,7 @@ export const tasklistCodegen: any[] = [
         {
           max: 10,
           min: 1,
-          type: 'multi-score',
+          type: 'score',
           text: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
@@ -3351,6 +3333,14 @@ export const tasklistCodegen: any[] = [
       responses: [
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -3391,6 +3381,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -3431,6 +3429,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -3471,6 +3477,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: {
               'index.js': {
@@ -3532,7 +3546,7 @@ export const tasklistCodegen: any[] = [
         {
           max: 100,
           min: 1,
-          type: 'multi-score',
+          type: 'score',
           options: [
             '81e0fcb6-1bb1-4c8e-b099-741090af52b6',
             '7eac0635-958a-4202-bc5d-56b1a9f8fc96',
@@ -3544,6 +3558,14 @@ export const tasklistCodegen: any[] = [
       responses: [
         {
           model: '81e0fcb6-1bb1-4c8e-b099-741090af52b6',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: [
               {
@@ -3559,6 +3581,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: '7eac0635-958a-4202-bc5d-56b1a9f8fc96',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: [
               {
@@ -3574,6 +3604,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: '1fff5b53-0b7f-41cd-a6b7-62a7d663a300',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: [
               {
@@ -3589,6 +3627,14 @@ export const tasklistCodegen: any[] = [
         },
         {
           model: '7cfde51a-a366-4240-98e9-f4513e7e2a51',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Multi Score',
+            },
+          ],
           completion: {
             files: [
               {
@@ -3782,10 +3828,10 @@ export const supplementalTaskList: any[] = [
 ];
 
 export const tasklistFull: any[] = tasklistCodegen
-  .concat(task3d)
-  .concat(taskTTI)
-  .concat(taskListImgEvaluation)
-  .concat(supplementalTaskList)
+  // .concat(task3d)
+  // .concat(taskTTI)
+  // .concat(taskListImgEvaluation)
+  // .concat(supplementalTaskList)
   .map((task, idx) => {
     return { ...task, taskId: `demo_${idx}` };
   });
