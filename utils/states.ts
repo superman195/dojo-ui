@@ -22,52 +22,13 @@ export const taskTTI: any[] = [
     summary: 'Realistic Woman with 6 Mechanical Arm',
     title: 'Text to Image',
     body: 'Generate a realistic image of a woman with six mechanical arms, each holding a different type of futuristic instrument—one is a laser harp, one is a translucent keyboard, one is an orb projecting sound waves, one a set of glowing digital drums, and the last two are shaping holograms into sound waves. She is performing on a glass stage that extends over a vast, glowing ocean of liquid neon, under a stormy sky filled with metallic clouds flashing with lightning shaped like musical notes.',
-    expireAt: '2024-12-03T15:04:00Z',
+    expireAt: '2025-12-03T15:04:00Z',
     type: 'TEXT_TO_IMAGE',
     taskData: {
       task: 'TEXT_TO_IMAGE',
       prompt:
         'Generate a realistic image of a woman with six mechanical arms, each holding a different type of futuristic instrument—one is a laser harp, one is a translucent keyboard, one is an orb projecting sound waves, one a set of glowing digital drums, and the last two are shaping holograms into sound waves. She is performing on a glass stage that extends over a vast, glowing ocean of liquid neon, under a stormy sky filled with metallic clouds flashing with lightning shaped like musical notes.',
-      criteria: [
-        {
-          type: 'multi-select',
-          text: 'Choose all appropriate options',
-          options: ['Inappropriate Content', 'Untruthful Information', 'Personal Information'],
-        },
-        {
-          type: 'single-select',
-          text: 'I would use this image in an advertisement in a music school.',
-          options: ['Agree', 'Disagree', 'Neutral'],
-        },
-        {
-          max: 10,
-          min: 1,
-          type: 'score',
-          text: 'Prompt Accuracy',
-          options: ['stabilityai/stable-diffusion-xl-base-1.0'],
-        },
-        {
-          max: 10,
-          min: 1,
-          type: 'score',
-          text: 'Quality',
-          options: ['stabilityai/stable-diffusion-xl-base-1.0'],
-        },
-        {
-          max: 10,
-          min: 1,
-          type: 'score',
-          text: 'Photo-Realism',
-          options: ['stabilityai/stable-diffusion-xl-base-1.0'],
-        },
-        {
-          max: 10,
-          min: 1,
-          type: 'score',
-          text: 'Creativity',
-          options: ['stabilityai/stable-diffusion-xl-base-1.0'],
-        },
-      ],
+
       responses: [
         {
           model: 'stabilityai/stable-diffusion-xl-base-1.0',
@@ -75,6 +36,46 @@ export const taskTTI: any[] = [
             url: 'https://dojo-files.tensorplex.ai/demo/robot_angel_6arm.png',
             filename: 'green_dog1.png',
           },
+          criteria: [
+            {
+              type: 'multi-select',
+              text: 'Choose all appropriate options',
+              options: ['Inappropriate Content', 'Untruthful Information', 'Personal Information'],
+            },
+            {
+              type: 'single-select',
+              text: 'I would use this image in an advertisement in a music school.',
+              options: ['Agree', 'Disagree', 'Neutral'],
+            },
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Prompt Accuracy',
+              options: ['stabilityai/stable-diffusion-xl-base-1.0'],
+            },
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Quality',
+              options: ['stabilityai/stable-diffusion-xl-base-1.0'],
+            },
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Photo-Realism',
+              options: ['stabilityai/stable-diffusion-xl-base-1.0'],
+            },
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Creativity',
+              options: ['stabilityai/stable-diffusion-xl-base-1.0'],
+            },
+          ],
         },
       ],
     },
@@ -325,24 +326,60 @@ export const task3d: any[] = [
       responses: [
         {
           model: 'stabilityai/stable-diffusion-xl-base-1.0',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              text: 'MULTI SCORE',
+              type: 'score',
+              options: ['3D object 1', '3D object 2'],
+            },
+          ],
           completion: {
             url: 'https://dojo-files-dev.tensorplex.dev/demo/crisp_lettuce_in_bowl.5G6NHLWHx9qqDid5J8w8K8MCyJzny2b1KDYuHtMStjHMpdsL.ply',
           },
         },
         {
           model: 'runwayml/stable-diffusion-v1-5',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              text: 'MULTI SCORE',
+              type: 'score',
+              options: ['3D object 1', '3D object 2'],
+            },
+          ],
           completion: {
             url: 'https://dojo-files.tensorplex.ai/demo/crisp_lettuce_in_bowl.5DCq8TQ4JQh2r5TGoMx18qzgFQadvqHdwmP8EWiTM1eb3VKk.ply',
           },
         },
         {
           model: 'yourm/stable-diffusion-v0-2',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              text: 'MULTI SCORE',
+              type: 'score',
+              options: ['3D object 1', '3D object 2'],
+            },
+          ],
           completion: {
             url: 'https://dojo-files.tensorplex.ai/demo/crisp_lettuce_in_bowl.5EfRE6UGyeJYd8cTPJnZVBc4GwjMpGfik3U4cNBnp6Skjd2T.ply',
           },
         },
         {
           model: 'dllm/sd-extra-0.3',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              text: 'MULTI SCORE',
+              type: 'score',
+              options: ['3D object 1', '3D object 2'],
+            },
+          ],
           completion: {
             url: 'https://dojo-files.tensorplex.ai/demo/crisp_lettuce_in_bowl.5CStaWfMH2E7oVGgGZsC2pDqgGjRjgy3Mjtq8eUrEL5Wwhg1.ply',
           },
@@ -382,24 +419,60 @@ export const task3d: any[] = [
       responses: [
         {
           model: 'stabilityai/stable-diffusion-xl-base-1.0',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              text: 'MULTI SCORE',
+              type: 'score',
+              options: ['3D object 1', '3D object 2'],
+            },
+          ],
           completion: {
             url: 'https://dojo-files.tensorplex.ai/demo/delicate_ivory_dove_in_flight_pose.5CAiiURk1jVeLmMNTFyHEhxzR3SU3UnJyZZHnUMMN35aJqGn.ply',
           },
         },
         {
           model: 'runwayml/stable-diffusion-v1-5',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              text: 'MULTI SCORE',
+              type: 'score',
+              options: ['3D object 1', '3D object 2'],
+            },
+          ],
           completion: {
             url: 'https://dojo-files.tensorplex.ai/demo/delicate_ivory_dove_in_flight_pose.5EUprUJg7c2FbL2QRoJQBH2yDGqJtWSuDEjiCgYzcUfEkHkH.ply',
           },
         },
         {
           model: 'yourm/stable-diffusion-v0-2',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              text: 'MULTI SCORE',
+              type: 'score',
+              options: ['3D object 1', '3D object 2'],
+            },
+          ],
           completion: {
             url: 'https://dojo-files.tensorplex.ai/demo/delicate_ivory_dove_in_flight_pose.5FjreG2tJURByXbFUhQ1R9o3TdXgqKFgjGmVaYwFrVpzmEWH.ply',
           },
         },
         {
           model: 'dllm/sd-extra-0.3',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              text: 'MULTI SCORE',
+              type: 'score',
+              options: ['3D object 1', '3D object 2'],
+            },
+          ],
           completion: {
             url: 'https://dojo-files.tensorplex.ai/demo/delicate_ivory_dove_in_flight_pose.5H3WL3VFN3kG6aWugfSgZThkwgpnKWuQrpNFp8VMwRVtV6CM.ply',
           },
@@ -439,24 +512,60 @@ export const task3d: any[] = [
       responses: [
         {
           model: 'stabilityai/stable-diffusion-xl-base-1.0',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              text: 'MULTI SCORE',
+              type: 'score',
+              options: ['3D object 1', '3D object 2'],
+            },
+          ],
           completion: {
             url: 'https://dojo-files.tensorplex.ai/demo/zebra_with_stripes_running_through_plains.5DCbyAdY3wst6JHbJmpwNSegeKDpQrvciedLFcDap9ieRDav.ply',
           },
         },
         {
           model: 'runwayml/stable-diffusion-v1-5',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              text: 'MULTI SCORE',
+              type: 'score',
+              options: ['3D object 1', '3D object 2'],
+            },
+          ],
           completion: {
             url: 'https://dojo-files.tensorplex.ai/demo/zebra_with_stripes_running_through_plains.5EkRJfcGTf8qXEspk1zFpcTfVZhA3E2W8Rc7MRbdE7WuBeKP.ply',
           },
         },
         {
           model: 'yourm/stable-diffusion-v0-2',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              text: 'MULTI SCORE',
+              type: 'score',
+              options: ['3D object 1', '3D object 2'],
+            },
+          ],
           completion: {
             url: 'https://dojo-files.tensorplex.ai/demo/zebra_with_stripes_running_through_plains.5Et482RACNeu5NBhWxNkGiFX9ZbfFERcDGgq9ecSbs4dSN2W.ply',
           },
         },
         {
           model: 'dllm/sd-extra-0.3',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              text: 'MULTI SCORE',
+              type: 'score',
+              options: ['3D object 1', '3D object 2'],
+            },
+          ],
           completion: {
             url: 'https://dojo-files.tensorplex.ai/demo/zebra_with_stripes_running_through_plains.5HNU3CX1UD4rM3nuxAHV76Sypdc5ggukWsKDbRZ1xdqLNGry.ply',
           },
@@ -496,24 +605,60 @@ export const task3d: any[] = [
       responses: [
         {
           model: 'stabilityai/stable-diffusion-xl-base-1.0',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              text: 'MULTI SCORE',
+              type: 'score',
+              options: ['3D object 1', '3D object 2'],
+            },
+          ],
           completion: {
             url: 'https://dojo-files.tensorplex.ai/demo/black_and_yellow_curved_gaming_chair.5DAAKc3EMwY4axcUWiguzEVM3j459iV3Q2EdeFGKsotgNn8m.ply',
           },
         },
         {
           model: 'runwayml/stable-diffusion-v1-5',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              text: 'MULTI SCORE',
+              type: 'score',
+              options: ['3D object 1', '3D object 2'],
+            },
+          ],
           completion: {
             url: 'https://dojo-files.tensorplex.ai/demo/black_and_yellow_curved_gaming_chair.5DoBghUER3kRpkVbSfRjCx4vUyhaiRMjC6dgnEAqf2eWtART.ply',
           },
         },
         {
           model: 'yourm/stable-diffusion-v0-2',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              text: 'MULTI SCORE',
+              type: 'score',
+              options: ['3D object 1', '3D object 2'],
+            },
+          ],
           completion: {
             url: 'https://dojo-files.tensorplex.ai/demo/black_and_yellow_curved_gaming_chair.5E2DF4pFKhtfDHmDSG3mCA33PNMeBeNoExTLp4JLjPg4pz2M.ply',
           },
         },
         {
           model: 'dllm/sd-extra-0.3',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              text: 'MULTI SCORE',
+              type: 'score',
+              options: ['3D object 1', '3D object 2'],
+            },
+          ],
           completion: {
             url: 'https://dojo-files.tensorplex.ai/demo/black_and_yellow_curved_gaming_chair.5EPFaPcqs78JoktAZ2R1MC7GAKMhzXiS8ZyBQr3EKANfpfWU.ply',
           },
@@ -3670,12 +3815,7 @@ export const taskListImgEvaluation: any[] = [
       task: 'TEXT_TO_IMAGE',
       prompt:
         'Generate an image of a photogenic brown dog riding a horse. The dog is also holding on to a pair of chopsticks.',
-      criteria: [
-        {
-          type: 'rich-human-feedback',
-          text: 'Errors / flaws in the image',
-        },
-      ],
+
       responses: [
         {
           model: 'stabilityai/stable-diffusion-xl-base-1.0',
@@ -3683,6 +3823,12 @@ export const taskListImgEvaluation: any[] = [
             url: 'https://dojo-files.tensorplex.ai/demo/dog_ride_horse_w_chopstick.png',
             filename: 'DogOnHorse.png',
           },
+          criteria: [
+            {
+              type: 'rich-human-feedback',
+              text: 'Errors / flaws in the image',
+            },
+          ],
         },
       ],
     },
@@ -3703,12 +3849,7 @@ export const taskListImgEvaluation: any[] = [
       task: 'TEXT_TO_IMAGE',
       prompt:
         'Generate a minimalist scene featuring a bright red ladder standing against the corner where two blue walls meet. The entire environment is clean, with a smooth, monochromatic blue background. The ladder casts a sharp shadow along one of the walls, creating a sense of depth and contrast. The lighting is soft, emphasizing the simplicity and geometric form of the scene. The overall color palette consists of shades of blue and the striking red of the ladder, giving the composition a bold yet minimalistic feel.',
-      criteria: [
-        {
-          type: 'rich-human-feedback',
-          text: 'Errors / flaws in the image',
-        },
-      ],
+
       responses: [
         {
           model: 'stabilityai/stable-diffusion-xl-base-1.0',
@@ -3716,6 +3857,12 @@ export const taskListImgEvaluation: any[] = [
             url: 'https://dojo-files.tensorplex.ai/demo/LadderWithLighting.png',
             filename: 'DogOnHorse.png',
           },
+          criteria: [
+            {
+              type: 'rich-human-feedback',
+              text: 'Errors / flaws in the image',
+            },
+          ],
         },
       ],
     },
@@ -3816,6 +3963,44 @@ export const supplementalTaskList: any[] = [
               "This solution uses Matter.js for physics simulation and Chart.js for energy visualization. The Newton's cradle is fully interactive, with color-changing balls, a chaos mode, and real-time energy graphs. Users can interact with the cradle by clicking and dragging the balls.",
             installation_commands: 'npm install matter-js chart.js',
           },
+          criteria: [
+            {
+              type: 'multi-select',
+              text: 'Choose all appropriate options',
+              options: ['Inappropriate Content', 'Untruthful Information', 'Personal Information'],
+            },
+            {
+              type: 'single-select',
+              text: 'Is the interaction intuitive?',
+              options: ['Agree', 'Disagree', 'Neutral'],
+            },
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Prompt Accuracy',
+              options: ['stabilityai/stable-diffusion-xl-base-1.0'],
+            },
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Quality',
+              options: ['stabilityai/stable-diffusion-xl-base-1.0'],
+            },
+            {
+              max: 10,
+              min: 1,
+              type: 'score',
+              text: 'Photo-Realism',
+              options: ['stabilityai/stable-diffusion-xl-base-1.0'],
+            },
+            {
+              type: 'multi-select',
+              text: 'Which part did the code output excel in?',
+              options: ['Physics Simulation', 'User Interaction', 'Slider Functionality', 'Animation'],
+            },
+          ],
         },
       ],
     },
@@ -3828,10 +4013,10 @@ export const supplementalTaskList: any[] = [
 ];
 
 export const tasklistFull: any[] = tasklistCodegen
-  // .concat(task3d)
-  // .concat(taskTTI)
-  // .concat(taskListImgEvaluation)
-  // .concat(supplementalTaskList)
+  .concat(task3d)
+  .concat(taskTTI)
+  .concat(taskListImgEvaluation)
+  .concat(supplementalTaskList)
   .map((task, idx) => {
     return { ...task, taskId: `demo_${idx}` };
   });
