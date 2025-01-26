@@ -460,9 +460,9 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
           response.criteria.map((criteria, cIndex) => (
             <CriterionContentBox key={`sotv_visualizer_${index}`} className={cn('flex w-full flex-col bg-transparent')}>
               <span className={cn(FontSpaceMono.className, 'font-bold')}>
-                {index + 1}. {response.criteria[0].text}
+                {index + 1}. {criteria.text}
               </span>
-              {renderLabelQuestion(response.criteria[0], (idx: string, value: string) => {
+              {renderLabelQuestion(criteria, (idx: string, value: string) => {
                 handleChange(response.model, criteria, value);
               })}
             </CriterionContentBox>
