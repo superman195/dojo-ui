@@ -3,7 +3,7 @@ import { TaskPromptProps } from '@/types/QuestionPageTypes';
 import { FontManrope } from '@/utils/typography';
 import { IconSparkles } from '@tabler/icons-react';
 import React from 'react';
-import FormattedPrompt from '../FormattedPrompt';
+import { CollapsiblePrompt } from '../FormattedPrompt';
 import TasktypePill from './tasktype-pill';
 
 const TaskPrompt: React.FC<TaskPromptProps> = ({ title, taskType, formattedPrompt }) => {
@@ -17,20 +17,12 @@ const TaskPrompt: React.FC<TaskPromptProps> = ({ title, taskType, formattedPromp
       </div>
       <div
         className={`${FontManrope.className} flex min-h-[48px] w-fit overflow-hidden
-           rounded-xl border-2 border-black`}
+           rounded-xl border-2 border-black py-2 pr-2`}
       >
         <div className="animate-pulse p-2">
           <IconSparkles className="size-7 shrink-0 rounded-full  p-[3px]" />
         </div>
-        <FormattedPrompt
-          autoHideHeightThreshold={100}
-          bottomFadeDivClassName="h-[30px]"
-          className="h-fit min-h-[44px]"
-          collapsedClassName="h-[100px]"
-          collapsableBtnClassName="size-6 top-[10px] right-[10px]"
-        >
-          {formattedPrompt}
-        </FormattedPrompt>
+        <CollapsiblePrompt>{formattedPrompt}</CollapsiblePrompt>
       </div>
     </div>
   );

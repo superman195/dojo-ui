@@ -1,7 +1,6 @@
 import CodegenViewer from '@/components/CodegenViewer';
 import GaussianSplatViewer from '@/components/GaussianSplatViewer';
-import { ResponseVisualizerProps, TaskResponses } from '@/types/QuestionPageTypes';
-import { TaskType } from '@/utils/states';
+import { ResponseVisualizerProps, TaskResponses, TaskType } from '@/types/QuestionPageTypes';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
 import React from 'react';

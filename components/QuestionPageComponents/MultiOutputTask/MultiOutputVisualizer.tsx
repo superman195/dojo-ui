@@ -2,8 +2,7 @@ import CodegenViewer from '@/components/CodegenViewer';
 import Tooltip from '@/components/Common/Tooltip';
 import GaussianSplatViewer from '@/components/GaussianSplatViewer';
 import { useSubmit } from '@/providers/submitContext';
-import { Criterion, Task, TaskResponses } from '@/types/QuestionPageTypes';
-import { TaskType } from '@/utils/states';
+import { Criterion, Task, TaskResponses, TaskType } from '@/types/QuestionPageTypes';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
 import { IconLayoutGrid, IconLayoutList } from '@tabler/icons-react';
@@ -96,7 +95,7 @@ const MultiOutputVisualizer = ({ task, className, ...props }: TaskVisualizerProp
             <>
               <div className={cn('max-w-[1075px] w-full', FontSpaceMono.className, 'font-bold')}>
                 {index + 1}.{' '}
-                {criteria.text ?? 'Please score the below responses on the quality (10 - highest, 1 - lowest)'}
+                {criteria.query ?? 'Please score the below responses on the quality (10 - highest, 1 - lowest)'}
               </div>
               <div
                 className={cn(
@@ -127,7 +126,7 @@ const MultiOutputVisualizer = ({ task, className, ...props }: TaskVisualizerProp
                                 step={1}
                                 initialValue={1}
                                 onChange={(rating) => {
-                                  // addCriterionForResponse(`${criteria.text}::${response.model}`, rating.toString());
+                                  // addCriterionForResponse(`${criteria.query}::${response.model}`, rating.toString());
                                 }}
                                 showSections
                               />

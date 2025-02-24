@@ -1,4 +1,5 @@
-import { TaskType, TASKTYPE_COLOR_MAP, TaskTypeMappingDisplay } from '@/utils/states';
+import { TaskType } from '@/types/QuestionPageTypes';
+import { TASKTYPE_COLOR_MAP, TaskTypeMappingDisplay } from '@/utils/states';
 import { cn } from '@/utils/tw';
 import { HTMLAttributes } from 'react';
 
