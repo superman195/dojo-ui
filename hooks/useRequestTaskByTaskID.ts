@@ -6,18 +6,11 @@ import useFeature from './useFeature';
 
 const getCorrectS3UrlByUrl = (s3Url: string) => {
   try {
-    const url = new URL(s3Url);
-    const pathname = url.pathname;
-    if (process.env.NEXT_PUBLIC_BACKEND_URL?.includes('testnet.tensorplex.ai')) {
-      // is testnet
-      return `https://dojo-files-testnet.tensorplex.ai${pathname}`;
-    } else if (process.env.NEXT_PUBLIC_BACKEND_URL?.includes('dojo-api.tensorplex.ai')) {
-      // is mainnet
-      return `https://dojo-files.tensorplex.ai${pathname}`;
-    } else if (process.env.NEXT_PUBLIC_BACKEND_URL?.includes('dev.tensorplex.dev')) {
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
       // is localhost or dev
-      return `https://dojo-files-dev.tensorplex.dev${pathname}`;
+      return `https://dev.dojo.network${s3Url}`;
     }
+
     return s3Url;
   } catch (err) {
     console.log('Invalid URL:', s3Url);
