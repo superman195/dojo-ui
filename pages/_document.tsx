@@ -24,6 +24,7 @@ function generateCSP() {
           'wss://*.walletconnect.com',
           'https://*.walletconnect.com',
           'https://*.google-analytics.com',
+          'PLACEHOLDER_BACKEND_URL', // This will be replaced at runtime
         ],
         'worker-src': ["'self'", 'blob:'],
         'media-src': ["'self'", 'blob: data:'],

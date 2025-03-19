@@ -7,16 +7,11 @@ if [ -z "$NEXT_PUBLIC_BACKEND_URL" ]; then
     export NEXT_PUBLIC_BACKEND_URL="http://worker-api:8080"
 fi
 
-echo "Building Dojo UI with backend URL: $NEXT_PUBLIC_BACKEND_URL"
+echo "Replacing PLACEHOLDER_BACKEND_URL with: $NEXT_PUBLIC_BACKEND_URL"
 
-# Clear the .next folder to ensure clean build
-rm -rf .next
-
-# Build with the environment variable from docker-compose
-NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL npm run build || {
-    echo "Error: Build failed!"
-    exit 1
-}
+# Replace the placeholder with the actual BACKEND_URL value
+# Using find to handle potential limitations with shell globbing
+find /dojo-ui/.next/static -type f -name "*.js" -exec sed -i "s|PLACEHOLDER_BACKEND_URL|${NEXT_PUBLIC_BACKEND_URL}|g" {} \;
 
 # Start the application
 echo "Starting Next.js application..."
