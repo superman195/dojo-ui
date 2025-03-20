@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev_dev": "NEXT_PUBLIC_BACKEND_URL=***REMOVED*** next dev",
-    "testnet": "NEXT_PUBLIC_GA_TAG=G-P8J1LNHXWW NEXT_PUBLIC_BACKEND_URL=https://dojo-api-testnet.tensorplex.ai next dev",
-    "dev": "NEXT_PUBLIC_GA_TAG=G-P8J1LNHXWW next dev",
+    "testnet": "NEXT_PUBLIC_BACKEND_URL=https://dojo-api-testnet.tensorplex.ai next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint --fix",
