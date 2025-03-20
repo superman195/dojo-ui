@@ -4,8 +4,11 @@ import { tasklistFull } from '@/utils/states';
 import { useEffect, useState } from 'react';
 import useFeature from './useFeature';
 
-const getCorrectS3UrlByUrl = (s3Url: string) => {
+const getCorrectS3UrlByUrl = (s3Url: string, taskType: string) => {
   try {
+    if (taskType === 'TEXT_TO_THREE_D') {
+      return `${process.env.NEXT_PUBLIC_BACKEND_URL}${s3Url}`;
+    }
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
       // is localhost or dev
       return `https://dev.dojo.network${s3Url}`;
@@ -43,7 +46,7 @@ const useRequestTaskByTaskID = (taskId: string, isConnected?: boolean, isAuthent
         //We need to process it by getting the correct url.
         if (filteredTask.type === 'TEXT_TO_THREE_D' || filteredTask.type === 'TEXT_TO_IMAGE') {
           filteredTask.taskData.responses.forEach((r: any) => {
-            r.completion.url = getCorrectS3UrlByUrl(r.completion.url);
+            r.completion.url = getCorrectS3UrlByUrl(r.completion.url, filteredTask.type);
           });
         }
         setTask(filteredTask);
