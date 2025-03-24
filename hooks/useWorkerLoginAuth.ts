@@ -30,6 +30,7 @@ const useWorkerLoginAuth = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          // 'X-Forwarded-For': 'dev.dojo.network', // Example IP address
         },
         body: JSON.stringify(payload),
       });

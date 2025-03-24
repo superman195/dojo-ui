@@ -20,6 +20,7 @@ function generateCSP() {
         'connect-src': [
           "'self'",
           'https://*.tensorplex.ai',
+          'https://*.dojo.network',
           'https://*.tensorplex.dev',
           'wss://*.walletconnect.com',
           'https://*.walletconnect.com',
@@ -47,7 +48,6 @@ export default function Document() {
       <Head>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </Head>
-      <title>Dojo - Improve Decentralized AI Model with Crowd Sourcing</title>
       <meta
         name="description"
         content="Improve Decentralized AI Multimodal model through Crowd Sourcing with Dojo Network. Support Open Source Models (Bittensor Subnet, etc)"
