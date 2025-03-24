@@ -10,7 +10,7 @@ const useFeature = ({ kw, addParams }: props) => {
   const params = useSearchParams();
   const url = process.env.NEXT_PUBLIC_BACKEND_URL;
   // Remove the last clause after we dont need the demo anymore
-  if (url?.includes('dev') || url?.includes('testnet') || !url || url?.includes('tensorplex')) {
+  if (url?.includes('dev') || url?.includes('testnet') || !url || url?.includes('dojo.network')) {
     const exp = params.get('exp') === kw;
     const info = !addParams || params.get('addParams') === addParams;
     return { exp: exp && info };

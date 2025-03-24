@@ -20,6 +20,7 @@ function generateCSP() {
         'connect-src': [
           "'self'",
           'https://*.tensorplex.ai',
+          'https://dojo.network',
           'https://*.dojo.network',
           'https://*.tensorplex.dev',
           'wss://*.walletconnect.com',
