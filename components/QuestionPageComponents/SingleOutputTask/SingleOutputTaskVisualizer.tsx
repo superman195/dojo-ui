@@ -11,7 +11,6 @@ import { RHF_MAX_CHAR } from '@/utils/states';
 import { cn } from '@/utils/tw';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { IconCheck, IconProgress, IconSparkles, IconTrash } from '@tabler/icons-react';
-import Image from 'next/image';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { generateNonce } from 'siwe';
 import { CollapsiblePrompt } from '../FormattedPrompt';
@@ -151,7 +150,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
             : `https://${taskResponse.completion.url}`;
           return (
             <>
-              <Image
+              <img
                 ref={rhfImageRef}
                 draggable={false}
                 onClick={(e) => {
@@ -162,7 +161,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
                 alt="image"
                 width={300}
                 height={300}
-                src={ttiUrl}
+                src={taskResponse.completion.url}
                 className="w-full"
               />
               {rhfCreatingAnnotation && (
