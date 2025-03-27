@@ -19,8 +19,8 @@ const TaskPrompt: React.FC<TaskPromptProps> = ({ title, taskType, formattedPromp
         className={`${FontManrope.className} flex min-h-[48px] w-fit overflow-hidden
            rounded-xl border-2 border-black py-2 pr-2`}
       >
-        <div className="animate-pulse p-2">
-          <IconSparkles className="size-7 shrink-0 rounded-full  p-[3px]" />
+        <div className="animate-pulse pl-2">
+          <IconSparkles className="size-6 shrink-0 rounded-full  p-[3px]" />
         </div>
         <CollapsiblePrompt>{formattedPrompt}</CollapsiblePrompt>
       </div>
