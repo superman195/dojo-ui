@@ -28,7 +28,7 @@ export const taskTTI: any[] = [
     expireAt: '2025-12-03T15:04:00Z',
     type: 'TEXT_TO_IMAGE',
     taskData: {
-      task: 'TEXT_TO_IMAGE',
+      taskOutputModalityType: 'TEXT_TO_IMAGE',
       prompt:
         'Generate a realistic image of a woman with six mechanical arms, each holding a different type of futuristic instrument—one is a laser harp, one is a translucent keyboard, one is an orb projecting sound waves, one a set of glowing digital drums, and the last two are shaping holograms into sound waves. She is performing on a glass stage that extends over a vast, glowing ocean of liquid neon, under a stormy sky filled with metallic clouds flashing with lightning shaped like musical notes.',
 
@@ -42,40 +42,40 @@ export const taskTTI: any[] = [
           criteria: [
             {
               type: 'multi-select',
-              text: 'Choose all appropriate options',
+              query: 'Choose all appropriate options',
               options: ['Inappropriate Content', 'Untruthful Information', 'Personal Information'],
             },
             {
               type: 'single-select',
-              text: 'I would use this image in an advertisement in a music school.',
+              query: 'I would use this image in an advertisement in a music school.',
               options: ['Agree', 'Disagree', 'Neutral'],
             },
             {
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Prompt Accuracy',
+              query: 'Prompt Accuracy',
               options: ['stabilityai/stable-diffusion-xl-base-1.0'],
             },
             {
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Quality',
+              query: 'Quality',
               options: ['stabilityai/stable-diffusion-xl-base-1.0'],
             },
             {
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Photo-Realism',
+              query: 'Photo-Realism',
               options: ['stabilityai/stable-diffusion-xl-base-1.0'],
             },
             {
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Creativity',
+              query: 'Creativity',
               options: ['stabilityai/stable-diffusion-xl-base-1.0'],
             },
           ],
@@ -98,7 +98,7 @@ export const taskTTI: any[] = [
 //     expireAt: '2024-12-03T15:04:00Z',
 //     type: 'TEXT_TO_IMAGE',
 //     taskData: {
-//       task: 'TEXT_TO_IMAGE',
+//       taskOutputModalityType: 'TEXT_TO_IMAGE',
 //       prompt: 'A bottle with the cap half opened.',
 //       criteria: [
 //         {
@@ -151,7 +151,7 @@ export const taskTTI: any[] = [
 //     expireAt: '2024-12-03T15:04:00Z',
 //     type: 'TEXT_TO_IMAGE',
 //     taskData: {
-//       task: 'TEXT_TO_IMAGE',
+//       taskOutputModalityType: 'TEXT_TO_IMAGE',
 //       prompt: 'an image of a green dog.',
 //       criteria: [
 //         {
@@ -204,7 +204,7 @@ export const taskTTI: any[] = [
 //     expireAt: '2024-12-03T15:04:00Z',
 //     type: 'TEXT_TO_IMAGE',
 //     taskData: {
-//       task: 'TEXT_TO_IMAGE',
+//       taskOutputModalityType: 'TEXT_TO_IMAGE',
 //       prompt: 'an office with full height windows with the cityline in the background.',
 //       criteria: [
 //         {
@@ -257,7 +257,7 @@ export const taskTTI: any[] = [
 //     expireAt: '2024-12-03T15:04:00Z',
 //     type: 'TEXT_TO_IMAGE',
 //     taskData: {
-//       task: 'TEXT_TO_IMAGE',
+//       taskOutputModalityType: 'TEXT_TO_IMAGE',
 //       prompt: 'NYSE floor with emotions and red and green charts.',
 //       criteria: [
 //         {
@@ -315,13 +315,13 @@ export const task3d: any[] = [
     expireAt: '2099-12-03T15:04:00Z',
     type: 'TEXT_TO_THREE_D',
     taskData: {
-      task: 'TEXT_TO_THREE_D',
+      taskOutputModalityType: 'TEXT_TO_THREE_D',
       prompt: 'Crisp Lettuce in a bowl.',
       criteria: [
         {
           max: 10,
           min: 1,
-          text: 'MULTI SCORE',
+          query: 'MULTI SCORE',
           type: 'score',
           options: ['3D object 1', '3D object 2'],
         },
@@ -333,7 +333,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -348,7 +348,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -363,7 +363,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -378,7 +378,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -403,14 +403,14 @@ export const task3d: any[] = [
     expireAt: '2099-12-03T15:04:00Z',
     type: 'TEXT_TO_THREE_D',
     taskData: {
-      task: 'TEXT_TO_THREE_D',
+      taskOutputModalityType: 'TEXT_TO_THREE_D',
       prompt: 'Delicate Ivory dove in flight',
       criteria: [
         {
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
           options: [
             'stabilityai/stable-diffusion-xl-base-1.0',
             'runwayml/stable-diffusion-v1-5',
@@ -426,7 +426,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -441,7 +441,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -456,7 +456,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -471,7 +471,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -496,14 +496,14 @@ export const task3d: any[] = [
     expireAt: '2099-12-03T15:04:00Z',
     type: 'TEXT_TO_THREE_D',
     taskData: {
-      task: 'TEXT_TO_THREE_D',
+      taskOutputModalityType: 'TEXT_TO_THREE_D',
       prompt: 'Zebra with Stripes running through plains.',
       criteria: [
         {
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
           options: [
             'stabilityai/stable-diffusion-xl-base-1.0',
             'runwayml/stable-diffusion-v1-5',
@@ -519,7 +519,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -534,7 +534,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -549,7 +549,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -564,7 +564,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -589,14 +589,14 @@ export const task3d: any[] = [
     expireAt: '2099-12-03T15:04:00Z',
     type: 'TEXT_TO_THREE_D',
     taskData: {
-      task: 'TEXT_TO_THREE_D',
+      taskOutputModalityType: 'TEXT_TO_THREE_D',
       prompt: 'Black and yellow gaming chair',
       criteria: [
         {
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
           options: [
             'stabilityai/stable-diffusion-xl-base-1.0',
             'runwayml/stable-diffusion-v1-5',
@@ -612,7 +612,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -627,7 +627,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -642,7 +642,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -657,7 +657,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -685,7 +685,7 @@ export const tasklistCodegen: any[] = [
     expireAt: '2025-09-20T08:56:07Z',
     type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      taskOutputModalityType: 'CODE_GENERATION',
       prompt:
         'Create an interactive visualization of a vaccine molecular structure. Visual features: • 3D representation of a simplified vaccine molecule • Spheres representing different atoms/components • Connecting lines between atoms • Color-coded atoms based on type (e.g. red for oxygen, blue for nitrogen) • Smooth rotation animation of the molecule Requirements: 1. Implement a 3D rotating model of a simplified vaccine molecule using HTML5 canvas and vanilla JavaScript. The molecule should consist of at least 10 interconnected atoms. 2. Allow users to click and drag the molecule to rotate it manually in any direction. The rotation should be smooth and responsive. 3. Include a slider control that adjusts the rotation speed of the automatic animation. The slider should range from completely stopped to rapid rotation. 4. Add hover functionality so that when a user hovers over an atom, a tooltip appears displaying information about that atom type (e.g. element name, atomic number, typical role in vaccines).\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
@@ -709,7 +709,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -756,7 +756,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -803,7 +803,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -850,7 +850,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -906,7 +906,7 @@ export const tasklistCodegen: any[] = [
     expireAt: '2025-09-23T08:53:00Z',
     type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      taskOutputModalityType: 'CODE_GENERATION',
       prompt:
         'Create an interactive visualization of a musical staff for analyzing song lyrics and melodies. The program should have the following visual features:\n\n- A musical staff with 5 horizontal lines spanning the width of the screen\n- Clickable note positions on the staff represented by small circles\n- A text input area below the staff for entering lyrics\n- A play button to hear the created melody\n\nRequirements:\n\n1. When a user clicks on the staff, a musical note should appear at that position. The vertical position determines the pitch, while the horizontal position determines the timing in the melody.\n\n2. As the user types lyrics in the text input area, the words should automatically appear below the corresponding notes on the staff. If there are more words than notes, they should be evenly distributed.\n\n3. When the play button is clicked, the melody should be played using Web Audio API, with each note sounding for a duration proportional to its horizontal spacing. The corresponding lyrics should be highlighted in sync with the melody.\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
 
@@ -1111,7 +1111,7 @@ export const tasklistCodegen: any[] = [
     expireAt: '2099-08-30T14:09:13Z',
     type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      taskOutputModalityType: 'CODE_GENERATION',
       prompt:
         "Create a web page that displays an interactive guitar visualization using HTML, CSS, and JavaScript. The guitar should have 6 strings and a fretboard. Implement the following user interactions:\n\n1. When the user hovers over a string, it should visually highlight to indicate it can be played.\n\n2. Clicking on a string should produce a plucking animation and play a corresponding guitar note sound.\n\n3. Implement a slider that adjusts the guitar's tuning, affecting the pitch of the notes played when strings are clicked.\n\nEnsure the visualization is responsive and works well on different screen sizes. Use only built-in JavaScript libraries and features for this implementation.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
       criteria: [
@@ -1119,7 +1119,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
         },
       ],
       responses: [
@@ -1130,7 +1130,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1177,7 +1177,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1224,7 +1224,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1275,7 +1275,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1331,7 +1331,7 @@ export const tasklistCodegen: any[] = [
     expireAt: '2099-08-29T18:17:43Z',
     type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      taskOutputModalityType: 'CODE_GENERATION',
       prompt:
         "Create a web page that visualizes a desert landscape using HTML, CSS, and JavaScript. The visualization should include sand dunes, a sun, and at least one cactus. Implement the following interactive features:\n\n1. When the user moves their mouse across the screen, small dust particles should appear and follow the mouse movement, simulating a light breeze in the desert.\n\n2. Allow the user to click anywhere on the screen to 'plant' a new cactus at that location. The cactus should grow from small to full size over a short period of time.\n\nEnsure that the visualization is responsive and works well on different screen sizes. Use only built-in JavaScript functions and avoid external libraries.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
       criteria: [
@@ -1339,7 +1339,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
         },
       ],
       responses: [
@@ -1350,7 +1350,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1396,7 +1396,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1443,7 +1443,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1494,7 +1494,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1550,7 +1550,7 @@ export const tasklistCodegen: any[] = [
     expireAt: '2025-09-05T19:39:33Z',
     type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      taskOutputModalityType: 'CODE_GENERATION',
       prompt:
         'Create an interactive visualization of a sound wave frequency visualizer using HTML, CSS, and JavaScript. Your implementation should meet the following requirements:\n\n1. Display a dynamic waveform that represents the frequency of a sound wave. The waveform should update in real-time based on user input.\n\n2. Implement a slider that allows users to adjust the frequency of the sound wave. As the user moves the slider, the waveform should change accordingly, showing higher frequencies as more compressed waves and lower frequencies as more stretched out waves.\n\n3. Add a play/pause button that, when clicked, generates an audible tone matching the current frequency shown in the visualizer. The waveform should animate (oscillate) while the tone is playing and stop when paused.\n\nEnsure that the visualization is visually appealing and that the user interactions are intuitive and responsive. The implementation should use only built-in JavaScript libraries and functions.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
@@ -1558,7 +1558,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
         },
       ],
       responses: [
@@ -1569,7 +1569,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1616,7 +1616,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1663,7 +1663,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1710,7 +1710,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1766,7 +1766,7 @@ export const tasklistCodegen: any[] = [
     expireAt: '2025-09-09T05:33:57Z',
     type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      taskOutputModalityType: 'CODE_GENERATION',
       prompt:
         "Create an interactive visualization of a Newton's cradle, a classic physics demonstration that illustrates conservation of momentum and energy. The visualization should depict a set of suspended metal balls that can swing and collide, demonstrating the transfer of energy through the system.\n\nThe scene should display a horizontal support from which five metal balls are suspended by strings. The balls should be arranged in a row, just touching each other when at rest. The visualization should allow users to interact with the Newton's cradle and observe its behavior.\n\nRequirements:\n\n1. Implement the physics simulation for the Newton's cradle, including the swinging motion of the balls and the elastic collisions between them. When a ball on one end is lifted and released, it should swing down and collide with the stationary balls, causing the ball on the opposite end to swing upward.\n\n2. Add a user interaction where clicking and dragging the leftmost or rightmost ball allows the user to pull it back and release it, initiating the Newton's cradle effect. The ball should follow the mouse cursor while being dragged, maintaining a realistic arc motion.\n\n3. Include a slider that adjusts the simulation speed, allowing users to observe the Newton's cradle effect in slow motion or at an accelerated pace. The slider should smoothly transition between different speeds without disrupting the ongoing simulation.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
       criteria: [
@@ -1774,7 +1774,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
         },
       ],
       responses: [
@@ -1785,7 +1785,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1832,7 +1832,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1879,7 +1879,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1926,7 +1926,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1982,7 +1982,7 @@ export const tasklistCodegen: any[] = [
     expireAt: '2025-09-10T04:46:34Z',
     type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      taskOutputModalityType: 'CODE_GENERATION',
       prompt:
         "Create an interactive visualization of a tornado using JavaScript, HTML, and CSS. The scene should depict a rural landscape with a menacing tornado in the center. The tornado should be represented as a swirling, cone-shaped vortex extending from the ground up into dark storm clouds above. The landscape should include simple representations of fields, scattered trees, and a few small buildings or houses to provide scale and context.\n\nRequirements:\n\n1. The tornado should continuously rotate and undulate, giving the impression of a powerful, swirling wind funnel.\n\n2. Implement debris particles that circle around the base of the tornado, representing objects caught in its powerful winds.\n\n3. Create a simple lighting effect to simulate occasional flashes of lightning in the background storm clouds.\n\n4. Allow the user to click and drag anywhere on the screen to change the direction and speed of the tornado's movement across the landscape. The tornado should move smoothly in the direction of the drag, with the speed determined by the length of the drag action.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
       criteria: [
@@ -1990,7 +1990,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
         },
       ],
       responses: [
@@ -2001,7 +2001,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2048,7 +2048,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2104,7 +2104,7 @@ export const tasklistCodegen: any[] = [
     expireAt: '2025-09-11T09:00:28Z',
     type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      taskOutputModalityType: 'CODE_GENERATION',
       prompt:
         "Generate a Snake game for me using HTML, Javascript, and CSS. The game should be fully functional with basic sounds, animations, scoring, increasing difficulty as the snake grows longer, and a game over screen when the snake hits the wall or itself. The game should use arrow keys for controls. All code, including graphics and sounds, should be generated without external dependencies. The code should run in a web browser without modification. Include any cool additional features that don't conflict with these requirements. Provide complete, robust code that can be copied and pasted into HTML, JS, and CSS files to run the game immediately.\nNote:\n- The  should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
       criteria: [
@@ -2112,7 +2112,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -2129,7 +2129,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2181,7 +2181,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2233,7 +2233,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2285,7 +2285,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2346,7 +2346,7 @@ export const tasklistCodegen: any[] = [
     expireAt: '2025-09-12T05:52:37Z',
     type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      taskOutputModalityType: 'CODE_GENERATION',
       prompt:
         'When a user requests a Paint App using HTML, JS, and CSS, follow these guidelines:\n\nCreate a fully functional Paint App with the following features:\n\n-Canvas for drawing\n-Color picker for selecting brush colors\n-Brush size selector\n-Eraser tool\n-Clear canvas button\n-Save drawing as image functionality\n-Undo/Redo functionality\n-Different brush types (e.g., round, square)\n-Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks.\n-Ensure the app runs in an HTML iframe without requiring any additional setup.\n-Provide complete, runnable code without placeholders or omissions.\n-Proactively address common bugs and pitfalls in Paint App implementations.\n-Make sure that your code does not require the use of local storage.\n\nInclude additional cool features that enhance the painting experience, such as:\n-Layer system for more complex drawings\n-Text tool for adding text to the canvas\n-Shape tools (e.g., rectangle, circle, line)\n-Fill bucket tool\n-Zoom in/out functionality\n\nPrioritize code completeness, robustness, and readiness for immediate execution.\nStructure the response as follows:\na. Brief introduction explaining the Paint App and its features\nb. HTML code (including inline CSS if applicable)\nc. JavaScript code\nd. Any additional CSS in a separate \u003cstyle\u003e tag or file\ne. Instructions for using the Paint App\n\nRemember to focus on delivering a complete, functional, and engaging Paint App implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- The  should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
@@ -2354,7 +2354,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -2371,7 +2371,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2418,7 +2418,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2469,7 +2469,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2516,7 +2516,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2572,7 +2572,7 @@ export const tasklistCodegen: any[] = [
     expireAt: '2025-09-12T06:34:30Z',
     type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      taskOutputModalityType: 'CODE_GENERATION',
       prompt:
         'When a user requests a Breakout game using HTML, JS, and CSS, follow these guidelines:\n\nCreate a fully functional Breakout game with the following features:\n\n-Paddle controlled by mouse movement or arrow keys\n-Ball that bounces off the paddle, walls, and bricks\n-Multiple rows of breakable bricks\n-Scoring system based on bricks broken\n-Lives system (game over when all lives are lost)\n-Increasing difficulty as levels progress\n-Game over screen displaying the final score with an animation\n-Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks.\n-Generate all graphics within the code using HTML5 Canvas, avoiding reliance on external image files.\n-Ensure the game runs in an HTML iframe without requiring any additional setup.\n-Provide complete, runnable code without placeholders or omissions.\n-Proactively address common bugs and pitfalls in Breakout game implementations.\n-Make sure that your code does not require the use of local storage.\n\nInclude additional cool features that enhance the game experience, such as:\n-Power-ups that drop from broken bricks (e.g., wider paddle, multi-ball, stronger ball)\n-Visual and sound effects for ball impacts, brick breaking, and game events\n-A high score system (without using local storage)\n-Different brick types (e.g., requires multiple hits, exploding bricks)\n\nPrioritize code completeness, robustness, and readiness for immediate execution.\nStructure the response as follows:\na. Brief introduction explaining the game and its features\nb. HTML code (including inline CSS if applicable)\nc. JavaScript code\nd. Any additional CSS in a separate \u003cstyle\u003e tag or file\ne. Instructions for running the game\n\nRemember to focus on delivering a complete, functional, and engaging Breakout game implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- The  should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
@@ -2580,7 +2580,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -2597,7 +2597,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2644,7 +2644,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2691,7 +2691,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2739,7 +2739,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2795,7 +2795,7 @@ export const tasklistCodegen: any[] = [
     expireAt: '2025-09-12T06:42:31Z',
     type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      taskOutputModalityType: 'CODE_GENERATION',
       prompt:
         'When a user requests a Minesweeper game using HTML, JS, and CSS, follow these guidelines:\n\nCreate a fully functional Minesweeper game with the following features:\n\n-A grid-based game board with customizable dimensions (e.g., 9x9, 16x16)\n-Random mine placement at the start of each game\n-Left-click to reveal cells, right-click to flag potential mines\n-Number indicators showing adjacent mine count for revealed cells\n-Game over screen when a mine is clicked, revealing all mine locations\n-Win condition when all non-mine cells are revealed\n-Timer to track game duration\n-Mine counter to show remaining unflagged mines\n-First-click safety (ensure the first clicked cell is never a mine)\n-Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks.\n-Generate all graphics within the code using HTML5 Canvas or CSS, avoiding reliance on external image files.\n-Ensure the game runs in an HTML iframe without requiring any additional setup.\n-Provide complete, runnable code without placeholders or omissions.\n-Proactively address common bugs and pitfalls in Minesweeper implementations.\n-Make sure that your code does not require the use of local storage.\n\nInclude additional cool features that enhance the game experience, such as:\n-Multiple difficulty levels (Easy, Medium, Hard) with preset board sizes and mine counts\n-Custom game option where players can set board size and mine count\n-Animations for revealing cells and flagging mines\n-Sound effects for various game actions (optional, with a mute button)\n-A hint system that reveals a safe cell when the player is stuck\n\nPrioritize code completeness, robustness, and readiness for immediate execution.\nStructure the response as follows:\na. Brief introduction explaining the game and its features\nb. HTML code (including inline CSS if applicable)\nc. JavaScript code\nd. Any additional CSS in a separate \u003cstyle\u003e tag or file\ne. Instructions for running the game\n\nRemember to focus on delivering a complete, functional, and engaging Minesweeper game implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- The  should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
@@ -2803,7 +2803,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -2820,7 +2820,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2867,7 +2867,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2914,7 +2914,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2961,7 +2961,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3017,7 +3017,7 @@ export const tasklistCodegen: any[] = [
     expireAt: '2025-09-12T09:21:40Z',
     type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      taskOutputModalityType: 'CODE_GENERATION',
       prompt:
         'When a user requests a 2048 game using HTML, JS, and CSS, follow these guidelines:\n\nCreate a fully functional 2048 game with the following features:\n\n-4x4 grid layout\n-Smooth tile sliding and merging animations\n-Score tracking and display\n-Game over detection when no more moves are possible\n-Win condition when 2048 tile is created\n-Standard keyboard controls (arrow keys)\n-Touch/swipe support for mobile devices\n-Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks.\n-Generate all graphics within the code, avoiding reliance on external image files.\n-Ensure the game runs in an HTML iframe without requiring any additional setup.\n-Provide complete, runnable code without placeholders or omissions.\n-Proactively address common bugs and pitfalls in 2048 game implementations.\n-As the game will run in a self-contained HTML iframe, ensure that the code does not use any local or session storage.\n-Ensure that any keystrokes used do not trigger the default browser behaviour. If the user uses arrow keys to play, it should not also trigger scrolling of the browser.\n\nInclude additional cool features that enhance the game experience, such as:\n-Undo functionality\n-Best score tracking\n-Color scheme customization option\n-Responsive design for various screen sizes\n\nPrioritize code completeness, robustness, and readiness for immediate execution.\nStructure the response as follows:\na. Brief introduction explaining the game and its features\nb. HTML code (including inline CSS if applicable)\nc. JavaScript code\nd. Any additional CSS in a separate \u003cstyle\u003e tag or file\ne. Instructions for running the game\n\nRemember to focus on delivering a complete, functional, and engaging 2048 game implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
@@ -3025,7 +3025,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -3042,7 +3042,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3089,7 +3089,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3136,7 +3136,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3183,7 +3183,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3239,7 +3239,7 @@ export const tasklistCodegen: any[] = [
     expireAt: '2025-09-12T09:21:49Z',
     type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      taskOutputModalityType: 'CODE_GENERATION',
       prompt:
         'When a user requests a Tetris game using HTML, JS, and CSS, follow these guidelines:\n\nCreate a fully functional Tetris game with the following features:\n\n-Standard Tetris gameplay mechanics (rotating and moving falling pieces, clearing lines)\n-Random generation of Tetrimino shapes\n-Scoring system based on lines cleared and difficulty level\n-Increasing difficulty as the player progresses (faster falling speed)\n-Game over screen when pieces stack to the top, displaying the final score with an animation\n-Preview of the next piece\n-Standard keyboard controls (arrow keys for movement, spacebar for hard drop, etc.)\n-Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks.\n-Generate all graphics within the code using HTML5 Canvas, avoiding reliance on external image files.\n-Ensure the game runs in an HTML iframe without requiring any additional setup.\n-Provide complete, runnable code without placeholders or omissions.\n-Proactively address common bugs and pitfalls in Tetris game implementations.\n-As the game will run in a self-contained HTML iframe, ensure that the code does not use any local or session storage.\n-Ensure that any keystrokes used do not trigger the default browser behavior. If the user uses arrow keys to play, it should not also trigger scrolling of the browser.\n\nInclude additional cool features that enhance the game experience, such as:\n-Hold piece functionality\n-Ghost piece to show where the current piece will land\n-Basic sound effects for piece movement, rotation, and line clears\n-Simple animations for line clears and game over scenarios\n-Basic statistics display (lines cleared, current level, etc.)\n\nPrioritize code completeness, robustness, and readiness for immediate execution.\nStructure the response as follows:\na. Brief introduction explaining the game and its features\nb. HTML code (including inline CSS if applicable)\nc. JavaScript code\nd. Any additional CSS in a separate \u003cstyle\u003e tag or file\ne. Instructions for running the game\n\nRemember to focus on delivering a complete, functional, and engaging Tetris game implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
@@ -3247,7 +3247,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -3264,7 +3264,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3311,7 +3311,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3358,7 +3358,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3405,7 +3405,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3461,7 +3461,7 @@ export const tasklistCodegen: any[] = [
     expireAt: '2025-09-13T07:20:41Z',
     type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      taskOutputModalityType: 'CODE_GENERATION',
       prompt:
         'When a user requests a Hangman game using HTML, JS, and CSS, follow these guidelines: Create a fully functional Hangman game with the following features: -Word selection from a predefined list or random word generation -Display of the hangman figure that updates with each incorrect guess -Display of correctly guessed letters in their correct positions -Display of incorrectly guessed letters -On-screen keyboard for letter selection (in addition to physical keyboard support) -Game over screen for both win and lose scenarios -Score tracking (e.g., number of wins/losses) -Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks. -Generate all graphics within the code using HTML5 Canvas or SVG, avoiding reliance on external image files. -Ensure the game runs in an HTML iframe without requiring any additional setup. -Provide complete, runnable code without placeholders or omissions. -Proactively address common bugs and pitfalls in Hangman game implementations. -As the game will run in a self-contained HTML iframe, ensure that the code does not use any local or session storage. Include additional cool features that enhance the game experience, such as: -Different difficulty levels (e.g., easy, medium, hard) with varying word lengths -Hint system that reveals a letter or provides a clue about the word -Animations for correct/incorrect guesses and game over scenarios -Theme selection (e.g., change colors or hangman figure style) Prioritize code completeness, robustness, and readiness for immediate execution. Structure the response as follows: a. Brief introduction explaining the game and its features b. HTML code (including inline CSS if applicable) c. JavaScript code d. Any additional CSS in a separate \u003cstyle\u003e tag or file e. Instructions for running the game Remember to focus on delivering a complete, functional, and engaging Hangman game implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
@@ -3469,7 +3469,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -3486,7 +3486,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3534,7 +3534,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3582,7 +3582,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3630,7 +3630,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3687,7 +3687,7 @@ export const tasklistCodegen: any[] = [
     expireAt: '2025-10-30T09:49:46.699Z',
     type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      taskOutputModalityType: 'CODE_GENERATION',
       prompt:
         "Create an interactive particle simulation demonstrating how votes flow through an electoral system, visualizing the distribution and aggregation of electoral power.\n\nFeatures:\n• A grid of small circular particles representing individual votes, each colored differently based on their voting preference (e.g., red and blue).\n• Implement physics-based particle movement where votes flow like a fluid from the bottom of the screen upward through different 'electoral layers'.\n• Create three horizontal 'collection zones' representing local, state, and federal electoral levels.\n• Particles should merge and combine when reaching each collection zone, showing how individual votes aggregate into larger electoral units.\n• Display running vote counts for each party at each electoral level.\n• Include a physics engine that makes particles bounce realistically off each other and the boundaries.\n• Implement gravity effects that can be toggled to show how votes naturally 'flow upward' through the system.\n• Visual trails behind particles showing their path through the electoral system.\n\nUser Actions:\n1. Click anywhere on the screen to spawn new voter particles with randomized party affiliations.\n\n2. Use a slider to adjust the strength of the upward flow, demonstrating how different electoral systems might affect vote aggregation speed and patterns.\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
       criteria: [
@@ -3711,7 +3711,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3734,7 +3734,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3757,7 +3757,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3780,7 +3780,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3815,7 +3815,7 @@ export const taskListImgEvaluation: any[] = [
     expireAt: '2099-12-03T15:04:00Z',
     type: 'TEXT_TO_IMAGE',
     taskData: {
-      task: 'TEXT_TO_IMAGE',
+      taskOutputModalityType: 'TEXT_TO_IMAGE',
       prompt:
         'Generate an image of a photogenic brown dog riding a horse. The dog is also holding on to a pair of chopsticks.',
 
@@ -3829,7 +3829,7 @@ export const taskListImgEvaluation: any[] = [
           criteria: [
             {
               type: 'rich-human-feedback',
-              text: 'Errors / flaws in the image',
+              query: 'Errors / flaws in the image',
             },
           ],
         },
@@ -3849,7 +3849,7 @@ export const taskListImgEvaluation: any[] = [
     expireAt: '2099-12-03T15:04:00Z',
     type: 'TEXT_TO_IMAGE',
     taskData: {
-      task: 'TEXT_TO_IMAGE',
+      taskOutputModalityType: 'TEXT_TO_IMAGE',
       prompt:
         'Generate a minimalist scene featuring a bright red ladder standing against the corner where two blue walls meet. The entire environment is clean, with a smooth, monochromatic blue background. The ladder casts a sharp shadow along one of the walls, creating a sense of depth and contrast. The lighting is soft, emphasizing the simplicity and geometric form of the scene. The overall color palette consists of shades of blue and the striking red of the ladder, giving the composition a bold yet minimalistic feel.',
 
@@ -3863,7 +3863,7 @@ export const taskListImgEvaluation: any[] = [
           criteria: [
             {
               type: 'rich-human-feedback',
-              text: 'Errors / flaws in the image',
+              query: 'Errors / flaws in the image',
             },
           ],
         },
@@ -3886,44 +3886,44 @@ export const supplementalTaskList: any[] = [
     expireAt: '2025-09-09T05:33:57Z',
     type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      taskOutputModalityType: 'CODE_GENERATION',
       prompt:
         "Create an interactive visualization of a Newton's cradle, a classic physics demonstration that illustrates conservation of momentum and energy. The visualization should depict a set of suspended metal balls that can swing and collide, demonstrating the transfer of energy through the system.\n\nThe scene should display a horizontal support from which five metal balls are suspended by strings. The balls should be arranged in a row, just touching each other when at rest. The visualization should allow users to interact with the Newton's cradle and observe its behavior.\n\nRequirements:\n\n1. Implement the physics simulation for the Newton's cradle, including the swinging motion of the balls and the elastic collisions between them. When a ball on one end is lifted and released, it should swing down and collide with the stationary balls, causing the ball on the opposite end to swing upward.\n\n2. Add a user interaction where clicking and dragging the leftmost or rightmost ball allows the user to pull it back and release it, initiating the Newton's cradle effect. The ball should follow the mouse cursor while being dragged, maintaining a realistic arc motion.\n\n3. Include a slider that adjusts the simulation speed, allowing users to observe the Newton's cradle effect in slow motion or at an accelerated pace. The slider should smoothly transition between different speeds without disrupting the ongoing simulation.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
       criteria: [
         {
           type: 'multi-select',
-          text: 'Choose all appropriate options',
+          query: 'Choose all appropriate options',
           options: ['Inappropriate Content', 'Untruthful Information', 'Personal Information'],
         },
         {
           type: 'single-select',
-          text: 'Is the interaction intuitive?',
+          query: 'Is the interaction intuitive?',
           options: ['Agree', 'Disagree', 'Neutral'],
         },
         {
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Prompt Accuracy',
+          query: 'Prompt Accuracy',
           options: ['stabilityai/stable-diffusion-xl-base-1.0'],
         },
         {
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Quality',
+          query: 'Quality',
           options: ['stabilityai/stable-diffusion-xl-base-1.0'],
         },
         {
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Photo-Realism',
+          query: 'Photo-Realism',
           options: ['stabilityai/stable-diffusion-xl-base-1.0'],
         },
         {
           type: 'multi-select',
-          text: 'Which part did the code output excel in?',
+          query: 'Which part did the code output excel in?',
           options: ['Physics Simulation', 'User Interaction', 'Slider Functionality', 'Animation'],
         },
       ],
@@ -3969,38 +3969,38 @@ export const supplementalTaskList: any[] = [
           criteria: [
             {
               type: 'multi-select',
-              text: 'Choose all appropriate options',
+              query: 'Choose all appropriate options',
               options: ['Inappropriate Content', 'Untruthful Information', 'Personal Information'],
             },
             {
               type: 'single-select',
-              text: 'Is the interaction intuitive?',
+              query: 'Is the interaction intuitive?',
               options: ['Agree', 'Disagree', 'Neutral'],
             },
             {
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Prompt Accuracy',
+              query: 'Prompt Accuracy',
               options: ['stabilityai/stable-diffusion-xl-base-1.0'],
             },
             {
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Quality',
+              query: 'Quality',
               options: ['stabilityai/stable-diffusion-xl-base-1.0'],
             },
             {
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Photo-Realism',
+              query: 'Photo-Realism',
               options: ['stabilityai/stable-diffusion-xl-base-1.0'],
             },
             {
               type: 'multi-select',
-              text: 'Which part did the code output excel in?',
+              query: 'Which part did the code output excel in?',
               options: ['Physics Simulation', 'User Interaction', 'Slider Functionality', 'Animation'],
             },
           ],
@@ -4061,10 +4061,10 @@ export const taskTTC: any[] = [
 export const tasklistFull: any[] = ([] as any[])
   .concat(taskTTC)
   .concat(tasklistCodegen)
-  // .concat(task3d)
-  // .concat(taskTTI)
-  // .concat(taskListImgEvaluation)
-  // .concat(supplementalTaskList)
+  .concat(task3d)
+  .concat(taskTTI)
+  .concat(taskListImgEvaluation)
+  .concat(supplementalTaskList)
   .map((task, idx) => {
     return { ...task, taskId: `demo_${idx}` };
   });

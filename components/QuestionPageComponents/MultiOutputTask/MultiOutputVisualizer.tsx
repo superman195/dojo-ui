@@ -2,7 +2,7 @@ import CodegenViewer from '@/components/CodegenViewer';
 import Tooltip from '@/components/Common/Tooltip';
 import GaussianSplatViewer from '@/components/GaussianSplatViewer';
 import { useSubmit } from '@/providers/submitContext';
-import { Criterion, Task, TaskResponses, TaskType } from '@/types/QuestionPageTypes';
+import { Criterion, TaskResponses, TaskType } from '@/types/QuestionPageTypes';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
 import { IconLayoutGrid, IconLayoutList } from '@tabler/icons-react';
@@ -87,65 +87,65 @@ const MultiOutputVisualizer = ({ task, className, ...props }: TaskVisualizerProp
     }
   }, []);
 
-  const renderCriteria = useCallback(
-    (task: Task, criteria: Criterion, index: number) => {
-      switch (criteria.type.toLowerCase()) {
-        case 'score':
-          return (
-            <>
-              <div className={cn('max-w-[1075px] w-full', FontSpaceMono.className, 'font-bold')}>
-                {index + 1}.{' '}
-                {criteria.query ?? 'Please score the below responses on the quality (10 - highest, 1 - lowest)'}
-              </div>
-              <div
-                className={cn(
-                  'grid w-full max-w-full gap-x-5 gap-y-10 grid-cols-1',
-                  isGrid ? 'xl:grid-cols-2' : 'xl:grid-cols-1'
-                )}
-              >
-                {task.taskData.responses.map((response, index) => (
-                  <div key={`${task.type}_${index}`} className="flex w-full flex-col justify-center ">
-                    <div
-                      className={`flex h-fit w-full flex-col overflow-hidden rounded-sm border-2 border-black bg-ecru-white shadow-brut-sm`}
-                    >
-                      {renderVisualizer(task.type, response, index)}
-                      <>
-                        {showLeaderboard ? (
-                          <Leaderboard miners={leaderboardData} />
-                        ) : (
-                          <>
-                            <div
-                              className={` w-full justify-between px-4 text-base ${FontSpaceMono.className} border-t-2 border-black py-2  font-bold uppercase`}
-                            >
-                              response quality
-                            </div>
-                            <div className={`px-4`}>
-                              <Slider
-                                min={1}
-                                max={10}
-                                step={1}
-                                initialValue={1}
-                                onChange={(rating) => {
-                                  // addCriterionForResponse(`${criteria.query}::${response.model}`, rating.toString());
-                                }}
-                                showSections
-                              />
-                            </div>
-                          </>
-                        )}
-                      </>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </>
-          );
-        default:
-          return <></>;
-      }
-    },
-    [isGrid]
-  );
+  // const renderCriteria = useCallback(
+  //   (task: Task, criteria: Criterion, index: number) => {
+  //     switch (criteria.type.toLowerCase()) {
+  //       case 'score':
+  //         return (
+  //           <>
+  //             <div className={cn('max-w-[1075px] w-full', FontSpaceMono.className, 'font-bold')}>
+  //               {index + 1}.{' '}
+  //               {criteria.text ?? 'Please score the below responses on the quality (10 - highest, 1 - lowest)'}
+  //             </div>
+  //             <div
+  //               className={cn(
+  //                 'grid w-full max-w-full gap-x-5 gap-y-10 grid-cols-1',
+  //                 isGrid ? 'xl:grid-cols-2' : 'xl:grid-cols-1'
+  //               )}
+  //             >
+  //               {task.taskData.responses.map((response, index) => (
+  //                 <div key={`${task.type}_${index}`} className="flex w-full flex-col justify-center ">
+  //                   <div
+  //                     className={`flex h-fit w-full flex-col overflow-hidden rounded-sm border-2 border-black bg-ecru-white shadow-brut-sm`}
+  //                   >
+  //                     {renderVisualizer(task.type, response, index)}
+  //                     <>
+  //                       {showLeaderboard ? (
+  //                         <Leaderboard miners={leaderboardData} />
+  //                       ) : (
+  //                         <>
+  //                           <div
+  //                             className={` w-full justify-between px-4 text-base ${FontSpaceMono.className} border-t-2 border-black py-2  font-bold uppercase`}
+  //                           >
+  //                             response quality
+  //                           </div>
+  //                           <div className={`px-4`}>
+  //                             <Slider
+  //                               min={1}
+  //                               max={10}
+  //                               step={1}
+  //                               initialValue={1}
+  //                               onChange={(rating) => {
+  //                                 // addCriterionForResponse(`${criteria.query}::${response.model}`, rating.toString());
+  //                               }}
+  //                               showSections
+  //                             />
+  //                           </div>
+  //                         </>
+  //                       )}
+  //                     </>
+  //                   </div>
+  //                 </div>
+  //               ))}
+  //             </div>
+  //           </>
+  //         );
+  //       default:
+  //         return <></>;
+  //     }
+  //   },
+  //   [isGrid]
+  // );
 
   const renderNewCriteria = useCallback((response: TaskResponses, criteria: Criterion, index: number) => {
     switch (criteria.type.toLowerCase()) {
@@ -184,7 +184,7 @@ const MultiOutputVisualizer = ({ task, className, ...props }: TaskVisualizerProp
             {index + 1}. {response.model}
           </div>
           <div className="flex w-full flex-col rounded-sm border-2 border-black">
-            {renderVisualizer(task.type, response, index)}
+            {renderVisualizer(task.taskData.taskOutputModalityType, response, index)}
             {response.criteria.map((criteria, index2) => renderNewCriteria(response, criteria, index2))}
           </div>
         </>

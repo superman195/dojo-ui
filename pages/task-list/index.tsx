@@ -376,7 +376,7 @@ export default function Index() {
         <div className="w-full px-4">
           <div className="mx-auto mt-[18px] flex max-w-[1075px] md:py-2 lg:py-2">
             <div className="flex w-full flex-col items-start justify-between gap-[6px]">
-              <span className={cn(FontSpaceMono.className, 'font-bold text-[22px] text-font-primary')}>Task Types</span>
+              <span className={cn(FontSpaceMono.className, 'font-bold text-[22px] text-font-primary')}>Modality</span>
               <div className="flex w-full flex-wrap items-center justify-between gap-2">
                 <div className="flex flex-col items-stretch gap-[8px]">
                   <div className="flex flex-wrap items-center gap-2">

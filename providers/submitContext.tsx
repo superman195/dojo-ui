@@ -63,14 +63,27 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         console.error('No model found for', modelId);
         return prev;
       }
-      const updatedObj = { ...tmpFiltered, criteria: [{ ...tmpFiltered.criteria[0], value: value as any }] };
+
+      // If multi-select (string[]), it will remove if exist, add if not exist
+      // Anything else will do a complete replace since its just a string or number value
       const updated = prev.map((c) => {
         if (c.model === modelId) {
-          // Current version as of 27 dec 2024 just have to replace all criteria with the new value
-          // This means that it literally is not possible to have multiple criteria of the same one
-          // This is because backend does not support it yet as of Mar 27
-          // This is guaranteed to only have 1 criteria, and criteria have no id to differentiate yet
-          return updatedObj;
+          const tmpCriteria = c.criteria.find((c) => c.query === criteriaObject.query); // Currently i am using text to match. It should be using unique ID.
+          if (tmpCriteria?.type === 'multi-select') {
+            // if exist remove, if not exist add
+            if (tmpCriteria.value?.includes(value)) {
+              tmpCriteria.value = tmpCriteria.value.filter((v: any) => v !== value);
+            } else {
+              tmpCriteria.value = [...(tmpCriteria.value ?? []), value];
+            }
+          } else {
+            if (tmpCriteria) {
+              tmpCriteria.value = value as any;
+            } else {
+              c.criteria.push({ ...criteriaObject, value: value as any });
+            }
+          }
+          return c;
         }
         return c;
       });

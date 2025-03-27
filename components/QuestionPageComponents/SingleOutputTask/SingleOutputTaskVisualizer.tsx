@@ -223,7 +223,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
   );
 
   const renderLabelQuestion = useCallback(
-    (crit: Criterion, onchangeHandler: (idx: string, value: string) => void): React.ReactNode => {
+    (model: string, crit: Criterion, onchangeHandler: (idx: string, value: string) => void): React.ReactNode => {
       switch (crit.type) {
         case 'score':
           let min = crit.min ?? 1;
@@ -257,8 +257,9 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
               singleSelect={true}
               options={crit.options ?? []}
               selectedValues={
-                // criterionForResponse()?.find((c) => c.query === crit.query && c.type === 'single-select')?.responses ?? ''
-                ''
+                criterionForResponse()
+                  ?.find((c) => c.model === model)
+                  ?.criteria.find((c) => c.query === crit.query)?.value ?? ''
               }
               onSelectionChange={(e) => {
                 onchangeHandler(crit.query ?? '', e);
@@ -271,8 +272,9 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
               singleSelect={false}
               options={crit.options ?? []}
               selectedValues={
-                // criterionForResponse()?.find((c) => c.query === crit.query)?.responses ?? []
-                ['']
+                criterionForResponse()
+                  ?.find((c) => c.model === model)
+                  ?.criteria.find((c) => c.query === crit.query)?.value ?? []
               }
               onSelectionChange={(e) => {
                 onchangeHandler(crit.query ?? '', e);
@@ -467,11 +469,14 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
       <div className={cn('flex flex-col items-stretch w-full md:w-1/2 gap-[24px] p-0', props.labelsClassName)}>
         {task.taskData.responses.map((response, index) =>
           response.criteria.map((criteria, cIndex) => (
-            <CriterionContentBox key={`sotv_visualizer_${index}`} className={cn('flex w-full flex-col bg-transparent')}>
+            <CriterionContentBox
+              key={`sotv_visualizer_${cIndex}`}
+              className={cn('flex w-full flex-col bg-transparent')}
+            >
               <span className={cn(FontSpaceMono.className, 'font-bold')}>
-                {index + 1}. {criteria.query}
+                {cIndex + 1}. {criteria.query}
               </span>
-              {renderLabelQuestion(criteria, (idx: string, value: string) => {
+              {renderLabelQuestion(response.model, criteria, (idx: string, value: string) => {
                 handleChange(response.model, criteria, value);
               })}
             </CriterionContentBox>
