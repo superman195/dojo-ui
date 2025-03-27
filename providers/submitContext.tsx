@@ -1,7 +1,7 @@
 import useFeature from '@/hooks/useFeature';
 import useGetNextInProgressTask from '@/hooks/useGetNextTask';
 import { useSubmitTaskNew } from '@/hooks/useSubmitTaskNew';
-import { RankOrder, SubmitContextType } from '@/types/ProvidersTypes';
+import { SubmitContextType } from '@/types/ProvidersTypes';
 import { Criterion, ResponseWithResponseCriterion, Task } from '@/types/QuestionPageTypes';
 import { getTaskIdFromRouter } from '@/utils/general_helpers';
 import { useRouter } from 'next/router';
@@ -20,49 +20,14 @@ export const useSubmit = () => {
 export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [allResponses, setAllResponses] = useState<ResponseWithResponseCriterion[]>([]);
   const { submitTask, error, resetError: resetSubmissionError, response } = useSubmitTaskNew();
-  const [multiSelectData, setMultiSelectData] = useState<string[]>([]);
   const { fetchNextInProgressTask } = useGetNextInProgressTask();
-  const [rankingData, setRankingData] = useState<any>();
-  const [scoreData, setScoreData] = useState<number>(0);
-  const [multiScore, setMultiScore] = useState<any>();
   const [triggerTaskPageReload, setTriggerTaskPageReload] = useState<boolean>(false);
   const [isSubscriptionModalLoading, setIsSubscriptionModalLoading] = useState<boolean>(true);
   const [partnerCount, setPartnerCount] = useState(0);
 
-  const [isMultiSelectQuestion, setIsMultiSelectQuestion] = useState<boolean>(false);
-  const [isRankQuestion, setIsRankQuestion] = useState<boolean>(false);
-  const [isMultiScore, setIsMultiScore] = useState<boolean>(false);
-  const [isSlider, setIsSlider] = useState<boolean>(false);
-
-  const [maxMultiScore, setMaxMultiScore] = useState<number>(0);
-  const [minMultiScore, setMinMultiScore] = useState<number>(0);
-
   const { exp } = useFeature({ kw: 'demo' });
 
-  const handleMaxMultiScore = (value: number) => {
-    setMaxMultiScore(value);
-  };
-
-  const handleMinMultiScore = (value: number) => {
-    setMinMultiScore(value);
-  };
-
-  const updateMultiSelect = (data: string[]) => {
-    setMultiSelectData(data);
-  };
-
-  const updateRanking = (data: RankOrder) => {
-    setRankingData(data);
-  };
-
-  const updateMultiScore = (data: { [key: string]: number }) => {
-    setMultiScore(data);
-  };
-
   const router = useRouter();
-  const updateScore = (score: number) => {
-    setScoreData(score);
-  };
 
   // Versioned 27 dec 2024 feedbackloop act-1
   const addCriterionForResponse = useCallback((modelId: string, criteriaObject: Criterion, value: string) => {
@@ -102,7 +67,9 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       const updated = prev.map((c) => {
         if (c.model === modelId) {
           // Current version as of 27 dec 2024 just have to replace all criteria with the new value
-          // This is because it is guaranteed to only have 1 criteria, and criteria have no id to differentiate yet
+          // This means that it literally is not possible to have multiple criteria of the same one
+          // This is because backend does not support it yet as of Mar 27
+          // This is guaranteed to only have 1 criteria, and criteria have no id to differentiate yet
           return updatedObj;
         }
         return c;
@@ -150,33 +117,10 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     [allResponses]
   );
 
-  const handleSetIsMultiSelectQuestion = (value: boolean) => {
-    setIsMultiSelectQuestion(value);
-  };
-
-  const handleSetIsRankQuestion = (value: boolean) => {
-    setIsRankQuestion(value);
-  };
-
-  const handleSetIsMultiScore = (value: boolean) => {
-    setIsMultiScore(value);
-  };
-
-  const handleSetIsSlider = (value: boolean) => {
-    setIsSlider(value);
-  };
   return (
     <SubmitContext.Provider
       value={{
-        multiSelectData,
-        rankingData: rankingData || {},
-        scoreData,
-        multiScore,
         triggerTaskPageReload,
-        updateMultiSelect,
-        updateRanking: (data: string[]) =>
-          updateRanking(Object.fromEntries(data.map((item, index) => [item, index.toString()]))),
-        updateScore,
         handleSubmit: submitTaskNew,
         handleSubmitNew: submitTaskNew,
         setTriggerTaskPageReload,
@@ -186,19 +130,6 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         setIsSubscriptionModalLoading,
         partnerCount,
         setPartnerCount,
-        updateMultiScore,
-        isMultiSelectQuestion,
-        isRankQuestion,
-        isMultiScore,
-        isSlider,
-        maxMultiScore,
-        minMultiScore,
-        handleSetIsMultiSelectQuestion,
-        handleSetIsRankQuestion,
-        handleSetIsMultiScore,
-        handleSetIsSlider,
-        handleMaxMultiScore,
-        handleMinMultiScore,
         addCriterionForResponse,
         getCriterionForResponse,
         resetCriterionForResponse,
