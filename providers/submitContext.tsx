@@ -71,12 +71,21 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
           const tmpCriteria = c.criteria.find((c) => c.query === criteriaObject.query); // Currently i am using text to match. It should be using unique ID.
           if (tmpCriteria?.type === 'multi-select') {
             // if exist remove, if not exist add
+            // only have to do this for multi select
             if (tmpCriteria.value?.includes(value)) {
               tmpCriteria.value = tmpCriteria.value.filter((v: any) => v !== value);
             } else {
               tmpCriteria.value = [...(tmpCriteria.value ?? []), value];
             }
+          } else if (tmpCriteria?.type === 'text') {
+            // For text type, use text_feedback instead of value
+            if (tmpCriteria) {
+              tmpCriteria.text_feedback = value;
+            } else {
+              c.criteria.push({ ...criteriaObject, text_feedback: value });
+            }
           } else {
+            // everything else just replace the entire value
             if (tmpCriteria) {
               tmpCriteria.value = value as any;
             } else {

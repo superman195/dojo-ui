@@ -1,6 +1,6 @@
 import CodegenViewer from '@/components/CodegenViewer';
 import GaussianSplatViewer from '@/components/GaussianSplatViewer';
-import { ResponseVisualizerProps, TaskResponses, TaskType } from '@/types/QuestionPageTypes';
+import { ResponseVisualizerProps, TaskModality, TaskResponses } from '@/types/QuestionPageTypes';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
 import React from 'react';
@@ -15,9 +15,9 @@ const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
   isMultiScore,
   handleRatingChange,
 }) => {
-  const renderVisualizer = (taskT: TaskType, plot: TaskResponses, index: number) => {
+  const renderVisualizer = (taskModality: TaskModality, plot: TaskResponses, index: number) => {
     let ttiUrl = '';
-    switch (taskT) {
+    switch (taskModality) {
       case 'CODE_GENERATION':
         return <CodegenViewer encodedHtml={plot.completion.combined_html} />;
       case '3D_MODEL':

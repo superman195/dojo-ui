@@ -108,7 +108,7 @@ export type SliderQuestionProps = {
 
 export type TaskPromptProps = {
   title?: string;
-  taskType: TaskType;
+  taskModality: TaskModality;
   formattedPrompt: React.ReactNode;
 };
 
@@ -126,9 +126,9 @@ export type Task = {
   title: string;
   body: string;
   expireAt: string;
-  type: TaskType;
+  type: TaskModality;
   taskData: {
-    taskOutputModalityType: TaskOutputModalityType;
+    task_modality: TaskModality;
     prompt: string;
     responses: Array<TaskResponses>;
   };
@@ -139,8 +139,8 @@ export type Task = {
   isCompletedByWorker: boolean;
 };
 
-export type TaskType = 'CODE_GENERATION' | '3D_MODEL' | 'TEXT_TO_IMAGE' | 'TEXT_TO_THREE_D' | 'TEXT_TO_COMPLETION';
-export type TaskOutputModalityType = 'CODE_GENERATION' | '3D_MODEL' | 'TEXT_TO_IMAGE' | 'TEXT_TO_THREE_D';
+// export type TaskType = 'CODE_GENERATION' | '3D_MODEL' | 'TEXT_TO_IMAGE' | 'TEXT_TO_THREE_D' | 'TEXT_TO_COMPLETION';
+export type TaskModality = 'CODE_GENERATION' | '3D_MODEL' | 'TEXT_TO_IMAGE' | 'TEXT_TO_THREE_D';
 export type CriterionType =
   | 'multi-select'
   | 'single-select'
@@ -158,7 +158,7 @@ export type Criterion = {
   min?: number;
 };
 
-export type ResponseCriterion = Criterion & { value: any };
+export type ResponseCriterion = Criterion & { value?: any; text_feedback?: string };
 export type ResponseWithResponseCriterion = {
   model: string;
   criteria: Array<ResponseCriterion>;

@@ -44,9 +44,12 @@ const useRequestTaskByTaskID = (taskId: string, isConnected?: boolean, isAuthent
 
         //For these 2 types we are storing the demo files in the S3 bucket thats why
         //We need to process it by getting the correct url.
-        if (filteredTask.type === 'TEXT_TO_THREE_D' || filteredTask.type === 'TEXT_TO_IMAGE') {
+        if (
+          filteredTask.taskData.task_modality === 'TEXT_TO_THREE_D' ||
+          filteredTask.taskData.task_modality === 'TEXT_TO_IMAGE'
+        ) {
           filteredTask.taskData.responses.forEach((r: any) => {
-            r.completion.url = getCorrectS3UrlByUrl(r.completion.url, filteredTask.type);
+            r.completion.url = getCorrectS3UrlByUrl(r.completion.url, filteredTask.taskData.task_modality);
           });
         }
         setTask(filteredTask);

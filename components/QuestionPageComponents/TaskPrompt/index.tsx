@@ -6,14 +6,14 @@ import React from 'react';
 import { CollapsiblePrompt } from '../FormattedPrompt';
 import TasktypePill from './tasktype-pill';
 
-const TaskPrompt: React.FC<TaskPromptProps> = ({ title, taskType, formattedPrompt }) => {
+const TaskPrompt: React.FC<TaskPromptProps> = ({ title, taskModality, formattedPrompt }) => {
   const { updateQueryString } = useQueryFunc();
   return (
     <div className="flex max-w-[1075px] flex-col justify-center gap-[15px] md:py-2">
       <div className={`flex flex-wrap items-center text-start ${FontManrope.className} gap-2 text-2xl font-bold`}>
         <span className="">{title}</span>
         {`  `}
-        <TasktypePill tasktype={taskType} />
+        <TasktypePill taskModality={taskModality} />
       </div>
       <div
         className={`${FontManrope.className} flex min-h-[48px] w-fit overflow-hidden

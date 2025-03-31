@@ -132,7 +132,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
 
       let ttiUrl = '';
       const taskResponse = task.taskData.responses[0]; //Just take the first one because this is a single output task visualizer
-      switch (task.taskData.taskOutputModalityType) {
+      switch (task.taskData.task_modality) {
         case 'CODE_GENERATION':
           return <CodegenViewer encodedHtml={taskResponse.completion.combined_html} />;
         case '3D_MODEL':
@@ -418,7 +418,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
               </span>
               <CopyBtn copyString={task.taskId} className="size-[14px]" />
             </div>
-            type: {task.type.replaceAll('_', ' ')}
+            type: {task.taskData.task_modality.replaceAll('_', ' ')}
           </div>
           <span>
             {!task.isCompletedByWorker ? (

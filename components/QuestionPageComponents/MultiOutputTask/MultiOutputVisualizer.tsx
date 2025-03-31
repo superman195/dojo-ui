@@ -2,7 +2,7 @@ import CodegenViewer from '@/components/CodegenViewer';
 import Tooltip from '@/components/Common/Tooltip';
 import GaussianSplatViewer from '@/components/GaussianSplatViewer';
 import { useSubmit } from '@/providers/submitContext';
-import { Criterion, TaskResponses, TaskType } from '@/types/QuestionPageTypes';
+import { Criterion, TaskModality, TaskResponses } from '@/types/QuestionPageTypes';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
 import { IconLayoutGrid, IconLayoutList } from '@tabler/icons-react';
@@ -62,9 +62,9 @@ const MultiOutputVisualizer = ({ task, className, ...props }: TaskVisualizerProp
   const searchParams = useSearchParams();
   const showLeaderboard = searchParams.get('showIndividualMinerLeadersboard') === 'true';
 
-  const renderVisualizer = useCallback((taskT: TaskType, response: TaskResponses, index: number) => {
+  const renderVisualizer = useCallback((taskModality: TaskModality, response: TaskResponses, index: number) => {
     let ttiUrl = '';
-    switch (taskT) {
+    switch (taskModality) {
       case 'CODE_GENERATION':
         return <CodegenViewer encodedHtml={response.completion.combined_html} />;
       case '3D_MODEL':
@@ -184,7 +184,7 @@ const MultiOutputVisualizer = ({ task, className, ...props }: TaskVisualizerProp
             {index + 1}. {response.model}
           </div>
           <div className="flex w-full flex-col rounded-sm border-2 border-black">
-            {renderVisualizer(task.taskData.taskOutputModalityType, response, index)}
+            {renderVisualizer(task.taskData.task_modality, response, index)}
             {response.criteria.map((criteria, index2) => renderNewCriteria(response, criteria, index2))}
           </div>
         </>
@@ -197,7 +197,13 @@ const MultiOutputVisualizer = ({ task, className, ...props }: TaskVisualizerProp
       {/* Headers */}
       <div className="flex w-full justify-center px-4">
         <div className="w-full max-w-[1075px]">
-          {task && <TaskPrompt title={task?.title} taskType={task.type} formattedPrompt={task.taskData.prompt} />}
+          {task && (
+            <TaskPrompt
+              title={task?.title}
+              taskModality={task.taskData.task_modality}
+              formattedPrompt={task.taskData.prompt}
+            />
+          )}
         </div>
       </div>
       <div className="flex h-px w-full justify-center">
