@@ -107,7 +107,7 @@ const useGetTasks = (
       const filteredTaskList: Task[] = [];
       taskQuery.split(',').forEach((task) => {
         tasklistFull.filter((t) => {
-          if (t.type.toLowerCase() === task.toLowerCase()) {
+          if (t.taskData.task_modality.toLowerCase() === task.toLowerCase()) {
             filteredTaskList.push(t);
           }
         });

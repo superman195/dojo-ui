@@ -10,7 +10,7 @@ const useSubnetMetagraph = (subnetId: number) => {
     const fetchSubnetMetagraph = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`https://delegate.tensorplex.ai/api/subnets/${subnetId}?type=metagraph`);
+        const response = await fetch(`https://ttx-api.tensorplex.ai/api/subnets/${subnetId}/info`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }

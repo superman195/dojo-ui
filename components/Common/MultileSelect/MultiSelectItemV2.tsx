@@ -4,16 +4,16 @@ import React from 'react';
 
 const MultiSelectItemV2: React.FC<MultiSelectItemProps> = ({ option, isSelected, onSelectionChange, singleSelect }) => {
   const selectedStyles = isSelected
-    ? 'border-2 border-primary bg-secondary opacity-[14]'
+    ? 'border-[4px] border-black bg-secondary opacity-[14]'
     : 'border-2 border-gray-300 bg-ecru-white opacity-[14]';
   const ss = singleSelect ?? false;
   return (
     <div className={cn('w-full flex flex-col', !ss && 'w-fit shrink-0')}>
       <label
         className={cn(
-          `flex w-full cursor-pointer items-center space-x-2 border-[1px] border-black/10 rounded-md bg-ecru-white hover:border-black/50 hover:bg-secondary px-[8px] py-[4px]`,
+          `flex w-full cursor-pointer items-center space-x-2 border-[2px] border-black/10 rounded-md bg-ecru-white hover:border-black/50 hover:bg-secondary px-[8px] py-[4px]`,
           !ss && 'space-x-0',
-          isSelected && 'bg-primary hover:bg-primary text-white'
+          isSelected && 'bg-primary hover:bg-primary text-white  border-black'
         )}
       >
         <span className="relative">
