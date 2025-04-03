@@ -1,5 +1,4 @@
 import { taskCriteria } from '@/constants';
-import { TaskType } from '@/utils/states';
 import { ColumnDef } from '@tanstack/react-table';
 import { ReactNode } from 'react';
 import { FilterDef } from '../CommonTypes';
@@ -109,7 +108,7 @@ export type SliderQuestionProps = {
 
 export type TaskPromptProps = {
   title?: string;
-  taskType: TaskType;
+  taskModality: TaskModality;
   formattedPrompt: React.ReactNode;
 };
 
@@ -127,9 +126,9 @@ export type Task = {
   title: string;
   body: string;
   expireAt: string;
-  type: TaskType;
+  type: TaskModality;
   taskData: {
-    task: string;
+    task_modality: TaskModality;
     prompt: string;
     responses: Array<TaskResponses>;
   };
@@ -140,23 +139,26 @@ export type Task = {
   isCompletedByWorker: boolean;
 };
 
+// export type TaskType = 'CODE_GENERATION' | '3D_MODEL' | 'TEXT_TO_IMAGE' | 'TEXT_TO_THREE_D' | 'TEXT_TO_COMPLETION';
+export type TaskModality = 'CODE_GENERATION' | '3D_MODEL' | 'TEXT_TO_IMAGE' | 'TEXT_TO_THREE_D';
 export type CriterionType =
   | 'multi-select'
   | 'single-select'
   | 'multi-score'
   | 'score'
   | 'ranking'
-  | 'rich-human-feedback';
+  | 'rich-human-feedback'
+  | 'text';
 
 export type Criterion = {
   type: CriterionType;
-  text?: string;
+  query?: string;
   options?: string[];
   max?: number;
   min?: number;
 };
 
-export type ResponseCriterion = Criterion & { value: any };
+export type ResponseCriterion = Criterion & { value?: any; text_feedback?: string };
 export type ResponseWithResponseCriterion = {
   model: string;
   criteria: Array<ResponseCriterion>;
@@ -172,7 +174,8 @@ export type CriterionWithResponses =
   | (Criterion & { type: 'multi-select'; responses?: string[] })
   | (Criterion & { type: 'single-select'; responses: string })
   | (Criterion & { type: 'ranking'; responses: string })
-  | (Criterion & { type: 'rich-human-feedback'; responses: any });
+  | (Criterion & { type: 'rich-human-feedback'; responses: any })
+  | (Criterion & { type: 'text-to-completion'; responses: string });
 
 export type TaskResponses = {
   model: string;

@@ -13,7 +13,7 @@ import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { IconCheck, IconProgress, IconSparkles, IconTrash } from '@tabler/icons-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { generateNonce } from 'siwe';
-import FormattedPrompt from '../FormattedPrompt';
+import { CollapsiblePrompt } from '../FormattedPrompt';
 import Slider from '../Slider';
 
 export interface Annotation {
@@ -131,9 +131,8 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
       };
 
       let ttiUrl = '';
-      const taskResponse = task.taskData.responses[0];
-      console.log('taskResponse', taskResponse);
-      switch (task.type) {
+      const taskResponse = task.taskData.responses[0]; //Just take the first one because this is a single output task visualizer
+      switch (task.taskData.task_modality) {
         case 'CODE_GENERATION':
           return <CodegenViewer encodedHtml={taskResponse.completion.combined_html} />;
         case '3D_MODEL':
@@ -224,7 +223,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
   );
 
   const renderLabelQuestion = useCallback(
-    (crit: Criterion, onchangeHandler: (idx: string, value: string) => void): React.ReactNode => {
+    (model: string, crit: Criterion, onchangeHandler: (idx: string, value: string) => void): React.ReactNode => {
       switch (crit.type) {
         case 'score':
           let min = crit.min ?? 1;
@@ -238,21 +237,32 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
               max={10}
               step={1}
               initialValue={initialVal}
-              onChange={(e) => onchangeHandler(crit.text ?? '', e.toString())}
+              onChange={(e) => onchangeHandler(crit.query ?? '', e.toString())}
             />
           );
-
+        case 'text':
+          return (
+            <div className={cn('overflow-hidden rounded-sm border-2 border-black w-full')}>
+              <textarea
+                className={cn(
+                  `${FontManrope.className} block w-full resize-none overflow-hidden rounded-sm border-black bg-background px-3 py-2 text-sm font-semibold text-black placeholder:text-sm focus:bg-white focus:outline-none md:border-0`
+                )}
+                onChange={(e) => onchangeHandler(crit.query ?? '', e.target.value)}
+              />
+            </div>
+          );
         case 'single-select':
           return (
             <MultiSelectV2
               singleSelect={true}
               options={crit.options ?? []}
               selectedValues={
-                // criterionForResponse()?.find((c) => c.text === crit.text && c.type === 'single-select')?.responses ?? ''
-                ''
+                criterionForResponse()
+                  ?.find((c) => c.model === model)
+                  ?.criteria.find((c) => c.query === crit.query)?.value ?? ''
               }
               onSelectionChange={(e) => {
-                onchangeHandler(crit.text ?? '', e);
+                onchangeHandler(crit.query ?? '', e);
               }}
             />
           );
@@ -262,11 +272,12 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
               singleSelect={false}
               options={crit.options ?? []}
               selectedValues={
-                // criterionForResponse()?.find((c) => c.text === crit.text)?.responses ?? []
-                ['']
+                criterionForResponse()
+                  ?.find((c) => c.model === model)
+                  ?.criteria.find((c) => c.query === crit.query)?.value ?? []
               }
               onSelectionChange={(e) => {
-                onchangeHandler(crit.text ?? '', e);
+                onchangeHandler(crit.query ?? '', e);
               }}
             />
           );
@@ -407,7 +418,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
               </span>
               <CopyBtn copyString={task.taskId} className="size-[14px]" />
             </div>
-            type: {task.type.replaceAll('_', ' ')}
+            type: {task.taskData.task_modality.replaceAll('_', ' ')}
           </div>
           <span>
             {!task.isCompletedByWorker ? (
@@ -429,14 +440,14 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
         <VisualizerContentBox>
           <div className="flex gap-[5px]">
             <IconSparkles className="my-[2px] size-[20px] shrink-0 animate-pulse"></IconSparkles>
-            <FormattedPrompt
+            <CollapsiblePrompt
               // collapsedClassName="h-[70px]"
               // autoHideHeightThreshold={75}
-              isCollapsibleClassName="pr-4"
-              className="h-fit min-h-fit py-0 pl-0"
+              // isCollapsibleClassName="pr-4"
+              className="text-sm"
             >
               {task.taskData.prompt}
-            </FormattedPrompt>
+            </CollapsiblePrompt>
           </div>
         </VisualizerContentBox>
         <VisualizerContentBox className="flex flex-col items-stretch gap-[10px]">
@@ -458,11 +469,14 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
       <div className={cn('flex flex-col items-stretch w-full md:w-1/2 gap-[24px] p-0', props.labelsClassName)}>
         {task.taskData.responses.map((response, index) =>
           response.criteria.map((criteria, cIndex) => (
-            <CriterionContentBox key={`sotv_visualizer_${index}`} className={cn('flex w-full flex-col bg-transparent')}>
+            <CriterionContentBox
+              key={`sotv_visualizer_${cIndex}`}
+              className={cn('flex w-full flex-col bg-transparent')}
+            >
               <span className={cn(FontSpaceMono.className, 'font-bold')}>
-                {index + 1}. {criteria.text}
+                {cIndex + 1}. {criteria.query}
               </span>
-              {renderLabelQuestion(criteria, (idx: string, value: string) => {
+              {renderLabelQuestion(response.model, criteria, (idx: string, value: string) => {
                 handleChange(response.model, criteria, value);
               })}
             </CriterionContentBox>

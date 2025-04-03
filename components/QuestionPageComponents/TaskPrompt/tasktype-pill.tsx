@@ -1,17 +1,18 @@
-import { TaskType, TASKTYPE_COLOR_MAP, TaskTypeMappingDisplay } from '@/utils/states';
+import { TaskModality } from '@/types/QuestionPageTypes';
+import { TASKTYPE_COLOR_MAP, TaskTypeMappingDisplay } from '@/utils/states';
 import { cn } from '@/utils/tw';
 import { HTMLAttributes } from 'react';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  tasktype: TaskType;
+  taskModality: TaskModality;
 }
-export const getTaskTypeMappingDisplay = (type: TaskType) => {
+export const getTaskTypeMappingDisplay = (type: TaskModality) => {
   return TaskTypeMappingDisplay[type];
 };
 
-const TasktypePill = ({ tasktype, className, ...props }: Props) => {
-  const pillColor = TASKTYPE_COLOR_MAP[tasktype.toUpperCase().replaceAll(' ', '_')];
-  const content = getTaskTypeMappingDisplay(tasktype);
+const TasktypePill = ({ taskModality, className, ...props }: Props) => {
+  const pillColor = TASKTYPE_COLOR_MAP[taskModality.toUpperCase().replaceAll(' ', '_')];
+  const content = getTaskTypeMappingDisplay(taskModality);
   return (
     <div
       className={cn(

@@ -96,19 +96,19 @@ const RenderTaskLengthBadge = (length: number) => {
   }
 };
 
-const RenderPill = ({ type, ...task }: Task) => {
+const RenderPill = ({ taskData, ...task }: Task) => {
   return (
     <div className="flex flex-wrap items-stretch gap-[5px] text-font-primary/80">
-      <TasktypePill tasktype={type} />
+      <TasktypePill taskModality={taskData.task_modality} />
 
       <Tooltip
-        tooltipContent={`${task.taskData.responses.length} AI output${task.taskData.responses.length > 1 ? 's' : ''}, ${task.taskData.responses.reduce((acc, curr) => acc + curr.criteria.length, 0)} Question${task.taskData.responses.reduce((acc, curr) => acc + curr.criteria.length, 0) > 1 ? 's' : ''}`}
+        tooltipContent={`${taskData.responses.length} AI output${taskData.responses.length > 1 ? 's' : ''}, ${taskData.responses.reduce((acc, curr) => acc + curr.criteria.length, 0)} Question${taskData.responses.reduce((acc, curr) => acc + curr.criteria.length, 0) > 1 ? 's' : ''}`}
       >
         <div className="flex w-fit items-center gap-px rounded-full border border-font-primary/30 px-2 text-xs font-bold text-font-primary/70 ">
-          {RenderTaskLengthBadge(task.taskData.responses.length)}
+          {RenderTaskLengthBadge(taskData.responses.length)}
           <IconArrowsDoubleSwNe className="size-4" />
           <div className={cn(FontManrope.className, 'font-bold text-sm')}>
-            {task.taskData.responses.reduce((acc, curr) => acc + curr.criteria.length, 0)}
+            {taskData.responses.reduce((acc, curr) => acc + curr.criteria.length, 0)}
           </div>
         </div>
       </Tooltip>
@@ -269,7 +269,9 @@ export default function Index() {
             return { disabled: false, text: 'Start' };
           };
           const state = generateBtnState(info.row);
-          return RenderButton(info.row.original.taskId, state, router, exp, { type: info.row.original.type });
+          return RenderButton(info.row.original.taskId, state, router, exp, {
+            type: info.row.original.taskData.task_modality,
+          });
         }, // Render JSX for the button
       },
     ];
@@ -376,7 +378,7 @@ export default function Index() {
         <div className="w-full px-4">
           <div className="mx-auto mt-[18px] flex max-w-[1075px] md:py-2 lg:py-2">
             <div className="flex w-full flex-col items-start justify-between gap-[6px]">
-              <span className={cn(FontSpaceMono.className, 'font-bold text-[22px] text-font-primary')}>Task Types</span>
+              <span className={cn(FontSpaceMono.className, 'font-bold text-[22px] text-font-primary')}>Modality</span>
               <div className="flex w-full flex-wrap items-center justify-between gap-2">
                 <div className="flex flex-col items-stretch gap-[8px]">
                   <div className="flex flex-wrap items-center gap-2">

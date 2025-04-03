@@ -135,7 +135,7 @@ const Datatable = ({
 
   const router = useRouter(); // Initialize useRouter
   const { exp } = useFeature({ kw: 'demo' });
-  const onStartHandler = (id: string, type: string) => {
+  const onStartHandler = (id: string) => {
     if (exp) {
       const currTask = tasklistFull.find((t) => t.taskId === id);
       if (currTask && currTask.taskData.responses.length == 1) router.push(`/Questions?taskId=${id}&exp=demo`);
@@ -288,7 +288,7 @@ const Datatable = ({
                           disabled={generateBtnState(row).disabled}
                           buttonText={generateBtnState(row).text}
                           className={`h-[40px] w-[113px] text-white disabled:cursor-not-allowed disabled:bg-gray-400`}
-                          onClick={() => onStartHandler(row.original.taskId, row.original.type)}
+                          onClick={() => onStartHandler(row.original.taskId)}
                         />
                       </td>
                     ) : null
