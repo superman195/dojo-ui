@@ -62,6 +62,7 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
       : subnetData.historicalSubnetEmissions
           .map((item) => [item.blockTime * 1000, item.totalEmissions] as [number, number])
           .sort((a, b) => a[0] - b[0]);
+  console.log('emissionData', emissionData);
   const options: Highcharts.Options = {
     credits: { enabled: false },
     chart: {
@@ -102,6 +103,8 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
       crosshair: true,
     },
     yAxis: {
+      min: emissionData[0][1] * 0.99,
+      max: emissionData[emissionData.length - 1][1] * 1.01,
       title: {
         text: 'Total Emissions',
       },
