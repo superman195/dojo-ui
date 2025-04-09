@@ -514,7 +514,7 @@ export const steps: StepCardProps[] = [
       <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
         <Image
           src={'/wallet-step-v2.png'}
-          alt="Image of Tensorplex Dojo Wallet Connection user interface"
+          alt="Image of DeAI Wallet Connection user interface"
           width={1520}
           height={620}
           className="rounded-tl-xl border-2 border-solid border-black shadow-brut-sm"
@@ -530,7 +530,7 @@ export const steps: StepCardProps[] = [
       <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
         <Image
           src={'/subscription_key_step.png'}
-          alt="Image of Tensorplex Dojo Wallet Connection user interface"
+          alt="Image of DeAI Wallet Connection user interface"
           width={1520}
           height={620}
           className="rounded-tl-xl border-2 border-solid border-black shadow-brut-sm"
@@ -546,7 +546,7 @@ export const steps: StepCardProps[] = [
       <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
         <Image
           src={'/contribute-task.png'}
-          alt="Image of Tensorplex Dojo Wallet Connection user interface"
+          alt="Image of DeAI Wallet Connection user interface"
           width={1520}
           height={620}
         />
@@ -566,12 +566,12 @@ export const minerSteps = [
     height: 150,
     title: 'Set up your miner',
     description:
-      'Visit <a href="https://github.com/tensorplex-labs/dojo" target="_blank" style="text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none; font-weight: 700;" className="">Dojo GitHub</a> to set up the Dojo Subnet Miner',
+      'Visit <a href="https://github.com/tensorplex-labs/dojo" target="_blank" style="text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none; font-weight: 700;" className="">DeAI GitHub</a> to set up the DeAI Subnet Miner',
     imageComponent: (
       <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
         <Image
           src={'/miner-step-1.png'}
-          alt="Image of Tensorplex Dojo Wallet Connection user interface"
+          alt="Image of DeAI Wallet Connection user interface"
           width={1520}
           height={620}
           className="rounded-tl-xl border-2 border-solid border-black shadow-brut-sm"
@@ -588,7 +588,7 @@ export const minerSteps = [
       <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
         <Image
           src={'/miner-step-2.png'}
-          alt="Image of Tensorplex Dojo Wallet Connection user interface"
+          alt="Image of DeAI Wallet Connection user interface"
           width={1520}
           height={620}
           className="rounded-tl-xl border-2 border-solid border-black shadow-brut-sm"
@@ -605,7 +605,7 @@ export const minerSteps = [
       <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
         <Image
           src={'/miner-step-3.png'}
-          alt="Image of Tensorplex Dojo Wallet Connection user interface"
+          alt="Image of DeAI Wallet Connection user interface"
           width={1520}
           height={620}
           className="rounded-tl-xl border-2 border-solid border-black shadow-brut-sm"
@@ -633,14 +633,6 @@ export const headerItems: Array<HeaderItem> = [
     title: 'Task List',
     url: '/task-list',
   },
-  {
-    title: 'FAQ',
-    url: '/faq',
-  },
-  {
-    title: 'Docs',
-    url: 'https://tensorplex.gitbook.io/tensorplex-docs/',
-  },
 ];
 export const dropdownOptions = [
   { text: 'Most Attempted', value: 'numResults' },
@@ -659,7 +651,7 @@ export interface FrequentlyAccessedProps {
 }
 export const TensorplexProducts: FrequentlyAccessedProps[] = [
   {
-    title: 'Tensorplex Stake',
+    title: 'Stake',
     description:
       'Deposit wTAO on Ethereum and receive stTAO which represents your share of TAO staked on the Bittensor Finney Network',
     isLong: true,
@@ -668,17 +660,17 @@ export const TensorplexProducts: FrequentlyAccessedProps[] = [
     route: 'https://stake.tensorplex.ai/',
   },
   {
-    title: 'Tensorplex Stream',
-    description: 'Discover insights from key opinion leaders in Web3 with content curated from the Tensorplex Team',
+    title: 'Stream',
+    description: 'Discover insights from key opinion leaders in Web3 with content curated from the Team',
     isLong: true,
     type: 'product',
     isRoutable: true,
     route: 'https://stream.tensorplex.ai/',
   },
   {
-    title: 'Tensorplex Dojo',
+    title: 'DeAI',
     description:
-      'Dojo is a decentralized platform that leverages the collective power of human insights to train AI models.',
+      'DeAI is a decentralized platform that leverages the collective power of human insights to train AI models.',
     isLong: true,
     type: 'product',
     isRoutable: true,
@@ -688,7 +680,7 @@ export const TensorplexProducts: FrequentlyAccessedProps[] = [
 
 export const frequentlyAccessedData: FrequentlyAccessedProps[] = [
   {
-    title: 'Tensorplex AI Chatbot',
+    title: 'AI Chatbot',
     description: 'Ask anything and everything about Web3',
     isLong: false,
     type: 'page',
@@ -718,13 +710,13 @@ const faqListBase = [
   {
     id: '2',
     content:
-      'Dojo is a decentralized platform that leverages the collective power of human insights to train AI models. By contributing to data labeling across various domains, users earn TAO tokens, enhancing AI learning and earning rewards in the process.',
-    title: 'What is Dojo?',
+      'DeAI is a decentralized platform that leverages the collective power of human insights to train AI models. By contributing to data labeling across various domains, users earn TAO tokens, enhancing AI learning and earning rewards in the process.',
+    title: 'What is DeAI?',
   },
   {
     id: '3',
     content:
-      'Rewards are distributed from the emissions generated by the Bittensor network. These emissions are allocated to Subnet miners, like those in Dojo, who contribute to the enhancement of machine learning models through high-quality data provision.',
+      'Rewards are distributed from the emissions generated by the Bittensor network. These emissions are allocated to Subnet miners, like those in DeAI, who contribute to the enhancement of machine learning models through high-quality data provision.',
     title: 'Where do the rewards come from?',
   },
   {
@@ -754,7 +746,7 @@ const faqListBase = [
   {
     id: '8',
     content:
-      'Currently, Dojo does not have a mobile app, but we are actively developing one. Stay tuned for updates and get ready to contribute on-the-go!',
+      'Currently, DeAI does not have a mobile app, but we are actively developing one. Stay tuned for updates and get ready to contribute on-the-go!',
     title: 'Is there a mobile app?',
   },
 ];

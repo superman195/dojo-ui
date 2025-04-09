@@ -11,7 +11,7 @@ const RoadMapSection = () => (
     <div className="mx-auto mt-16 flex max-w-[1075px] flex-col justify-between  md:mt-36 md:flex-row md:px-4 lg:px-4">
       <div className="w-full md:h-full md:w-3/5">
         <h1 className={`${FontSpaceMono.className} text-center text-[46px] font-bold uppercase md:text-left`}>
-          Dojo Roadmap
+          DeAI Roadmap
         </h1>
         <p className={`${FontManrope.className} text-center text-lg font-semibold opacity-50 md:text-left`}>
           Our journey to revolutionize AI development

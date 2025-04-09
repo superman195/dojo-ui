@@ -368,7 +368,7 @@ export default function Index() {
   return (
     <>
       <Head>
-        <title>Dojo - Label Crowd Sourced Data and improve Open Source AI Multimodal model</title>
+        <title>DeAI - Label Crowd Sourced Data and improve Open Source AI Multimodal model</title>
         <meta
           name="description"
           content="Label Data and support Open Source and Decentralized AI Multimodal model Development (Bittensor Subnet, etc)"

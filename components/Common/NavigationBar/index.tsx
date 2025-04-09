@@ -12,11 +12,8 @@ type NavigationBarProps = {
 };
 
 export const headerItems = [
-  { title: 'Dashboard', url: '/dashboard' },
   { title: 'Task List', url: '/task-list?sort=numCriteria&order=desc' },
-  { title: 'FAQ', url: '/faq' },
   { title: 'Demo', url: '/task-list?exp=demo&?sort=numCriteria&order=desc', disabled: false },
-  { title: 'Docs', url: 'https://docs.tensorplex.ai/tensorplex-docs' },
 ];
 
 const NavigationBar = ({ openModal, isHomePage, className }: NavigationBarProps) => {
@@ -32,7 +29,7 @@ const NavigationBar = ({ openModal, isHomePage, className }: NavigationBarProps)
           <div className="flex h-full items-center gap-[30px]">
             <div className="">
               <Link href="/">
-                <img className="h-[20px] w-[220px] md:h-[30px]" src="/logo.svg" alt="logo" />
+                <img className="h-[100px] w-[220px] md:h-[80px]" src="/logo.png" alt="logo" />
               </Link>
             </div>
             <div className="hidden items-center gap-[10px] whitespace-nowrap md:flex">

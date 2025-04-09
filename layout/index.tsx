@@ -78,7 +78,7 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidt
   return (
     <>
       <Head>
-        <title>Dojo - Improve Decentralized AI Model with Crowd Sourcing</title>
+        <title>DeAI - Improve Decentralized AI Model with Crowd Sourcing</title>
       </Head>
       <div className="flex min-h-screen max-w-screen-lg flex-col items-stretch overflow-x-hidden bg-primaryBG-bg text-black">
         <div className="border-b-2 border-black bg-ecru-white text-white">

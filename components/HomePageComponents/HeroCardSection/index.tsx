@@ -41,14 +41,14 @@ const HeroCardSection = () => {
               'extra-large-screensize-title'
             )}
           >
-            Accelerate Decentralized AI, <span className="inline-block text-primary">get paid</span>.
-          </h1>
+            Accelerate Decentralized AI.
+          </h1> 
           <p
             className={`${FontManrope.className}  mt-3 pr-2 text-base font-medium text-gray-500 md:text-lg lg:text-xl`}
           >
             Complete diverse tasks to advance AI development. Contribute to powerful multimodal models through
-            crowd-sourced intelligence. Accelerate decentralized AI while earning rewards.
-            <span className="inline-block font-bold text-primary">&nbsp;Welcome to Dojo Network</span>.
+            crowd-sourced intelligence.
+            <span className="inline-block font-bold text-primary">&nbsp;Welcome to DeAI Network</span>.
           </p>
           <div className="mb-5 mt-4">
             <GetStartedButton />
@@ -103,7 +103,7 @@ const HeroCardSection = () => {
         <div className="relative mb-8 flex w-full items-center justify-center md:mb-0 md:w-5/12">
           <div className="static left-4 flex w-full items-center self-center p-0 md:absolute md:w-[70vw] lg:w-[50vw] lg:min-w-[500px] lg:max-w-[900px]">
             <Image
-              alt="Tensorplex Dojo user interface example"
+              alt="DeAI user interface example"
               src="/hero-banner-img.gif"
               width={1742}
               height={1236}

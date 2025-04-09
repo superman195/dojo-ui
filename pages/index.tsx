@@ -1,20 +1,16 @@
 import {
   HeroCardSection,
-  HowToGetStartedSection,
-  KeyMessageSlides,
-  LandingPageLayout,
-  RoadMapSection,
+  LandingPageLayout
 } from '@/components/HomePageComponents';
-import AnimatedFlowChart from '@/components/HomePageComponents/AnimatedFlowChart';
 
 const Index = () => {
   return (
     <LandingPageLayout>
       <HeroCardSection />
-      <KeyMessageSlides />
-      <AnimatedFlowChart />
-      <HowToGetStartedSection />
-      <RoadMapSection />
+      {/* <KeyMessageSlides /> */}
+      {/* <AnimatedFlowChart /> */}
+      {/* <HowToGetStartedSection /> */}
+      {/* <RoadMapSection /> */}
     </LandingPageLayout>
   );
 };

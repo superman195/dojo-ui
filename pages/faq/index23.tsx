@@ -18,10 +18,10 @@ const Page = () => {
   return (
     <>
       <Head>
-        <title>Learn about Dojo Crowd Sourcing Platform for AI Model Development</title>
+        <title>Learn about DeAI Crowd Sourcing Platform for AI Model Development</title>
         <meta
           name="description"
-          content="Learn about Dojo and how to get started. Crowd Sourcing and support Open Source AI Models (Bittensor Subnet, etc)"
+          content="Learn about DeAI and how to get started. Crowd Sourcing and support Open Source AI Models (Bittensor Subnet, etc)"
         ></meta>
       </Head>
       <div className="h-full bg-background text-black">
