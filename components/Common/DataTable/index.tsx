@@ -225,7 +225,7 @@ const Datatable = ({
                         key={cell.id}
                         className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
                       >
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        {`${flexRender(cell.column.columnDef.cell, cell.getContext())} ${(cell.row.index % 4) + 1}`}
                       </td>
                     ) : cell.column.columnDef.header === 'Type' ? (
                       <td
