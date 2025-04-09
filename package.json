@@ -5,9 +5,9 @@
   "scripts": {
     "dev_dev": "NEXT_PUBLIC_BACKEND_URL=***REMOVED*** next dev",
     "testnet": "NEXT_PUBLIC_BACKEND_URL=https://dojo-api-testnet.tensorplex.ai next dev",
-    "dev": "next dev -p 3003",
+    "dev": "next dev",
     "build": "next build",
-    "start": "next start -p 3003",
+    "start": "next start",
     "lint": "next lint --fix",
     "prepare": "husky || true"
   },
