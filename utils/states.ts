@@ -1,5 +1,6 @@
-export type TaskType = 'CODE_GENERATION' | '3D_MODEL' | 'TEXT_TO_IMAGE' | 'TEXT_TO_THREE_D';
-export const TaskTypeMappingDisplay: Record<TaskType, string> = {
+import { TaskModality } from '@/types/QuestionPageTypes';
+
+export const TaskTypeMappingDisplay: Record<TaskModality, string> = {
   CODE_GENERATION: 'Code Generation',
   '3D_MODEL': '3D Model',
   TEXT_TO_IMAGE: 'Text to Image',
@@ -23,9 +24,8 @@ export const taskTTI: any[] = [
     title: 'Text to Image',
     body: 'Generate a realistic image of a woman with six mechanical arms, each holding a different type of futuristic instrument—one is a laser harp, one is a translucent keyboard, one is an orb projecting sound waves, one a set of glowing digital drums, and the last two are shaping holograms into sound waves. She is performing on a glass stage that extends over a vast, glowing ocean of liquid neon, under a stormy sky filled with metallic clouds flashing with lightning shaped like musical notes.',
     expireAt: '2025-12-03T15:04:00Z',
-    type: 'TEXT_TO_IMAGE',
     taskData: {
-      task: 'TEXT_TO_IMAGE',
+      task_modality: 'TEXT_TO_IMAGE',
       prompt:
         'Generate a realistic image of a woman with six mechanical arms, each holding a different type of futuristic instrument—one is a laser harp, one is a translucent keyboard, one is an orb projecting sound waves, one a set of glowing digital drums, and the last two are shaping holograms into sound waves. She is performing on a glass stage that extends over a vast, glowing ocean of liquid neon, under a stormy sky filled with metallic clouds flashing with lightning shaped like musical notes.',
 
@@ -39,40 +39,40 @@ export const taskTTI: any[] = [
           criteria: [
             {
               type: 'multi-select',
-              text: 'Choose all appropriate options',
+              query: 'Choose all appropriate options',
               options: ['Inappropriate Content', 'Untruthful Information', 'Personal Information'],
             },
             {
               type: 'single-select',
-              text: 'I would use this image in an advertisement in a music school.',
+              query: 'I would use this image in an advertisement in a music school.',
               options: ['Agree', 'Disagree', 'Neutral'],
             },
             {
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Prompt Accuracy',
+              query: 'Prompt Accuracy',
               options: ['stabilityai/stable-diffusion-xl-base-1.0'],
             },
             {
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Quality',
+              query: 'Quality',
               options: ['stabilityai/stable-diffusion-xl-base-1.0'],
             },
             {
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Photo-Realism',
+              query: 'Photo-Realism',
               options: ['stabilityai/stable-diffusion-xl-base-1.0'],
             },
             {
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Creativity',
+              query: 'Creativity',
               options: ['stabilityai/stable-diffusion-xl-base-1.0'],
             },
           ],
@@ -95,7 +95,7 @@ export const taskTTI: any[] = [
 //     expireAt: '2024-12-03T15:04:00Z',
 //     type: 'TEXT_TO_IMAGE',
 //     taskData: {
-//       task: 'TEXT_TO_IMAGE',
+//       task_modality: 'TEXT_TO_IMAGE',
 //       prompt: 'A bottle with the cap half opened.',
 //       criteria: [
 //         {
@@ -148,7 +148,7 @@ export const taskTTI: any[] = [
 //     expireAt: '2024-12-03T15:04:00Z',
 //     type: 'TEXT_TO_IMAGE',
 //     taskData: {
-//       task: 'TEXT_TO_IMAGE',
+//       task_modality: 'TEXT_TO_IMAGE',
 //       prompt: 'an image of a green dog.',
 //       criteria: [
 //         {
@@ -201,7 +201,7 @@ export const taskTTI: any[] = [
 //     expireAt: '2024-12-03T15:04:00Z',
 //     type: 'TEXT_TO_IMAGE',
 //     taskData: {
-//       task: 'TEXT_TO_IMAGE',
+//       task_modality: 'TEXT_TO_IMAGE',
 //       prompt: 'an office with full height windows with the cityline in the background.',
 //       criteria: [
 //         {
@@ -254,7 +254,7 @@ export const taskTTI: any[] = [
 //     expireAt: '2024-12-03T15:04:00Z',
 //     type: 'TEXT_TO_IMAGE',
 //     taskData: {
-//       task: 'TEXT_TO_IMAGE',
+//       task_modality: 'TEXT_TO_IMAGE',
 //       prompt: 'NYSE floor with emotions and red and green charts.',
 //       criteria: [
 //         {
@@ -310,15 +310,14 @@ export const task3d: any[] = [
     title: 'SN17 - 3D Model',
     body: 'Crisp Lettuce in a bowl.',
     expireAt: '2099-12-03T15:04:00Z',
-    type: 'TEXT_TO_THREE_D',
     taskData: {
-      task: 'TEXT_TO_THREE_D',
+      task_modality: 'TEXT_TO_THREE_D',
       prompt: 'Crisp Lettuce in a bowl.',
       criteria: [
         {
           max: 10,
           min: 1,
-          text: 'MULTI SCORE',
+          query: 'MULTI SCORE',
           type: 'score',
           options: ['3D object 1', '3D object 2'],
         },
@@ -330,7 +329,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -345,7 +344,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -360,7 +359,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -375,7 +374,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -398,16 +397,15 @@ export const task3d: any[] = [
     title: 'SN17 - 3D Model',
     body: 'Delicate Ivory dove in flight',
     expireAt: '2099-12-03T15:04:00Z',
-    type: 'TEXT_TO_THREE_D',
     taskData: {
-      task: 'TEXT_TO_THREE_D',
+      task_modality: 'TEXT_TO_THREE_D',
       prompt: 'Delicate Ivory dove in flight',
       criteria: [
         {
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
           options: [
             'stabilityai/stable-diffusion-xl-base-1.0',
             'runwayml/stable-diffusion-v1-5',
@@ -423,7 +421,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -438,7 +436,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -453,7 +451,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -468,7 +466,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -491,16 +489,15 @@ export const task3d: any[] = [
     title: 'SN17 - 3D Model',
     body: 'Zebra with Stripes running through plains.',
     expireAt: '2099-12-03T15:04:00Z',
-    type: 'TEXT_TO_THREE_D',
     taskData: {
-      task: 'TEXT_TO_THREE_D',
+      task_modality: 'TEXT_TO_THREE_D',
       prompt: 'Zebra with Stripes running through plains.',
       criteria: [
         {
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
           options: [
             'stabilityai/stable-diffusion-xl-base-1.0',
             'runwayml/stable-diffusion-v1-5',
@@ -516,7 +513,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -531,7 +528,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -546,7 +543,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -561,7 +558,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -584,16 +581,15 @@ export const task3d: any[] = [
     title: 'SN17 - 3D Model',
     body: 'Black and yellow gaming chair',
     expireAt: '2099-12-03T15:04:00Z',
-    type: 'TEXT_TO_THREE_D',
     taskData: {
-      task: 'TEXT_TO_THREE_D',
+      task_modality: 'TEXT_TO_THREE_D',
       prompt: 'Black and yellow gaming chair',
       criteria: [
         {
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
           options: [
             'stabilityai/stable-diffusion-xl-base-1.0',
             'runwayml/stable-diffusion-v1-5',
@@ -609,7 +605,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -624,7 +620,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -639,7 +635,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -654,7 +650,7 @@ export const task3d: any[] = [
             {
               max: 10,
               min: 1,
-              text: 'MULTI SCORE',
+              query: 'MULTI SCORE',
               type: 'score',
               options: ['3D object 1', '3D object 2'],
             },
@@ -680,9 +676,8 @@ export const tasklistCodegen: any[] = [
     summary: 'Create an interactive visualization of a vaccine molecular structure',
     body: 'Create an interactive visualization of a vaccine molecular structure. Visual features: • 3D representation of a simplified vaccine molecule • Spheres representing different atoms/components • Connecting lines between atoms • Color-coded atoms based on type (e.g. red for oxygen, blue for nitrogen) • Smooth rotation animation of the molecule Requirements: 1. Implement a 3D rotating model of a simplified vaccine molecule using HTML5 canvas and vanilla JavaScript. The molecule should consist of at least 10 interconnected atoms. 2. Allow users to click and drag the molecule to rotate it manually in any direction. The rotation should be smooth and responsive. 3. Include a slider control that adjusts the rotation speed of the automatic animation. The slider should range from completely stopped to rapid rotation. 4. Add hover functionality so that when a user hovers over an atom, a tooltip appears displaying information about that atom type (e.g. element name, atomic number, typical role in vaccines).\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
     expireAt: '2025-09-20T08:56:07Z',
-    type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      task_modality: 'CODE_GENERATION',
       prompt:
         'Create an interactive visualization of a vaccine molecular structure. Visual features: • 3D representation of a simplified vaccine molecule • Spheres representing different atoms/components • Connecting lines between atoms • Color-coded atoms based on type (e.g. red for oxygen, blue for nitrogen) • Smooth rotation animation of the molecule Requirements: 1. Implement a 3D rotating model of a simplified vaccine molecule using HTML5 canvas and vanilla JavaScript. The molecule should consist of at least 10 interconnected atoms. 2. Allow users to click and drag the molecule to rotate it manually in any direction. The rotation should be smooth and responsive. 3. Include a slider control that adjusts the rotation speed of the automatic animation. The slider should range from completely stopped to rapid rotation. 4. Add hover functionality so that when a user hovers over an atom, a tooltip appears displaying information about that atom type (e.g. element name, atomic number, typical role in vaccines).\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
@@ -706,7 +701,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -753,7 +748,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -800,7 +795,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -847,7 +842,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -901,9 +896,8 @@ export const tasklistCodegen: any[] = [
     title: 'LLM Code Generation Task',
     body: 'Create an interactive visualization of a musical staff for analyzing song lyrics and melodies. The program should have the following visual features:\n\n- A musical staff with 5 horizontal lines spanning the width of the screen\n- Clickable note positions on the staff represented by small circles\n- A text input area below the staff for entering lyrics\n- A play button to hear the created melody\n\nRequirements:\n\n1. When a user clicks on the staff, a musical note should appear at that position. The vertical position determines the pitch, while the horizontal position determines the timing in the melody.\n\n2. As the user types lyrics in the text input area, the words should automatically appear below the corresponding notes on the staff. If there are more words than notes, they should be evenly distributed.\n\n3. When the play button is clicked, the melody should be played using Web Audio API, with each note sounding for a duration proportional to its horizontal spacing. The corresponding lyrics should be highlighted in sync with the melody.\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
     expireAt: '2025-09-23T08:53:00Z',
-    type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      task_modality: 'CODE_GENERATION',
       prompt:
         'Create an interactive visualization of a musical staff for analyzing song lyrics and melodies. The program should have the following visual features:\n\n- A musical staff with 5 horizontal lines spanning the width of the screen\n- Clickable note positions on the staff represented by small circles\n- A text input area below the staff for entering lyrics\n- A play button to hear the created melody\n\nRequirements:\n\n1. When a user clicks on the staff, a musical note should appear at that position. The vertical position determines the pitch, while the horizontal position determines the timing in the melody.\n\n2. As the user types lyrics in the text input area, the words should automatically appear below the corresponding notes on the staff. If there are more words than notes, they should be evenly distributed.\n\n3. When the play button is clicked, the melody should be played using Web Audio API, with each note sounding for a duration proportional to its horizontal spacing. The corresponding lyrics should be highlighted in sync with the melody.\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
 
@@ -1106,9 +1100,8 @@ export const tasklistCodegen: any[] = [
     title: 'LLM Code Generation Task (Demo)',
     body: "Create a web page that displays an interactive guitar visualization using HTML, CSS, and JavaScript. The guitar should have 6 strings and a fretboard. Implement the following user interactions:\n\n1. When the user hovers over a string, it should visually highlight to indicate it can be played.\n\n2. Clicking on a string should produce a plucking animation and play a corresponding guitar note sound.\n\n3. Implement a slider that adjusts the guitar's tuning, affecting the pitch of the notes played when strings are clicked.\n\nEnsure the visualization is responsive and works well on different screen sizes. Use only built-in JavaScript libraries and features for this implementation.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
     expireAt: '2099-08-30T14:09:13Z',
-    type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      task_modality: 'CODE_GENERATION',
       prompt:
         "Create a web page that displays an interactive guitar visualization using HTML, CSS, and JavaScript. The guitar should have 6 strings and a fretboard. Implement the following user interactions:\n\n1. When the user hovers over a string, it should visually highlight to indicate it can be played.\n\n2. Clicking on a string should produce a plucking animation and play a corresponding guitar note sound.\n\n3. Implement a slider that adjusts the guitar's tuning, affecting the pitch of the notes played when strings are clicked.\n\nEnsure the visualization is responsive and works well on different screen sizes. Use only built-in JavaScript libraries and features for this implementation.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
       criteria: [
@@ -1116,7 +1109,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
         },
       ],
       responses: [
@@ -1127,7 +1120,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1174,7 +1167,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1221,7 +1214,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1272,7 +1265,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1326,9 +1319,8 @@ export const tasklistCodegen: any[] = [
     title: 'LLM Code Generation Task (Demo)',
     body: "Create a web page that visualizes a desert landscape using HTML, CSS, and JavaScript. The visualization should include sand dunes, a sun, and at least one cactus. Implement the following interactive features:\n\n1. When the user moves their mouse across the screen, small dust particles should appear and follow the mouse movement, simulating a light breeze in the desert.\n\n2. Allow the user to click anywhere on the screen to 'plant' a new cactus at that location. The cactus should grow from small to full size over a short period of time.\n\nEnsure that the visualization is responsive and works well on different screen sizes. Use only built-in JavaScript functions and avoid external libraries.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
     expireAt: '2099-08-29T18:17:43Z',
-    type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      task_modality: 'CODE_GENERATION',
       prompt:
         "Create a web page that visualizes a desert landscape using HTML, CSS, and JavaScript. The visualization should include sand dunes, a sun, and at least one cactus. Implement the following interactive features:\n\n1. When the user moves their mouse across the screen, small dust particles should appear and follow the mouse movement, simulating a light breeze in the desert.\n\n2. Allow the user to click anywhere on the screen to 'plant' a new cactus at that location. The cactus should grow from small to full size over a short period of time.\n\nEnsure that the visualization is responsive and works well on different screen sizes. Use only built-in JavaScript functions and avoid external libraries.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
       criteria: [
@@ -1336,7 +1328,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
         },
       ],
       responses: [
@@ -1347,7 +1339,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1393,7 +1385,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1440,7 +1432,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1491,7 +1483,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1545,9 +1537,8 @@ export const tasklistCodegen: any[] = [
     title: 'LLM Code Generation Task',
     body: 'Create an interactive visualization of a sound wave frequency visualizer using HTML, CSS, and JavaScript. Your implementation should meet the following requirements:\n\n1. Display a dynamic waveform that represents the frequency of a sound wave. The waveform should update in real-time based on user input.\n\n2. Implement a slider that allows users to adjust the frequency of the sound wave. As the user moves the slider, the waveform should change accordingly, showing higher frequencies as more compressed waves and lower frequencies as more stretched out waves.\n\n3. Add a play/pause button that, when clicked, generates an audible tone matching the current frequency shown in the visualizer. The waveform should animate (oscillate) while the tone is playing and stop when paused.\n\nEnsure that the visualization is visually appealing and that the user interactions are intuitive and responsive. The implementation should use only built-in JavaScript libraries and functions.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
     expireAt: '2025-09-05T19:39:33Z',
-    type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      task_modality: 'CODE_GENERATION',
       prompt:
         'Create an interactive visualization of a sound wave frequency visualizer using HTML, CSS, and JavaScript. Your implementation should meet the following requirements:\n\n1. Display a dynamic waveform that represents the frequency of a sound wave. The waveform should update in real-time based on user input.\n\n2. Implement a slider that allows users to adjust the frequency of the sound wave. As the user moves the slider, the waveform should change accordingly, showing higher frequencies as more compressed waves and lower frequencies as more stretched out waves.\n\n3. Add a play/pause button that, when clicked, generates an audible tone matching the current frequency shown in the visualizer. The waveform should animate (oscillate) while the tone is playing and stop when paused.\n\nEnsure that the visualization is visually appealing and that the user interactions are intuitive and responsive. The implementation should use only built-in JavaScript libraries and functions.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
@@ -1555,7 +1546,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
         },
       ],
       responses: [
@@ -1566,7 +1557,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1613,7 +1604,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1660,7 +1651,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1707,7 +1698,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1761,9 +1752,8 @@ export const tasklistCodegen: any[] = [
     title: 'LLM Code Generation Task (Demo)',
     body: "Create an interactive visualization of a Newton's cradle, a classic physics demonstration that illustrates conservation of momentum and energy. The visualization should depict a set of suspended metal balls that can swing and collide, demonstrating the transfer of energy through the system.\n\nThe scene should display a horizontal support from which five metal balls are suspended by strings. The balls should be arranged in a row, just touching each other when at rest. The visualization should allow users to interact with the Newton's cradle and observe its behavior.\n\nRequirements:\n\n1. Implement the physics simulation for the Newton's cradle, including the swinging motion of the balls and the elastic collisions between them. When a ball on one end is lifted and released, it should swing down and collide with the stationary balls, causing the ball on the opposite end to swing upward.\n\n2. Add a user interaction where clicking and dragging the leftmost or rightmost ball allows the user to pull it back and release it, initiating the Newton's cradle effect. The ball should follow the mouse cursor while being dragged, maintaining a realistic arc motion.\n\n3. Include a slider that adjusts the simulation speed, allowing users to observe the Newton's cradle effect in slow motion or at an accelerated pace. The slider should smoothly transition between different speeds without disrupting the ongoing simulation.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
     expireAt: '2025-09-09T05:33:57Z',
-    type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      task_modality: 'CODE_GENERATION',
       prompt:
         "Create an interactive visualization of a Newton's cradle, a classic physics demonstration that illustrates conservation of momentum and energy. The visualization should depict a set of suspended metal balls that can swing and collide, demonstrating the transfer of energy through the system.\n\nThe scene should display a horizontal support from which five metal balls are suspended by strings. The balls should be arranged in a row, just touching each other when at rest. The visualization should allow users to interact with the Newton's cradle and observe its behavior.\n\nRequirements:\n\n1. Implement the physics simulation for the Newton's cradle, including the swinging motion of the balls and the elastic collisions between them. When a ball on one end is lifted and released, it should swing down and collide with the stationary balls, causing the ball on the opposite end to swing upward.\n\n2. Add a user interaction where clicking and dragging the leftmost or rightmost ball allows the user to pull it back and release it, initiating the Newton's cradle effect. The ball should follow the mouse cursor while being dragged, maintaining a realistic arc motion.\n\n3. Include a slider that adjusts the simulation speed, allowing users to observe the Newton's cradle effect in slow motion or at an accelerated pace. The slider should smoothly transition between different speeds without disrupting the ongoing simulation.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
       criteria: [
@@ -1771,7 +1761,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
         },
       ],
       responses: [
@@ -1782,7 +1772,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1829,7 +1819,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1876,7 +1866,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1923,7 +1913,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -1977,9 +1967,8 @@ export const tasklistCodegen: any[] = [
     title: 'LLM Code Generation Task',
     body: "Create an interactive visualization of a tornado using JavaScript, HTML, and CSS. The scene should depict a rural landscape with a menacing tornado in the center. The tornado should be represented as a swirling, cone-shaped vortex extending from the ground up into dark storm clouds above. The landscape should include simple representations of fields, scattered trees, and a few small buildings or houses to provide scale and context.\n\nRequirements:\n\n1. The tornado should continuously rotate and undulate, giving the impression of a powerful, swirling wind funnel.\n\n2. Implement debris particles that circle around the base of the tornado, representing objects caught in its powerful winds.\n\n3. Create a simple lighting effect to simulate occasional flashes of lightning in the background storm clouds.\n\n4. Allow the user to click and drag anywhere on the screen to change the direction and speed of the tornado's movement across the landscape. The tornado should move smoothly in the direction of the drag, with the speed determined by the length of the drag action.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
     expireAt: '2025-09-10T04:46:34Z',
-    type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      task_modality: 'CODE_GENERATION',
       prompt:
         "Create an interactive visualization of a tornado using JavaScript, HTML, and CSS. The scene should depict a rural landscape with a menacing tornado in the center. The tornado should be represented as a swirling, cone-shaped vortex extending from the ground up into dark storm clouds above. The landscape should include simple representations of fields, scattered trees, and a few small buildings or houses to provide scale and context.\n\nRequirements:\n\n1. The tornado should continuously rotate and undulate, giving the impression of a powerful, swirling wind funnel.\n\n2. Implement debris particles that circle around the base of the tornado, representing objects caught in its powerful winds.\n\n3. Create a simple lighting effect to simulate occasional flashes of lightning in the background storm clouds.\n\n4. Allow the user to click and drag anywhere on the screen to change the direction and speed of the tornado's movement across the landscape. The tornado should move smoothly in the direction of the drag, with the speed determined by the length of the drag action.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
       criteria: [
@@ -1987,7 +1976,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
         },
       ],
       responses: [
@@ -1998,7 +1987,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2045,7 +2034,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2099,9 +2088,8 @@ export const tasklistCodegen: any[] = [
     title: 'LLM Code Generation Task',
     body: "Generate a Snake game for me using HTML, Javascript, and CSS. The game should be fully functional with basic sounds, animations, scoring, increasing difficulty as the snake grows longer, and a game over screen when the snake hits the wall or itself. The game should use arrow keys for controls. All code, including graphics and sounds, should be generated without external dependencies. The code should run in a web browser without modification. Include any cool additional features that don't conflict with these requirements. Provide complete, robust code that can be copied and pasted into HTML, JS, and CSS files to run the game immediately.\nNote:\n- The  should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
     expireAt: '2025-09-11T09:00:28Z',
-    type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      task_modality: 'CODE_GENERATION',
       prompt:
         "Generate a Snake game for me using HTML, Javascript, and CSS. The game should be fully functional with basic sounds, animations, scoring, increasing difficulty as the snake grows longer, and a game over screen when the snake hits the wall or itself. The game should use arrow keys for controls. All code, including graphics and sounds, should be generated without external dependencies. The code should run in a web browser without modification. Include any cool additional features that don't conflict with these requirements. Provide complete, robust code that can be copied and pasted into HTML, JS, and CSS files to run the game immediately.\nNote:\n- The  should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
       criteria: [
@@ -2109,7 +2097,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -2126,7 +2114,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2178,7 +2166,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2230,7 +2218,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2282,7 +2270,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2341,9 +2329,8 @@ export const tasklistCodegen: any[] = [
     title: 'LLM Code Generation Task',
     body: 'When a user requests a Paint App using HTML, JS, and CSS, follow these guidelines:\n\nCreate a fully functional Paint App with the following features:\n\n-Canvas for drawing\n-Color picker for selecting brush colors\n-Brush size selector\n-Eraser tool\n-Clear canvas button\n-Save drawing as image functionality\n-Undo/Redo functionality\n-Different brush types (e.g., round, square)\n-Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks.\n-Ensure the app runs in an HTML iframe without requiring any additional setup.\n-Provide complete, runnable code without placeholders or omissions.\n-Proactively address common bugs and pitfalls in Paint App implementations.\n-Make sure that your code does not require the use of local storage.\n\nInclude additional cool features that enhance the painting experience, such as:\n-Layer system for more complex drawings\n-Text tool for adding text to the canvas\n-Shape tools (e.g., rectangle, circle, line)\n-Fill bucket tool\n-Zoom in/out functionality\n\nPrioritize code completeness, robustness, and readiness for immediate execution.\nStructure the response as follows:\na. Brief introduction explaining the Paint App and its features\nb. HTML code (including inline CSS if applicable)\nc. JavaScript code\nd. Any additional CSS in a separate \u003cstyle\u003e tag or file\ne. Instructions for using the Paint App\n\nRemember to focus on delivering a complete, functional, and engaging Paint App implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- The  should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
     expireAt: '2025-09-12T05:52:37Z',
-    type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      task_modality: 'CODE_GENERATION',
       prompt:
         'When a user requests a Paint App using HTML, JS, and CSS, follow these guidelines:\n\nCreate a fully functional Paint App with the following features:\n\n-Canvas for drawing\n-Color picker for selecting brush colors\n-Brush size selector\n-Eraser tool\n-Clear canvas button\n-Save drawing as image functionality\n-Undo/Redo functionality\n-Different brush types (e.g., round, square)\n-Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks.\n-Ensure the app runs in an HTML iframe without requiring any additional setup.\n-Provide complete, runnable code without placeholders or omissions.\n-Proactively address common bugs and pitfalls in Paint App implementations.\n-Make sure that your code does not require the use of local storage.\n\nInclude additional cool features that enhance the painting experience, such as:\n-Layer system for more complex drawings\n-Text tool for adding text to the canvas\n-Shape tools (e.g., rectangle, circle, line)\n-Fill bucket tool\n-Zoom in/out functionality\n\nPrioritize code completeness, robustness, and readiness for immediate execution.\nStructure the response as follows:\na. Brief introduction explaining the Paint App and its features\nb. HTML code (including inline CSS if applicable)\nc. JavaScript code\nd. Any additional CSS in a separate \u003cstyle\u003e tag or file\ne. Instructions for using the Paint App\n\nRemember to focus on delivering a complete, functional, and engaging Paint App implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- The  should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
@@ -2351,7 +2338,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -2368,7 +2355,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2415,7 +2402,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2466,7 +2453,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2513,7 +2500,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2567,9 +2554,8 @@ export const tasklistCodegen: any[] = [
     summary: 'Brick Breaker',
     body: 'When a user requests a Breakout game using HTML, JS, and CSS, follow these guidelines:\n\nCreate a fully functional Breakout game with the following features:\n\n-Paddle controlled by mouse movement or arrow keys\n-Ball that bounces off the paddle, walls, and bricks\n-Multiple rows of breakable bricks\n-Scoring system based on bricks broken\n-Lives system (game over when all lives are lost)\n-Increasing difficulty as levels progress\n-Game over screen displaying the final score with an animation\n-Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks.\n-Generate all graphics within the code using HTML5 Canvas, avoiding reliance on external image files.\n-Ensure the game runs in an HTML iframe without requiring any additional setup.\n-Provide complete, runnable code without placeholders or omissions.\n-Proactively address common bugs and pitfalls in Breakout game implementations.\n-Make sure that your code does not require the use of local storage.\n\nInclude additional cool features that enhance the game experience, such as:\n-Power-ups that drop from broken bricks (e.g., wider paddle, multi-ball, stronger ball)\n-Visual and sound effects for ball impacts, brick breaking, and game events\n-A high score system (without using local storage)\n-Different brick types (e.g., requires multiple hits, exploding bricks)\n\nPrioritize code completeness, robustness, and readiness for immediate execution.\nStructure the response as follows:\na. Brief introduction explaining the game and its features\nb. HTML code (including inline CSS if applicable)\nc. JavaScript code\nd. Any additional CSS in a separate \u003cstyle\u003e tag or file\ne. Instructions for running the game\n\nRemember to focus on delivering a complete, functional, and engaging Breakout game implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- The  should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
     expireAt: '2025-09-12T06:34:30Z',
-    type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      task_modality: 'CODE_GENERATION',
       prompt:
         'When a user requests a Breakout game using HTML, JS, and CSS, follow these guidelines:\n\nCreate a fully functional Breakout game with the following features:\n\n-Paddle controlled by mouse movement or arrow keys\n-Ball that bounces off the paddle, walls, and bricks\n-Multiple rows of breakable bricks\n-Scoring system based on bricks broken\n-Lives system (game over when all lives are lost)\n-Increasing difficulty as levels progress\n-Game over screen displaying the final score with an animation\n-Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks.\n-Generate all graphics within the code using HTML5 Canvas, avoiding reliance on external image files.\n-Ensure the game runs in an HTML iframe without requiring any additional setup.\n-Provide complete, runnable code without placeholders or omissions.\n-Proactively address common bugs and pitfalls in Breakout game implementations.\n-Make sure that your code does not require the use of local storage.\n\nInclude additional cool features that enhance the game experience, such as:\n-Power-ups that drop from broken bricks (e.g., wider paddle, multi-ball, stronger ball)\n-Visual and sound effects for ball impacts, brick breaking, and game events\n-A high score system (without using local storage)\n-Different brick types (e.g., requires multiple hits, exploding bricks)\n\nPrioritize code completeness, robustness, and readiness for immediate execution.\nStructure the response as follows:\na. Brief introduction explaining the game and its features\nb. HTML code (including inline CSS if applicable)\nc. JavaScript code\nd. Any additional CSS in a separate \u003cstyle\u003e tag or file\ne. Instructions for running the game\n\nRemember to focus on delivering a complete, functional, and engaging Breakout game implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- The  should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
@@ -2577,7 +2563,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -2594,7 +2580,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2641,7 +2627,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2688,7 +2674,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2736,7 +2722,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2790,9 +2776,8 @@ export const tasklistCodegen: any[] = [
     summary: 'Minesweeper game',
     body: 'When a user requests a Minesweeper game using HTML, JS, and CSS, follow these guidelines:\n\nCreate a fully functional Minesweeper game with the following features:\n\n-A grid-based game board with customizable dimensions (e.g., 9x9, 16x16)\n-Random mine placement at the start of each game\n-Left-click to reveal cells, right-click to flag potential mines\n-Number indicators showing adjacent mine count for revealed cells\n-Game over screen when a mine is clicked, revealing all mine locations\n-Win condition when all non-mine cells are revealed\n-Timer to track game duration\n-Mine counter to show remaining unflagged mines\n-First-click safety (ensure the first clicked cell is never a mine)\n-Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks.\n-Generate all graphics within the code using HTML5 Canvas or CSS, avoiding reliance on external image files.\n-Ensure the game runs in an HTML iframe without requiring any additional setup.\n-Provide complete, runnable code without placeholders or omissions.\n-Proactively address common bugs and pitfalls in Minesweeper implementations.\n-Make sure that your code does not require the use of local storage.\n\nInclude additional cool features that enhance the game experience, such as:\n-Multiple difficulty levels (Easy, Medium, Hard) with preset board sizes and mine counts\n-Custom game option where players can set board size and mine count\n-Animations for revealing cells and flagging mines\n-Sound effects for various game actions (optional, with a mute button)\n-A hint system that reveals a safe cell when the player is stuck\n\nPrioritize code completeness, robustness, and readiness for immediate execution.\nStructure the response as follows:\na. Brief introduction explaining the game and its features\nb. HTML code (including inline CSS if applicable)\nc. JavaScript code\nd. Any additional CSS in a separate \u003cstyle\u003e tag or file\ne. Instructions for running the game\n\nRemember to focus on delivering a complete, functional, and engaging Minesweeper game implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- The  should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
     expireAt: '2025-09-12T06:42:31Z',
-    type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      task_modality: 'CODE_GENERATION',
       prompt:
         'When a user requests a Minesweeper game using HTML, JS, and CSS, follow these guidelines:\n\nCreate a fully functional Minesweeper game with the following features:\n\n-A grid-based game board with customizable dimensions (e.g., 9x9, 16x16)\n-Random mine placement at the start of each game\n-Left-click to reveal cells, right-click to flag potential mines\n-Number indicators showing adjacent mine count for revealed cells\n-Game over screen when a mine is clicked, revealing all mine locations\n-Win condition when all non-mine cells are revealed\n-Timer to track game duration\n-Mine counter to show remaining unflagged mines\n-First-click safety (ensure the first clicked cell is never a mine)\n-Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks.\n-Generate all graphics within the code using HTML5 Canvas or CSS, avoiding reliance on external image files.\n-Ensure the game runs in an HTML iframe without requiring any additional setup.\n-Provide complete, runnable code without placeholders or omissions.\n-Proactively address common bugs and pitfalls in Minesweeper implementations.\n-Make sure that your code does not require the use of local storage.\n\nInclude additional cool features that enhance the game experience, such as:\n-Multiple difficulty levels (Easy, Medium, Hard) with preset board sizes and mine counts\n-Custom game option where players can set board size and mine count\n-Animations for revealing cells and flagging mines\n-Sound effects for various game actions (optional, with a mute button)\n-A hint system that reveals a safe cell when the player is stuck\n\nPrioritize code completeness, robustness, and readiness for immediate execution.\nStructure the response as follows:\na. Brief introduction explaining the game and its features\nb. HTML code (including inline CSS if applicable)\nc. JavaScript code\nd. Any additional CSS in a separate \u003cstyle\u003e tag or file\ne. Instructions for running the game\n\nRemember to focus on delivering a complete, functional, and engaging Minesweeper game implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- The  should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
@@ -2800,7 +2785,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -2817,7 +2802,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2864,7 +2849,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2911,7 +2896,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -2958,7 +2943,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3012,9 +2997,8 @@ export const tasklistCodegen: any[] = [
     title: 'LLM Code Generation Task',
     body: 'When a user requests a 2048 game using HTML, JS, and CSS, follow these guidelines:\n\nCreate a fully functional 2048 game with the following features:\n\n-4x4 grid layout\n-Smooth tile sliding and merging animations\n-Score tracking and display\n-Game over detection when no more moves are possible\n-Win condition when 2048 tile is created\n-Standard keyboard controls (arrow keys)\n-Touch/swipe support for mobile devices\n-Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks.\n-Generate all graphics within the code, avoiding reliance on external image files.\n-Ensure the game runs in an HTML iframe without requiring any additional setup.\n-Provide complete, runnable code without placeholders or omissions.\n-Proactively address common bugs and pitfalls in 2048 game implementations.\n-As the game will run in a self-contained HTML iframe, ensure that the code does not use any local or session storage.\n-Ensure that any keystrokes used do not trigger the default browser behaviour. If the user uses arrow keys to play, it should not also trigger scrolling of the browser.\n\nInclude additional cool features that enhance the game experience, such as:\n-Undo functionality\n-Best score tracking\n-Color scheme customization option\n-Responsive design for various screen sizes\n\nPrioritize code completeness, robustness, and readiness for immediate execution.\nStructure the response as follows:\na. Brief introduction explaining the game and its features\nb. HTML code (including inline CSS if applicable)\nc. JavaScript code\nd. Any additional CSS in a separate \u003cstyle\u003e tag or file\ne. Instructions for running the game\n\nRemember to focus on delivering a complete, functional, and engaging 2048 game implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
     expireAt: '2025-09-12T09:21:40Z',
-    type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      task_modality: 'CODE_GENERATION',
       prompt:
         'When a user requests a 2048 game using HTML, JS, and CSS, follow these guidelines:\n\nCreate a fully functional 2048 game with the following features:\n\n-4x4 grid layout\n-Smooth tile sliding and merging animations\n-Score tracking and display\n-Game over detection when no more moves are possible\n-Win condition when 2048 tile is created\n-Standard keyboard controls (arrow keys)\n-Touch/swipe support for mobile devices\n-Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks.\n-Generate all graphics within the code, avoiding reliance on external image files.\n-Ensure the game runs in an HTML iframe without requiring any additional setup.\n-Provide complete, runnable code without placeholders or omissions.\n-Proactively address common bugs and pitfalls in 2048 game implementations.\n-As the game will run in a self-contained HTML iframe, ensure that the code does not use any local or session storage.\n-Ensure that any keystrokes used do not trigger the default browser behaviour. If the user uses arrow keys to play, it should not also trigger scrolling of the browser.\n\nInclude additional cool features that enhance the game experience, such as:\n-Undo functionality\n-Best score tracking\n-Color scheme customization option\n-Responsive design for various screen sizes\n\nPrioritize code completeness, robustness, and readiness for immediate execution.\nStructure the response as follows:\na. Brief introduction explaining the game and its features\nb. HTML code (including inline CSS if applicable)\nc. JavaScript code\nd. Any additional CSS in a separate \u003cstyle\u003e tag or file\ne. Instructions for running the game\n\nRemember to focus on delivering a complete, functional, and engaging 2048 game implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
@@ -3022,7 +3006,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -3039,7 +3023,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3086,7 +3070,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3133,7 +3117,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3180,7 +3164,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3234,9 +3218,8 @@ export const tasklistCodegen: any[] = [
     title: 'LLM Code Generation Task',
     body: 'When a user requests a Tetris game using HTML, JS, and CSS, follow these guidelines:\n\nCreate a fully functional Tetris game with the following features:\n\n-Standard Tetris gameplay mechanics (rotating and moving falling pieces, clearing lines)\n-Random generation of Tetrimino shapes\n-Scoring system based on lines cleared and difficulty level\n-Increasing difficulty as the player progresses (faster falling speed)\n-Game over screen when pieces stack to the top, displaying the final score with an animation\n-Preview of the next piece\n-Standard keyboard controls (arrow keys for movement, spacebar for hard drop, etc.)\n-Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks.\n-Generate all graphics within the code using HTML5 Canvas, avoiding reliance on external image files.\n-Ensure the game runs in an HTML iframe without requiring any additional setup.\n-Provide complete, runnable code without placeholders or omissions.\n-Proactively address common bugs and pitfalls in Tetris game implementations.\n-As the game will run in a self-contained HTML iframe, ensure that the code does not use any local or session storage.\n-Ensure that any keystrokes used do not trigger the default browser behavior. If the user uses arrow keys to play, it should not also trigger scrolling of the browser.\n\nInclude additional cool features that enhance the game experience, such as:\n-Hold piece functionality\n-Ghost piece to show where the current piece will land\n-Basic sound effects for piece movement, rotation, and line clears\n-Simple animations for line clears and game over scenarios\n-Basic statistics display (lines cleared, current level, etc.)\n\nPrioritize code completeness, robustness, and readiness for immediate execution.\nStructure the response as follows:\na. Brief introduction explaining the game and its features\nb. HTML code (including inline CSS if applicable)\nc. JavaScript code\nd. Any additional CSS in a separate \u003cstyle\u003e tag or file\ne. Instructions for running the game\n\nRemember to focus on delivering a complete, functional, and engaging Tetris game implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
     expireAt: '2025-09-12T09:21:49Z',
-    type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      task_modality: 'CODE_GENERATION',
       prompt:
         'When a user requests a Tetris game using HTML, JS, and CSS, follow these guidelines:\n\nCreate a fully functional Tetris game with the following features:\n\n-Standard Tetris gameplay mechanics (rotating and moving falling pieces, clearing lines)\n-Random generation of Tetrimino shapes\n-Scoring system based on lines cleared and difficulty level\n-Increasing difficulty as the player progresses (faster falling speed)\n-Game over screen when pieces stack to the top, displaying the final score with an animation\n-Preview of the next piece\n-Standard keyboard controls (arrow keys for movement, spacebar for hard drop, etc.)\n-Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks.\n-Generate all graphics within the code using HTML5 Canvas, avoiding reliance on external image files.\n-Ensure the game runs in an HTML iframe without requiring any additional setup.\n-Provide complete, runnable code without placeholders or omissions.\n-Proactively address common bugs and pitfalls in Tetris game implementations.\n-As the game will run in a self-contained HTML iframe, ensure that the code does not use any local or session storage.\n-Ensure that any keystrokes used do not trigger the default browser behavior. If the user uses arrow keys to play, it should not also trigger scrolling of the browser.\n\nInclude additional cool features that enhance the game experience, such as:\n-Hold piece functionality\n-Ghost piece to show where the current piece will land\n-Basic sound effects for piece movement, rotation, and line clears\n-Simple animations for line clears and game over scenarios\n-Basic statistics display (lines cleared, current level, etc.)\n\nPrioritize code completeness, robustness, and readiness for immediate execution.\nStructure the response as follows:\na. Brief introduction explaining the game and its features\nb. HTML code (including inline CSS if applicable)\nc. JavaScript code\nd. Any additional CSS in a separate \u003cstyle\u003e tag or file\ne. Instructions for running the game\n\nRemember to focus on delivering a complete, functional, and engaging Tetris game implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
@@ -3244,7 +3227,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -3261,7 +3244,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3308,7 +3291,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3355,7 +3338,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3402,7 +3385,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3456,9 +3439,8 @@ export const tasklistCodegen: any[] = [
     summary: 'Hangman',
     body: 'When a user requests a Hangman game using HTML, JS, and CSS, follow these guidelines: Create a fully functional Hangman game with the following features: -Word selection from a predefined list or random word generation -Display of the hangman figure that updates with each incorrect guess -Display of correctly guessed letters in their correct positions -Display of incorrectly guessed letters -On-screen keyboard for letter selection (in addition to physical keyboard support) -Game over screen for both win and lose scenarios -Score tracking (e.g., number of wins/losses) -Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks. -Generate all graphics within the code using HTML5 Canvas or SVG, avoiding reliance on external image files. -Ensure the game runs in an HTML iframe without requiring any additional setup. -Provide complete, runnable code without placeholders or omissions. -Proactively address common bugs and pitfalls in Hangman game implementations. -As the game will run in a self-contained HTML iframe, ensure that the code does not use any local or session storage. Include additional cool features that enhance the game experience, such as: -Different difficulty levels (e.g., easy, medium, hard) with varying word lengths -Hint system that reveals a letter or provides a clue about the word -Animations for correct/incorrect guesses and game over scenarios -Theme selection (e.g., change colors or hangman figure style) Prioritize code completeness, robustness, and readiness for immediate execution. Structure the response as follows: a. Brief introduction explaining the game and its features b. HTML code (including inline CSS if applicable) c. JavaScript code d. Any additional CSS in a separate \u003cstyle\u003e tag or file e. Instructions for running the game Remember to focus on delivering a complete, functional, and engaging Hangman game implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
     expireAt: '2025-09-13T07:20:41Z',
-    type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      task_modality: 'CODE_GENERATION',
       prompt:
         'When a user requests a Hangman game using HTML, JS, and CSS, follow these guidelines: Create a fully functional Hangman game with the following features: -Word selection from a predefined list or random word generation -Display of the hangman figure that updates with each incorrect guess -Display of correctly guessed letters in their correct positions -Display of incorrectly guessed letters -On-screen keyboard for letter selection (in addition to physical keyboard support) -Game over screen for both win and lose scenarios -Score tracking (e.g., number of wins/losses) -Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks. -Generate all graphics within the code using HTML5 Canvas or SVG, avoiding reliance on external image files. -Ensure the game runs in an HTML iframe without requiring any additional setup. -Provide complete, runnable code without placeholders or omissions. -Proactively address common bugs and pitfalls in Hangman game implementations. -As the game will run in a self-contained HTML iframe, ensure that the code does not use any local or session storage. Include additional cool features that enhance the game experience, such as: -Different difficulty levels (e.g., easy, medium, hard) with varying word lengths -Hint system that reveals a letter or provides a clue about the word -Animations for correct/incorrect guesses and game over scenarios -Theme selection (e.g., change colors or hangman figure style) Prioritize code completeness, robustness, and readiness for immediate execution. Structure the response as follows: a. Brief introduction explaining the game and its features b. HTML code (including inline CSS if applicable) c. JavaScript code d. Any additional CSS in a separate \u003cstyle\u003e tag or file e. Instructions for running the game Remember to focus on delivering a complete, functional, and engaging Hangman game implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
@@ -3466,7 +3448,7 @@ export const tasklistCodegen: any[] = [
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Multi Score',
+          query: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -3483,7 +3465,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3531,7 +3513,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3579,7 +3561,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3627,7 +3609,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3682,9 +3664,8 @@ export const tasklistCodegen: any[] = [
     summary: 'Interactive Particle simulation',
     body: "Create an interactive particle simulation demonstrating how votes flow through an electoral system, visualizing the distribution and aggregation of electoral power.\n\nFeatures:\n• A grid of small circular particles representing individual votes, each colored differently based on their voting preference (e.g., red and blue).\n• Implement physics-based particle movement where votes flow like a fluid from the bottom of the screen upward through different 'electoral layers'.\n• Create three horizontal 'collection zones' representing local, state, and federal electoral levels.\n• Particles should merge and combine when reaching each collection zone, showing how individual votes aggregate into larger electoral units.\n• Display running vote counts for each party at each electoral level.\n• Include a physics engine that makes particles bounce realistically off each other and the boundaries.\n• Implement gravity effects that can be toggled to show how votes naturally 'flow upward' through the system.\n• Visual trails behind particles showing their path through the electoral system.\n\nUser Actions:\n1. Click anywhere on the screen to spawn new voter particles with randomized party affiliations.\n\n2. Use a slider to adjust the strength of the upward flow, demonstrating how different electoral systems might affect vote aggregation speed and patterns.\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
     expireAt: '2025-10-30T09:49:46.699Z',
-    type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      task_modality: 'CODE_GENERATION',
       prompt:
         "Create an interactive particle simulation demonstrating how votes flow through an electoral system, visualizing the distribution and aggregation of electoral power.\n\nFeatures:\n• A grid of small circular particles representing individual votes, each colored differently based on their voting preference (e.g., red and blue).\n• Implement physics-based particle movement where votes flow like a fluid from the bottom of the screen upward through different 'electoral layers'.\n• Create three horizontal 'collection zones' representing local, state, and federal electoral levels.\n• Particles should merge and combine when reaching each collection zone, showing how individual votes aggregate into larger electoral units.\n• Display running vote counts for each party at each electoral level.\n• Include a physics engine that makes particles bounce realistically off each other and the boundaries.\n• Implement gravity effects that can be toggled to show how votes naturally 'flow upward' through the system.\n• Visual trails behind particles showing their path through the electoral system.\n\nUser Actions:\n1. Click anywhere on the screen to spawn new voter particles with randomized party affiliations.\n\n2. Use a slider to adjust the strength of the upward flow, demonstrating how different electoral systems might affect vote aggregation speed and patterns.\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
       criteria: [
@@ -3708,7 +3689,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3731,7 +3712,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3754,7 +3735,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3777,7 +3758,7 @@ export const tasklistCodegen: any[] = [
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Multi Score',
+              query: 'Multi Score',
             },
           ],
           completion: {
@@ -3810,9 +3791,8 @@ export const taskListImgEvaluation: any[] = [
     title: 'Text to Image Task',
     body: 'Generate an image of a photogenic brown dog riding a horse. The dog is also holding on to a pair of chopsticks.',
     expireAt: '2099-12-03T15:04:00Z',
-    type: 'TEXT_TO_IMAGE',
     taskData: {
-      task: 'TEXT_TO_IMAGE',
+      task_modality: 'TEXT_TO_IMAGE',
       prompt:
         'Generate an image of a photogenic brown dog riding a horse. The dog is also holding on to a pair of chopsticks.',
 
@@ -3826,7 +3806,7 @@ export const taskListImgEvaluation: any[] = [
           criteria: [
             {
               type: 'rich-human-feedback',
-              text: 'Errors / flaws in the image',
+              query: 'Errors / flaws in the image',
             },
           ],
         },
@@ -3844,9 +3824,8 @@ export const taskListImgEvaluation: any[] = [
     title: 'Text to Image Task',
     body: 'Generate a minimalist scene featuring a bright red ladder standing against the corner where two blue walls meet. The entire environment is clean, with a smooth, monochromatic blue background. The ladder casts a sharp shadow along one of the walls, creating a sense of depth and contrast. The lighting is soft, emphasizing the simplicity and geometric form of the scene. The overall color palette consists of shades of blue and the striking red of the ladder, giving the composition a bold yet minimalistic feel.',
     expireAt: '2099-12-03T15:04:00Z',
-    type: 'TEXT_TO_IMAGE',
     taskData: {
-      task: 'TEXT_TO_IMAGE',
+      task_modality: 'TEXT_TO_IMAGE',
       prompt:
         'Generate a minimalist scene featuring a bright red ladder standing against the corner where two blue walls meet. The entire environment is clean, with a smooth, monochromatic blue background. The ladder casts a sharp shadow along one of the walls, creating a sense of depth and contrast. The lighting is soft, emphasizing the simplicity and geometric form of the scene. The overall color palette consists of shades of blue and the striking red of the ladder, giving the composition a bold yet minimalistic feel.',
 
@@ -3860,7 +3839,7 @@ export const taskListImgEvaluation: any[] = [
           criteria: [
             {
               type: 'rich-human-feedback',
-              text: 'Errors / flaws in the image',
+              query: 'Errors / flaws in the image',
             },
           ],
         },
@@ -3881,46 +3860,45 @@ export const supplementalTaskList: any[] = [
     title: 'LLM Code Generation Task (Demo)',
     body: "Create an interactive visualization of a Newton's cradle, a classic physics demonstration that illustrates conservation of momentum and energy. The visualization should depict a set of suspended metal balls that can swing and collide, demonstrating the transfer of energy through the system.\n\nThe scene should display a horizontal support from which five metal balls are suspended by strings. The balls should be arranged in a row, just touching each other when at rest. The visualization should allow users to interact with the Newton's cradle and observe its behavior.\n\nRequirements:\n\n1. Implement the physics simulation for the Newton's cradle, including the swinging motion of the balls and the elastic collisions between them. When a ball on one end is lifted and released, it should swing down and collide with the stationary balls, causing the ball on the opposite end to swing upward.\n\n2. Add a user interaction where clicking and dragging the leftmost or rightmost ball allows the user to pull it back and release it, initiating the Newton's cradle effect. The ball should follow the mouse cursor while being dragged, maintaining a realistic arc motion.\n\n3. Include a slider that adjusts the simulation speed, allowing users to observe the Newton's cradle effect in slow motion or at an accelerated pace. The slider should smoothly transition between different speeds without disrupting the ongoing simulation.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
     expireAt: '2025-09-09T05:33:57Z',
-    type: 'CODE_GENERATION',
     taskData: {
-      task: 'CODE_GENERATION',
+      task_modality: 'CODE_GENERATION',
       prompt:
         "Create an interactive visualization of a Newton's cradle, a classic physics demonstration that illustrates conservation of momentum and energy. The visualization should depict a set of suspended metal balls that can swing and collide, demonstrating the transfer of energy through the system.\n\nThe scene should display a horizontal support from which five metal balls are suspended by strings. The balls should be arranged in a row, just touching each other when at rest. The visualization should allow users to interact with the Newton's cradle and observe its behavior.\n\nRequirements:\n\n1. Implement the physics simulation for the Newton's cradle, including the swinging motion of the balls and the elastic collisions between them. When a ball on one end is lifted and released, it should swing down and collide with the stationary balls, causing the ball on the opposite end to swing upward.\n\n2. Add a user interaction where clicking and dragging the leftmost or rightmost ball allows the user to pull it back and release it, initiating the Newton's cradle effect. The ball should follow the mouse cursor while being dragged, maintaining a realistic arc motion.\n\n3. Include a slider that adjusts the simulation speed, allowing users to observe the Newton's cradle effect in slow motion or at an accelerated pace. The slider should smoothly transition between different speeds without disrupting the ongoing simulation.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
       criteria: [
         {
           type: 'multi-select',
-          text: 'Choose all appropriate options',
+          query: 'Choose all appropriate options',
           options: ['Inappropriate Content', 'Untruthful Information', 'Personal Information'],
         },
         {
           type: 'single-select',
-          text: 'Is the interaction intuitive?',
+          query: 'Is the interaction intuitive?',
           options: ['Agree', 'Disagree', 'Neutral'],
         },
         {
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Prompt Accuracy',
+          query: 'Prompt Accuracy',
           options: ['stabilityai/stable-diffusion-xl-base-1.0'],
         },
         {
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Quality',
+          query: 'Quality',
           options: ['stabilityai/stable-diffusion-xl-base-1.0'],
         },
         {
           max: 10,
           min: 1,
           type: 'score',
-          text: 'Photo-Realism',
+          query: 'Photo-Realism',
           options: ['stabilityai/stable-diffusion-xl-base-1.0'],
         },
         {
           type: 'multi-select',
-          text: 'Which part did the code output excel in?',
+          query: 'Which part did the code output excel in?',
           options: ['Physics Simulation', 'User Interaction', 'Slider Functionality', 'Animation'],
         },
       ],
@@ -3966,38 +3944,38 @@ export const supplementalTaskList: any[] = [
           criteria: [
             {
               type: 'multi-select',
-              text: 'Choose all appropriate options',
+              query: 'Choose all appropriate options',
               options: ['Inappropriate Content', 'Untruthful Information', 'Personal Information'],
             },
             {
               type: 'single-select',
-              text: 'Is the interaction intuitive?',
+              query: 'Is the interaction intuitive?',
               options: ['Agree', 'Disagree', 'Neutral'],
             },
             {
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Prompt Accuracy',
+              query: 'Prompt Accuracy',
               options: ['stabilityai/stable-diffusion-xl-base-1.0'],
             },
             {
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Quality',
+              query: 'Quality',
               options: ['stabilityai/stable-diffusion-xl-base-1.0'],
             },
             {
               max: 10,
               min: 1,
               type: 'score',
-              text: 'Photo-Realism',
+              query: 'Photo-Realism',
               options: ['stabilityai/stable-diffusion-xl-base-1.0'],
             },
             {
               type: 'multi-select',
-              text: 'Which part did the code output excel in?',
+              query: 'Which part did the code output excel in?',
               options: ['Physics Simulation', 'User Interaction', 'Slider Functionality', 'Animation'],
             },
           ],
@@ -4012,7 +3990,51 @@ export const supplementalTaskList: any[] = [
   },
 ];
 
-export const tasklistFull: any[] = tasklistCodegen
+export const taskTTC: any[] = [
+  {
+    taskId: '5f857098-1ff4-4480-81c8-a04f66b9309d',
+    title: 'Text Feedback Task',
+    body: 'Please analyze this output and suggest specific improvements:\n            Prompt: Implement a fun web game called "Excellence Manager" where players must efficiently organize falling documents into the correct filing categories while maintaining order and accuracy.\n\nFeatures:\n- Create a game area with three distinct "filing cabinets" at the bottom of the screen, each labeled with different categories (e.g., "Urgent", "Standard", "Archive").\n- Display falling documents that descend from the top of the screen. Documents should be visually distinct rectangles with different border colors representing their category.\n- Each document should display a simple icon or pattern that matches its intended category.\n- Show a "desk surface" at the bottom of the screen where the filing cabinets are placed, styled with a professional wood texture pattern using CSS.\n- Implement a sorting accuracy meter at the top of the screen that fills up with correct sorts and depletes with incorrect sorts.\n- Add a productivity score counter that increases based on successful filing and speed of sorting.\n- Create visual feedback when documents are filed: correct filing produces a green checkmark effect, incorrect filing shows a red X.\n- Documents should fall at varying speeds, with urgent documents falling faster than others.\n- If three documents hit the desk without being filed, they create a "clutter pile" that blocks one filing cabinet until cleared.\n- Display a "performance review" when the accuracy meter either completely fills (victory) or empties (game over).\n- Show the current score and highest score in a professional-looking header area.\n- Add a brief "paper shuffle" animation when documents are successfully filed.\n- Generate new documents with random categories at increasing frequencies as the score gets higher.\n\nUser Actions:\n1. Use the left and right arrow keys to move a "filing hand" cursor horizontally across the screen to catch and sort falling documents.\n2. Press the spacebar to activate "Efficiency Mode" which temporarily slows down all falling documents for 5 seconds (can be used once every 30 seconds).\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n\n            ',
+    expireAt: '2026-02-20T17:43:10.616Z',
+    taskData: {
+      task_modality: 'CODE_GENERATION',
+      prompt:
+        'Please analyze this output and suggest specific improvements:\n            Prompt: Implement a fun web game called "Excellence Manager" where players must efficiently organize falling documents into the correct filing categories while maintaining order and accuracy.\n\nFeatures:\n- Create a game area with three distinct "filing cabinets" at the bottom of the screen, each labeled with different categories (e.g., "Urgent", "Standard", "Archive").\n- Display falling documents that descend from the top of the screen. Documents should be visually distinct rectangles with different border colors representing their category.\n- Each document should display a simple icon or pattern that matches its intended category.\n- Show a "desk surface" at the bottom of the screen where the filing cabinets are placed, styled with a professional wood texture pattern using CSS.\n- Implement a sorting accuracy meter at the top of the screen that fills up with correct sorts and depletes with incorrect sorts.\n- Add a productivity score counter that increases based on successful filing and speed of sorting.\n- Create visual feedback when documents are filed: correct filing produces a green checkmark effect, incorrect filing shows a red X.\n- Documents should fall at varying speeds, with urgent documents falling faster than others.\n- If three documents hit the desk without being filed, they create a "clutter pile" that blocks one filing cabinet until cleared.\n- Display a "performance review" when the accuracy meter either completely fills (victory) or empties (game over).\n- Show the current score and highest score in a professional-looking header area.\n- Add a brief "paper shuffle" animation when documents are successfully filed.\n- Generate new documents with random categories at increasing frequencies as the score gets higher.\n\nUser Actions:\n1. Use the left and right arrow keys to move a "filing hand" cursor horizontally across the screen to catch and sort falling documents.\n2. Press the spacebar to activate "Efficiency Mode" which temporarily slows down all falling documents for 5 seconds (can be used once every 30 seconds).\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n\n            ',
+      responses: [
+        {
+          model: 'anthropic/claude-3.5-sonnet',
+          criteria: [
+            {
+              type: 'text',
+              query:
+                'What specific improvements could make this output more accurate, complete, or relevant to the prompt?',
+            },
+          ],
+          completion: {
+            files: [
+              {
+                content:
+                  "\u003c!DOCTYPE html\u003e\n\u003chtml lang=\"en\"\u003e\u003chead\u003e\u003cmeta charset=\"utf-8\"/\u003e\u003cmeta content=\"width=device-width,initial-scale=1.0\" name=\"viewport\"/\u003e\u003ctitle\u003eExcellence Manager\u003c/title\u003e\u003cstyle\u003ebody,html{margin:0;padding:0;height:100%;overflow:hidden;font-family:Arial,sans-serif}#gameContainer{position:relative;width:100vmin;height:100vmin;margin:auto;background:#f0f0f0;overflow:hidden}#gameCanvas{position:absolute;top:0;left:0;width:100%;height:100%}#header{position:absolute;top:0;left:0;right:0;padding:10px;background:rgba(48,48,48,0.9);color:#fff;display:flex;justify-content:space-between;font-size:16px}#accuracyMeter{position:absolute;top:40px;left:10px;right:10px;height:10px;background:#333;border-radius:5px}#accuracyFill{width:50%;height:100%;background:linear-gradient(90deg,#4CAF50,#8BC34A);border-radius:5px;transition:width 0.3s}#powerupTimer{position:absolute;bottom:120px;left:50%;transform:translateX(-50%);color:#fff;background:rgba(0,0,0,0.7);padding:5px 10px;border-radius:10px;display:none}#gameOver{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(255,255,255,0.95);padding:20px;border-radius:10px;text-align:center;display:none;box-shadow:0 0 20px rgba(0,0,0,0.2)}#restartButton{margin-top:10px;padding:10px 20px;background:#4CAF50;color:white;border:none;border-radius:5px;cursor:pointer}\u003c/style\u003e\u003c/head\u003e\u003cbody\u003e\u003cdiv id=\"gameContainer\"\u003e\u003ccanvas id=\"gameCanvas\"\u003e\u003c/canvas\u003e\u003cdiv id=\"header\"\u003e\u003cspan\u003eScore: \u003cspan id=\"score\"\u003e0\u003c/span\u003e\u003c/span\u003e\u003cspan\u003eBest: \u003cspan id=\"highScore\"\u003e0\u003c/span\u003e\u003c/span\u003e\u003c/div\u003e\u003cdiv id=\"accuracyMeter\"\u003e\u003cdiv id=\"accuracyFill\"\u003e\u003c/div\u003e\u003c/div\u003e\u003cdiv id=\"powerupTimer\"\u003eEfficiency Mode Active!\u003c/div\u003e\u003cdiv id=\"gameOver\"\u003e\u003ch2\u003ePerformance Review\u003c/h2\u003e\u003cp\u003eFinal Score: \u003cspan id=\"finalScore\"\u003e0\u003c/span\u003e\u003c/p\u003e\u003cbutton id=\"restartButton\"\u003eStart New Day\u003c/button\u003e\u003c/div\u003e\u003c/div\u003e\u003cscript src=\"index.js\"\u003e\u003c/script\u003e\u003cscript\u003econst canvas=document.getElementById('gameCanvas');const ctx=canvas.getContext('2d');const scoreElement=document.getElementById('score');const highScoreElement=document.getElementById('highScore');const accuracyFill=document.getElementById('accuracyFill');const powerupTimer=document.getElementById('powerupTimer');const gameOverScreen=document.getElementById('gameOver');const finalScoreElement=document.getElementById('finalScore');const restartButton=document.getElementById('restartButton');let canvasWidth=800;let canvasHeight=800;let scale=1;function resizeCanvas(){const container=document.getElementById('gameContainer');scale=Math.min(container.clientWidth/canvasWidth,container.clientHeight/canvasHeight);canvas.width=canvasWidth*scale;canvas.height=canvasHeight*scale;ctx.scale(scale,scale);}window.addEventListener('resize',resizeCanvas);resizeCanvas();const CATEGORIES=['Urgent','Standard','Archive'];const COLORS={Urgent:'#ff4444',Standard:'#4444ff',Archive:'#44aa44'};const ICONS={Urgent:'!',Standard:'⋮',Archive:'⌂'};let documents=[];let filingHand={x:canvasWidth/2,width:60,height:20};let score=0;let highScore=0;let accuracy=50;let gameOver=false;let clutterPiles=new Array(3).fill(0);let efficiencyModeActive=false;let efficiencyModeCooldown=false;let lastDocumentTime=0;class Document{constructor(){this.category=CATEGORIES[Math.floor(Math.random()*CATEGORIES.length)];this.x=Math.random()*(canvasWidth-40)+20;this.y=-60;this.width=50;this.height=70;this.speed=this.category==='Urgent'?3:2;this.filed=false;}move(){if(!this.filed){this.y+=this.speed*(efficiencyModeActive?0.5:1);}return this.y\u003ecanvasHeight-120;}draw(){ctx.fillStyle='#ffffff';ctx.strokeStyle=COLORS[this.category];ctx.lineWidth=3;ctx.fillRect(this.x,this.y,this.width,this.height);ctx.strokeRect(this.x,this.y,this.width,this.height);ctx.fillStyle=COLORS[this.category];ctx.font='20px Arial';ctx.textAlign='center';ctx.fillText(ICONS[this.category],this.x+this.width/2,this.y+this.height/2);}}function drawFilingCabinets(){const cabinetWidth=120;const spacing=(canvasWidth-cabinetWidth*3)/4;ctx.fillStyle='#8b4513';ctx.fillRect(0,canvasHeight-100,canvasWidth,100);for(let i=0;i\u003c3;i++){const x=spacing+(cabinetWidth+spacing)*i;ctx.fillStyle='#654321';ctx.fillRect(x,canvasHeight-200,cabinetWidth,150);ctx.fillStyle='#dddddd';ctx.font='16px Arial';ctx.textAlign='center';ctx.fillText(CATEGORIES[i],x+cabinetWidth/2,canvasHeight-160);if(clutterPiles[i]\u003e0){ctx.fillStyle='rgba(139,69,19,0.5)';ctx.fillRect(x,canvasHeight-200,cabinetWidth,150);}}}function drawFilingHand(){ctx.fillStyle='#333333';ctx.fillRect(filingHand.x-filingHand.width/2,canvasHeight-220,filingHand.width,filingHand.height);}function checkFiling(document){if(document.y\u003ecanvasHeight-240\u0026\u0026!document.filed){const cabinetWidth=120;const spacing=(canvasWidth-cabinetWidth*3)/4;for(let i=0;i\u003c3;i++){const cabinetX=spacing+(cabinetWidth+spacing)*i;if(document.x\u003ecabinetX\u0026\u0026document.x\u003ccabinetX+cabinetWidth\u0026\u0026!clutterPiles[i]){document.filed=true;if(CATEGORIES[i]===document.category){score+=100;accuracy=Math.min(100,accuracy+5);showEffect(document.x,document.y,'✓','#4CAF50');}else{accuracy=Math.max(0,accuracy-10);showEffect(document.x,document.y,'✗','#ff0000');}return true;}}}}function showEffect(x,y,symbol,color){ctx.fillStyle=color;ctx.font='bold 24px Arial';ctx.textAlign='center';ctx.fillText(symbol,x+25,y+35);}function updateGame(){if(gameOver)return;if(Math.random()\u003c0.02\u0026\u0026Date.now()-lastDocumentTime\u003e1000){documents.push(new Document());lastDocumentTime=Date.now();}documents=documents.filter(doc=\u003e{if(doc.move()\u0026\u0026!doc.filed){let pileIndex=Math.floor(doc.x/(canvasWidth/3));clutterPiles[pileIndex]++;return false;}return true;});documents.forEach(doc=\u003e{if(!doc.filed\u0026\u0026Math.abs(doc.x-filingHand.x)\u003c30){checkFiling(doc);}});if(accuracy\u003c=0||clutterPiles.every(pile=\u003epile\u003e0)){endGame();}}function drawGame(){ctx.clearRect(0,0,canvasWidth,canvasHeight);drawFilingCabinets();documents.forEach(doc=\u003edoc.draw());drawFilingHand();accuracyFill.style.width=`${accuracy}%`;}function endGame(){gameOver=true;if(score\u003ehighScore){highScore=score;highScoreElement.textContent=highScore;}finalScoreElement.textContent=score;gameOverScreen.style.display='block';}function startGame(){documents=[];score=0;accuracy=50;gameOver=false;clutterPiles.fill(0);efficiencyModeActive=false;efficiencyModeCooldown=false;scoreElement.textContent=score;gameOverScreen.style.display='none';lastDocumentTime=Date.now();requestAnimationFrame(gameLoop);}function activateEfficiencyMode(){if(!efficiencyModeCooldown\u0026\u0026!efficiencyModeActive){efficiencyModeActive=true;efficiencyModeCooldown=true;powerupTimer.style.display='block';setTimeout(()=\u003e{efficiencyModeActive=false;powerupTimer.style.display='none';},5000);setTimeout(()=\u003e{efficiencyModeCooldown=false;},30000);}}window.addEventListener('keydown',e=\u003e{if(e.code==='ArrowLeft'){e.preventDefault();filingHand.x=Math.max(filingHand.width/2,filingHand.x-20);}else if(e.code==='ArrowRight'){e.preventDefault();filingHand.x=Math.min(canvasWidth-filingHand.width/2,filingHand.x+20);}else if(e.code==='Space'){e.preventDefault();activateEfficiencyMode();}});function gameLoop(){if(!gameOver){updateGame();drawGame();scoreElement.textContent=score;requestAnimationFrame(gameLoop);}}restartButton.addEventListener('click',startGame);startGame();\u003c/script\u003e\u003c/body\u003e\u003c/html\u003e",
+                filename: 'index.html',
+                language: 'html',
+              },
+            ],
+            combined_html:
+              "\u003c!DOCTYPE html\u003e\n\u003chtml lang=\"en\"\u003e\u003chead\u003e\u003cmeta charset=\"utf-8\"/\u003e\u003cmeta content=\"width=device-width,initial-scale=1.0\" name=\"viewport\"/\u003e\u003ctitle\u003eExcellence Manager\u003c/title\u003e\u003cstyle\u003ebody,html{margin:0;padding:0;height:100%;overflow:hidden;font-family:Arial,sans-serif}#gameContainer{position:relative;width:100vmin;height:100vmin;margin:auto;background:#f0f0f0;overflow:hidden}#gameCanvas{position:absolute;top:0;left:0;width:100%;height:100%}#header{position:absolute;top:0;left:0;right:0;padding:10px;background:rgba(48,48,48,0.9);color:#fff;display:flex;justify-content:space-between;font-size:16px}#accuracyMeter{position:absolute;top:40px;left:10px;right:10px;height:10px;background:#333;border-radius:5px}#accuracyFill{width:50%;height:100%;background:linear-gradient(90deg,#4CAF50,#8BC34A);border-radius:5px;transition:width 0.3s}#powerupTimer{position:absolute;bottom:120px;left:50%;transform:translateX(-50%);color:#fff;background:rgba(0,0,0,0.7);padding:5px 10px;border-radius:10px;display:none}#gameOver{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(255,255,255,0.95);padding:20px;border-radius:10px;text-align:center;display:none;box-shadow:0 0 20px rgba(0,0,0,0.2)}#restartButton{margin-top:10px;padding:10px 20px;background:#4CAF50;color:white;border:none;border-radius:5px;cursor:pointer}\u003c/style\u003e\u003c/head\u003e\u003cbody\u003e\u003cdiv id=\"gameContainer\"\u003e\u003ccanvas id=\"gameCanvas\"\u003e\u003c/canvas\u003e\u003cdiv id=\"header\"\u003e\u003cspan\u003eScore: \u003cspan id=\"score\"\u003e0\u003c/span\u003e\u003c/span\u003e\u003cspan\u003eBest: \u003cspan id=\"highScore\"\u003e0\u003c/span\u003e\u003c/span\u003e\u003c/div\u003e\u003cdiv id=\"accuracyMeter\"\u003e\u003cdiv id=\"accuracyFill\"\u003e\u003c/div\u003e\u003c/div\u003e\u003cdiv id=\"powerupTimer\"\u003eEfficiency Mode Active!\u003c/div\u003e\u003cdiv id=\"gameOver\"\u003e\u003ch2\u003ePerformance Review\u003c/h2\u003e\u003cp\u003eFinal Score: \u003cspan id=\"finalScore\"\u003e0\u003c/span\u003e\u003c/p\u003e\u003cbutton id=\"restartButton\"\u003eStart New Day\u003c/button\u003e\u003c/div\u003e\u003c/div\u003e\u003cscript src=\"index.js\"\u003e\u003c/script\u003e\u003cscript\u003econst canvas=document.getElementById('gameCanvas');const ctx=canvas.getContext('2d');const scoreElement=document.getElementById('score');const highScoreElement=document.getElementById('highScore');const accuracyFill=document.getElementById('accuracyFill');const powerupTimer=document.getElementById('powerupTimer');const gameOverScreen=document.getElementById('gameOver');const finalScoreElement=document.getElementById('finalScore');const restartButton=document.getElementById('restartButton');let canvasWidth=800;let canvasHeight=800;let scale=1;function resizeCanvas(){const container=document.getElementById('gameContainer');scale=Math.min(container.clientWidth/canvasWidth,container.clientHeight/canvasHeight);canvas.width=canvasWidth*scale;canvas.height=canvasHeight*scale;ctx.scale(scale,scale);}window.addEventListener('resize',resizeCanvas);resizeCanvas();const CATEGORIES=['Urgent','Standard','Archive'];const COLORS={Urgent:'#ff4444',Standard:'#4444ff',Archive:'#44aa44'};const ICONS={Urgent:'!',Standard:'⋮',Archive:'⌂'};let documents=[];let filingHand={x:canvasWidth/2,width:60,height:20};let score=0;let highScore=0;let accuracy=50;let gameOver=false;let clutterPiles=new Array(3).fill(0);let efficiencyModeActive=false;let efficiencyModeCooldown=false;let lastDocumentTime=0;class Document{constructor(){this.category=CATEGORIES[Math.floor(Math.random()*CATEGORIES.length)];this.x=Math.random()*(canvasWidth-40)+20;this.y=-60;this.width=50;this.height=70;this.speed=this.category==='Urgent'?3:2;this.filed=false;}move(){if(!this.filed){this.y+=this.speed*(efficiencyModeActive?0.5:1);}return this.y\u003ecanvasHeight-120;}draw(){ctx.fillStyle='#ffffff';ctx.strokeStyle=COLORS[this.category];ctx.lineWidth=3;ctx.fillRect(this.x,this.y,this.width,this.height);ctx.strokeRect(this.x,this.y,this.width,this.height);ctx.fillStyle=COLORS[this.category];ctx.font='20px Arial';ctx.textAlign='center';ctx.fillText(ICONS[this.category],this.x+this.width/2,this.y+this.height/2);}}function drawFilingCabinets(){const cabinetWidth=120;const spacing=(canvasWidth-cabinetWidth*3)/4;ctx.fillStyle='#8b4513';ctx.fillRect(0,canvasHeight-100,canvasWidth,100);for(let i=0;i\u003c3;i++){const x=spacing+(cabinetWidth+spacing)*i;ctx.fillStyle='#654321';ctx.fillRect(x,canvasHeight-200,cabinetWidth,150);ctx.fillStyle='#dddddd';ctx.font='16px Arial';ctx.textAlign='center';ctx.fillText(CATEGORIES[i],x+cabinetWidth/2,canvasHeight-160);if(clutterPiles[i]\u003e0){ctx.fillStyle='rgba(139,69,19,0.5)';ctx.fillRect(x,canvasHeight-200,cabinetWidth,150);}}}function drawFilingHand(){ctx.fillStyle='#333333';ctx.fillRect(filingHand.x-filingHand.width/2,canvasHeight-220,filingHand.width,filingHand.height);}function checkFiling(document){if(document.y\u003ecanvasHeight-240\u0026\u0026!document.filed){const cabinetWidth=120;const spacing=(canvasWidth-cabinetWidth*3)/4;for(let i=0;i\u003c3;i++){const cabinetX=spacing+(cabinetWidth+spacing)*i;if(document.x\u003ecabinetX\u0026\u0026document.x\u003ccabinetX+cabinetWidth\u0026\u0026!clutterPiles[i]){document.filed=true;if(CATEGORIES[i]===document.category){score+=100;accuracy=Math.min(100,accuracy+5);showEffect(document.x,document.y,'✓','#4CAF50');}else{accuracy=Math.max(0,accuracy-10);showEffect(document.x,document.y,'✗','#ff0000');}return true;}}}}function showEffect(x,y,symbol,color){ctx.fillStyle=color;ctx.font='bold 24px Arial';ctx.textAlign='center';ctx.fillText(symbol,x+25,y+35);}function updateGame(){if(gameOver)return;if(Math.random()\u003c0.02\u0026\u0026Date.now()-lastDocumentTime\u003e1000){documents.push(new Document());lastDocumentTime=Date.now();}documents=documents.filter(doc=\u003e{if(doc.move()\u0026\u0026!doc.filed){let pileIndex=Math.floor(doc.x/(canvasWidth/3));clutterPiles[pileIndex]++;return false;}return true;});documents.forEach(doc=\u003e{if(!doc.filed\u0026\u0026Math.abs(doc.x-filingHand.x)\u003c30){checkFiling(doc);}});if(accuracy\u003c=0||clutterPiles.every(pile=\u003epile\u003e0)){endGame();}}function drawGame(){ctx.clearRect(0,0,canvasWidth,canvasHeight);drawFilingCabinets();documents.forEach(doc=\u003edoc.draw());drawFilingHand();accuracyFill.style.width=`${accuracy}%`;}function endGame(){gameOver=true;if(score\u003ehighScore){highScore=score;highScoreElement.textContent=highScore;}finalScoreElement.textContent=score;gameOverScreen.style.display='block';}function startGame(){documents=[];score=0;accuracy=50;gameOver=false;clutterPiles.fill(0);efficiencyModeActive=false;efficiencyModeCooldown=false;scoreElement.textContent=score;gameOverScreen.style.display='none';lastDocumentTime=Date.now();requestAnimationFrame(gameLoop);}function activateEfficiencyMode(){if(!efficiencyModeCooldown\u0026\u0026!efficiencyModeActive){efficiencyModeActive=true;efficiencyModeCooldown=true;powerupTimer.style.display='block';setTimeout(()=\u003e{efficiencyModeActive=false;powerupTimer.style.display='none';},5000);setTimeout(()=\u003e{efficiencyModeCooldown=false;},30000);}}window.addEventListener('keydown',e=\u003e{if(e.code==='ArrowLeft'){e.preventDefault();filingHand.x=Math.max(filingHand.width/2,filingHand.x-20);}else if(e.code==='ArrowRight'){e.preventDefault();filingHand.x=Math.min(canvasWidth-filingHand.width/2,filingHand.x+20);}else if(e.code==='Space'){e.preventDefault();activateEfficiencyMode();}});function gameLoop(){if(!gameOver){updateGame();drawGame();scoreElement.textContent=score;requestAnimationFrame(gameLoop);}}restartButton.addEventListener('click',startGame);startGame();\u003c/script\u003e\u003c/body\u003e\u003c/html\u003e",
+          },
+        },
+      ],
+    },
+    status: 'IN_PROGRESS',
+    numResults: 0,
+    maxResults: 100,
+    numCriteria: 0,
+  },
+];
+
+export const tasklistFull: any[] = ([] as any[])
+  .concat(taskTTC)
+  .concat(tasklistCodegen)
   .concat(task3d)
   .concat(taskTTI)
   .concat(taskListImgEvaluation)

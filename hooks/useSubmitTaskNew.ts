@@ -1,7 +1,14 @@
 import { tokenType } from '@/utils/states';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { SubmitTaskResponse } from './useSubmitTask';
+
+export interface SubmitTaskResponse {
+  success: string;
+  body: {
+    numResults: number;
+  };
+  error: null | string;
+}
 
 export const useSubmitTaskNew = () => {
   const router = useRouter();

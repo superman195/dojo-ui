@@ -88,4 +88,42 @@ const FormattedPrompt = ({
   );
 };
 
-export default FormattedPrompt;
+const CollapsiblePrompt = ({ className, children, ...props }: Props) => {
+  const divRef = useRef<HTMLDivElement | null>(null);
+  const [lineClampActive, setLineClampActive] = useState(false);
+  const toggleCollapse = () => {
+    if (divRef.current && divRef.current.clientHeight > 160) {
+      setLineClampActive(true);
+    } else {
+      setLineClampActive(false);
+    }
+  };
+  useEffect(() => {
+    if (divRef.current && divRef.current.clientHeight > 160) {
+      setLineClampActive(true);
+    }
+  }, [divRef]);
+  return (
+    <div
+      onClick={toggleCollapse}
+      ref={divRef}
+      className={cn(
+        'relative cursor-pointer whitespace-pre-wrap text-text-primary',
+        lineClampActive && 'line-clamp-4 text-muted-foreground',
+        className
+      )}
+      {...props}
+    >
+      {children}
+      {lineClampActive && (
+        <div className="absolute bottom-0 left-0 flex h-[35px] w-full items-end justify-center bg-gradient-to-t from-background to-background/10">
+          <div className="animate-bounce rounded-full border border-muted-foreground bg-background px-3 py-[2px] text-font-primary">
+            See more
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export { CollapsiblePrompt, FormattedPrompt };
