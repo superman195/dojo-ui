@@ -1,9 +1,10 @@
 import useCompletedTasksCount from '@/hooks/useCompletedTasksCount';
+import useCompletedTasksByInterval from '@/hooks/useCumulativeTask';
 import { abbreviateNumber } from '@/utils/math_helpers';
 import { FontSpaceMono } from '@/utils/typography';
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts/highstock';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface SubnetData {
   id: number;
@@ -48,6 +49,14 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
   const { numCompletedTasks, loading: completedTasksLoading, error: completedTasksError } = useCompletedTasksCount();
   const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
 
+  // State for date range
+  const [dateRange] = useState(() => {
+    const now = Date.now();
+    const dateTo = Math.floor(now / 1000);
+    const dateFrom = Math.floor((now - 7 * 24 * 60 * 60 * 1000) / 1000); // 7 days ago
+    return { dateFrom, dateTo };
+  });
+
   useEffect(() => {
     if (!subnetData || subnetData.historicalSubnetEmissions.length < 2) {
       console.warn('Not enough data points for the chart');
@@ -62,8 +71,7 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
       : subnetData.historicalSubnetEmissions
           .map((item) => [item.blockTime * 1000, item.totalEmissions] as [number, number])
           .sort((a, b) => a[0] - b[0]);
-  console.log('emissionData', emissionData);
-  const options: Highcharts.Options = {
+  const optionsLiveEmPast30D: Highcharts.Options = {
     credits: { enabled: false },
     chart: {
       height: 430,
@@ -101,8 +109,14 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
       tickLength: 0,
       lineColor: '#ccc',
       crosshair: true,
+      scrollbar: {
+        enabled: false,
+      },
     },
     yAxis: {
+      scrollbar: {
+        enabled: false,
+      },
       min: emissionData[0][1] * 0.99,
       max: emissionData[emissionData.length - 1][1] * 1.01,
       title: {
@@ -118,7 +132,7 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
     plotOptions: {
       areaspline: {
         dataGrouping: {
-          enabled: true,
+          enabled: false,
           forced: true,
           units: [
             ['day', [1]],
@@ -146,6 +160,9 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
         marker: { enabled: false },
       },
     ],
+    scrollbar: {
+      enabled: false,
+    },
     tooltip: {
       shared: true,
       valueSuffix: ' τ',
@@ -155,6 +172,7 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
       borderRadius: 10,
     },
     rangeSelector: {
+      enabled: false,
       buttons: [
         { type: 'day', count: 7, text: '7d' },
         { type: 'day', count: 15, text: '15d' },
@@ -191,7 +209,179 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
       },
     },
     navigator: {
-      enabled: true,
+      enabled: false,
+      height: 49,
+      margin: 5,
+      outlineWidth: 0,
+      maskFill: 'rgba(0, 182, 166, 0.31)',
+      xAxis: { labels: { enabled: false } },
+      series: { type: 'area', color: '#24837B', lineWidth: 1 },
+      handles: {
+        backgroundColor: '#D9D9D9',
+        borderColor: 'black',
+      },
+    },
+  };
+
+  const {
+    data: cumulativeTasksCompleted,
+    isLoading: cumulativeTasksCompletedLoading,
+    isError: cumulativeTasksCompletedError,
+  } = useCompletedTasksByInterval(dateRange.dateFrom, dateRange.dateTo);
+  // 1. Process the cumulative tasks data
+  const cumulativeTasksData =
+    cumulativeTasksCompleted && cumulativeTasksCompleted.dataPoints
+      ? cumulativeTasksCompleted.dataPoints
+          .map((item) => [item.timestamp * 1000, item.numCompletedTasks] as [number, number]) // Convert to [ms, value]
+          .sort((a, b) => a[0] - b[0]) // Ensure sorted by time
+      : []; // Default to empty array if no data
+
+  // 2. Get the latest cumulative count for the subtitle
+  const latestCumulativeTotal =
+    cumulativeTasksData.length > 0 ? cumulativeTasksData[cumulativeTasksData.length - 1][1] : 0; // Default to 0
+
+  // console.log('cum task', cumulativeTasksCompleted, cumulativeTasksCompletedError);
+  const optionsCumWorkerTaskCount: Highcharts.Options = {
+    credits: { enabled: false },
+    chart: {
+      height: 430,
+      backgroundColor: 'transparent',
+      style: { fontFamily: 'Arial, sans-serif' },
+    },
+    title: {
+      text: 'Cumulative Tasks Completed',
+      align: 'left',
+      style: {
+        fontSize: '16px',
+        fontWeight: 'bold',
+        fontFamily: FontSpaceMono.style.fontFamily,
+      },
+    },
+    subtitle: {
+      text:
+        cumulativeTasksCompleted?.dataPoints[
+          cumulativeTasksCompleted?.dataPoints.length - 1
+        ].numCompletedTasks.toString() ?? '0',
+      align: 'left',
+      style: {
+        fontSize: '24px',
+        fontWeight: 'bold',
+        fontFamily: FontSpaceMono.style.fontFamily,
+        color: 'black',
+      },
+    },
+    xAxis: {
+      type: 'datetime',
+      ordinal: false,
+
+      labels: {
+        format: '{value:%d %b}',
+        style: { color: '#666', fontSize: '10px' },
+      },
+      tickLength: 0,
+      lineColor: '#ccc',
+      crosshair: true,
+      scrollbar: {
+        enabled: false,
+      },
+    },
+    yAxis: {
+      scrollbar: {
+        enabled: false,
+      },
+      min: (cumulativeTasksCompleted?.dataPoints[0]?.numCompletedTasks ?? 0) * 0.9,
+      max: latestCumulativeTotal * 1.1,
+      title: {
+        text: 'Cumulative Tasks Completed',
+      },
+      labels: {
+        formatter: function () {
+          return (this.value as number).toFixed(0) + '';
+        },
+      },
+    },
+    legend: { enabled: false },
+    plotOptions: {
+      areaspline: {
+        dataGrouping: {
+          enabled: false,
+          forced: true,
+          units: [
+            ['day', [1]],
+            ['week', [1]],
+            ['month', [1, 3, 6]],
+          ],
+        },
+      },
+    },
+    series: [
+      {
+        type: 'areaspline',
+        name: 'Tasks Completed',
+        data: cumulativeTasksData,
+        turboThreshold: 0,
+        color: '#24837B',
+        fillColor: {
+          linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+          stops: [
+            [0, 'rgba(0, 255, 255, 0.3)'],
+            [1, 'rgba(0, 255, 255, 0)'],
+          ],
+        },
+        lineWidth: 2,
+        marker: { enabled: false },
+      },
+    ],
+    scrollbar: {
+      enabled: false,
+    },
+    tooltip: {
+      shared: true,
+      valueSuffix: ' tasks',
+      valueDecimals: 0,
+      backgroundColor: '#fff',
+      borderColor: '#ccc',
+      borderRadius: 10,
+    },
+    rangeSelector: {
+      enabled: false,
+      buttons: [
+        { type: 'day', count: 7, text: '7d' },
+        { type: 'day', count: 15, text: '15d' },
+        { type: 'month', count: 1, text: '1m' },
+        { type: 'all', text: 'All' },
+      ],
+      selected: 3,
+      inputEnabled: false,
+      buttonTheme: {
+        fill: '#E3E3E3',
+        stroke: 'none',
+        'stroke-width': 0,
+        r: 8,
+        style: {
+          color: 'black',
+          fontWeight: '500',
+          fontSize: '12px',
+        },
+        states: {
+          hover: {
+            fill: '#00B6A6',
+            style: { color: 'black', fontWeight: 'bold' },
+          },
+          select: {
+            fill: 'rgba(0, 182, 166, 0.14)',
+            style: { color: 'black', fontWeight: 'bold' },
+          },
+        },
+      },
+      buttonPosition: {
+        align: 'left',
+        x: 0,
+        y: 0,
+      },
+    },
+    navigator: {
+      enabled: false,
       height: 49,
       margin: 5,
       outlineWidth: 0,
@@ -249,8 +439,13 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
           </div>
         ))}
       </div>
-      <div className=" rounded-sm border-2 border-black bg-white">
-        <HighchartsReact highcharts={Highcharts} options={options} constructorType={'stockChart'} />
+      <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
+        <div className=" rounded-sm border-2 border-black bg-white">
+          <HighchartsReact highcharts={Highcharts} options={optionsLiveEmPast30D} constructorType={'stockChart'} />
+        </div>{' '}
+        <div className=" rounded-sm border-2 border-black bg-white">
+          <HighchartsReact highcharts={Highcharts} options={optionsCumWorkerTaskCount} constructorType={'stockChart'} />
+        </div>
       </div>
     </div>
   );
@@ -291,7 +486,7 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
                 </div>
               </div>
             ) : (
-              <HighchartsReact highcharts={Highcharts} options={options} constructorType={'stockChart'} />
+              <HighchartsReact highcharts={Highcharts} options={optionsLiveEmPast30D} constructorType={'stockChart'} />
             )}
           </div>
         </div>

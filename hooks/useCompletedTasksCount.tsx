@@ -22,6 +22,7 @@ const useCompletedTasksCount = () => {
     queryKey: ['completedTasksCount'],
     queryFn: fetchCompletedTasksCount,
     refetchInterval: 10000,
+    retry: 2,
   });
 
   const numCompletedTasks = data?.success && data.body ? parseInt(data.body.numCompletedTasks, 10) : null;
