@@ -79,11 +79,8 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
             }
           } else if (tmpCriteria?.type === 'text') {
             // For text type, use text_feedback instead of value
-            if (tmpCriteria) {
-              tmpCriteria.text_feedback = value;
-            } else {
-              c.criteria.push({ ...criteriaObject, text_feedback: value });
-            }
+            tmpCriteria.text_feedback = value;
+            tmpCriteria.value = value;
           } else {
             // everything else just replace the entire value
             if (tmpCriteria) {
@@ -96,7 +93,6 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         }
         return c;
       });
-      console.log('updated', updated);
       return updated;
     });
   }, []);
