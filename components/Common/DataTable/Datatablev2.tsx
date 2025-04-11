@@ -96,6 +96,7 @@ const Datatablev2 = ({
   enableSortHighlight = false,
   ...props
 }: Props) => {
+  console.log(data)
   // Configuration
   const initialPageSize = pageSize ?? 8;
   const allowLoading = canLoad ?? true;
