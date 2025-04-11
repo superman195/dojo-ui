@@ -190,6 +190,7 @@ export default function Index() {
   const { page, limit, tasks: taskTypes, sort, order, yieldMin, yieldMax } = router.query;
   const { exp } = useFeature({ kw: 'demo' });
 
+  
   // ColumnDef for tasklists is moved into the component because of demo page.
   // Demo page requires a router and query params to find out
   // Whether its a demo page or not. Wrapping in a useMemo is enough to prevent unnecessary rerenders.
@@ -200,6 +201,8 @@ export default function Index() {
         header: 'Name',
         size: 130,
         cell: (info) => {
+          console.log(tasks);
+          console.log(info.getValue() ?? info.row.original.title);
           return <div className=" truncate">{info.getValue() ?? info.row.original.title}</div>;
         },
       },
